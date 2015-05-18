@@ -1,0 +1,26 @@
+{
+  "name": "jenscript-io",
+  "version": "1.0.0",
+  "keywords": [
+    "javascript",
+    "w3c",
+    "svg",
+    "visualization",
+    "charts"
+  ],
+  "description": "JenScript JS Chart Blog",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jensoftapi/jenscript-io.git"
+  },
+  "author": "Sebastien Janaud",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/jensoftapi/jenscript-io/issues"
+  },
+  "homepage": "http://www.jenscript.io"
+}
