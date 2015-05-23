@@ -30,7 +30,8 @@
    
    <link rel="stylesheet" href="../../assets/style.css">
    <script src="../../jenscript-min.js"></script>
-   <script src="../stock-utils.js"></script>
+   <script src="../StockLoader.js"></script>
+   <script src="stock.js"></script> 
 </head>
 
 <body>
@@ -55,14 +56,19 @@
      Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts like <code>StockMovingAverageLayer</code>,<code>StockMACDLayer</code> as indicators of these stocks on period.
     </p>
     
+    <p>
+    	<small> <a href="stock.js" download>Download sample source code</a></small>
+    </p>
+    <p>
     <small><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">Learn more on github - stock plugin sources ?</a></small>
+  	<p>
   </div>
   
 	<div style="padding-top: 20px;">
-		<div  id="stockWebView"></div>
+		<div  id="priceView"></div>
 	</div>
 	<div style="padding-top: 20px;">
-		<div  id="stock2WebView"></div>
+		<div  id="volumeView"></div>
 	</div>
 	
 	<div>
@@ -84,7 +90,7 @@
 		<p>
 		Non blocking UI process suppose we are using web work that loads asynchronously each historical data parts. 
 		we can use this  <a href="../StockWorker.js" download>stock worker</a> that provides the
-		data download processing.
+		data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manage the loaded data 
 		</p>
 	</div>
 	
@@ -96,10 +102,10 @@ First prepare HTML document. For clear and readable information, we split chart 
 </p>
 <pre><code class="html">
 &lt;div style="padding-top: 20px;"&gt;
-	&lt;div  id="prices"&gt;&lt;/div&gt;
+	&lt;div  id="priceView"&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div style="padding-top: 20px;"&gt;
-	&lt;div  id="volumes"&gt;&lt;/div&gt;
+	&lt;div  id="volumeView"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 
@@ -116,34 +122,28 @@ Let's create 2 functions for creating stock charts views and declare some global
 
 <pre><code class="javascript">
 
-//start and end date for timing projection
 var startDate = new Date(2013, 09, 01);
 var endDate = new Date(2013, 11, 01);
-
-//Stock loader shared objects
-var projStocks;
+var projPrice;
 var stockPlugin1,stockPlugin2;
 var translate1,translate2;
 
-//Theme colors
 var indigo = JenScript.RosePalette.INDIGO;
 var choco = JenScript.RosePalette.CHOCOLATE;
 var emerald = JenScript.RosePalette.EMERALD;
 var aegean = JenScript.RosePalette.AEGEANBLUE;
-
-//Metrics properties
 var minor = {
 	tickMarkerSize : 2,
 	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
 	tickMarkerStroke : 1
-},
+};
 var median = {
 	tickMarkerSize : 4,
 	tickMarkerColor : JenScript.RosePalette.EMERALD,
 	tickMarkerStroke : 1.2,
 	tickTextColor : JenScript.RosePalette.EMERALD,
 	tickTextFontSize : 10
-},
+};
 var major = {
 	tickMarkerSize : 8,
 	tickMarkerColor : JenScript.Color.lighten(choco,20),
@@ -151,20 +151,18 @@ var major = {
 	tickTextColor : JenScript.Color.lighten(choco,20),
 	tickTextFontSize : 12,
 	tickTextOffset : 16
-}
+};
 </code></pre>
 
 
-<p style="padding-top: 40px;">Now, create a function for creating view prices. We use <code>View</code> the end chart which is attached to the root dom element, <code>TimeXProjection</code> 
+<p style="padding-top: 40px;">Now, create a function for creating price view. We use <code>View</code> the end chart which is attached to the root dom element, <code>TimeXProjection</code> 
 the projection in timing fashion behavior.<code>StockPlugin</code> manage the stocks layouts.
  </p>
 <pre><code class="javascript">
-/**
- * create view 1 (prices indicators and layouts)
- */
-function createStockView1(container, width, height) {
-		
-	//create view
+
+function createPriceView(container, width, height) {
+	
+	//view
 	var view = new JenScript.View({
 		name : container,
 		width : width,
@@ -174,25 +172,25 @@ function createStockView1(container, width, height) {
 		east : 80,
 		south : 80,
 	});
+
 	
-	//create projection with time projection 
-	//(e.g., timing projection is a linear projection with timing config arguments)
-	projStocks = new JenScript.TimeXProjection({
+	projPrice = new JenScript.TimeXProjection({
+		cornerRadius : 6,
 		name : "proj1",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : 17,
 		maxY : 23
 	});
-	view.registerProjection(projStocks);
+	view.registerProjection(projPrice);
 	
 	//stock plugin
 	stockPlugin1 = new JenScript.StockPlugin({
 		bearishColor : JenScript.RosePalette.AMETHYST,
 		bullishColor : JenScript.RosePalette.LIME,
 	});
-	projStocks.registerPlugin(stockPlugin1);
-	
+	projPrice.registerPlugin(stockPlugin1);
+
 	stockPlugin1.addLayer(new JenScript.CandleStickLayer({
 		lowHighColor : JenScript.RosePalette.COALBLACK
 	}));
@@ -203,13 +201,12 @@ function createStockView1(container, width, height) {
 		lineOpacity:0.6,
 		lineWidth : 0.5
 	}));
-	
-	
+
 	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
-	projStocks.registerPlugin(outline);
-	
-	//metrics
+	projPrice.registerPlugin(outline);
+
+
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
@@ -217,7 +214,7 @@ function createStockView1(container, width, height) {
 		median:median,
 		major:major
 	});
-	projStocks.registerPlugin(southMetrics1);
+	projPrice.registerPlugin(southMetrics1);
 	
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
@@ -226,12 +223,11 @@ function createStockView1(container, width, height) {
 		median:median,
 		major:major
 	});
-	projStocks.registerPlugin(westMetrics);
-	
-	
-	//translate + tx widget
+	projPrice.registerPlugin(westMetrics);
+
+	//translate
 	translate1 = new JenScript.TranslatePlugin();
-	projStocks.registerPlugin(translate1);
+	projPrice.registerPlugin(translate1);
 	var txw = new JenScript.TranslateX({
 			xIndex:100,
 			width : 150,
@@ -244,8 +240,10 @@ function createStockView1(container, width, height) {
 	);
 	translate1.registerWidget(txw);
 	translate1.select();
+
 	
-	//legend title
+	
+
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -255,253 +253,124 @@ function createStockView1(container, width, height) {
 		xAlign : 'right',
 		yAlign : 'top',
 	});
-	projStocks.registerPlugin(title);
+	projPrice.registerPlugin(title);
+	
 }
 </code></pre>
 
 
+<p style="padding-top: 40px;">Now, create a function for creating volume view.
+ </p>
+<pre><code class="javascript">
+
+function createVolumeView(container, width, height) {
+	
+	//view
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		west : 100,
+		east : 80,
+		south : 80,
+	});
 
 
+	var projVolume = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 0,
+		maxY : 100000000
+	});
+	view.registerProjection(projVolume);
+	
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	projVolume.registerPlugin(outline);
+
+
+	var southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projVolume.registerPlugin(southMetrics1);
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projVolume.registerPlugin(westMetrics);
+
+	translate2 = new JenScript.TranslatePlugin({
+		mode : 'tx'
+	});
+	projVolume.registerPlugin(translate2);
+
+	stockPlugin2 = new JenScript.StockPlugin({
+		bearishColor : JenScript.RosePalette.EMERALD,
+		bullishColor : JenScript.RosePalette.CORALRED,
+	});
+	projVolume.registerPlugin(stockPlugin2);
+
+	stockPlugin2.addLayer(new JenScript.VolumeBarLayer({
+		volumeColor : JenScript.RosePalette.PINGPIZZAZZ
+	}));
+
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'SLV Volume',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CHOCOLATE,
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	projVolume.registerPlugin(title);
+}
+
+</code></pre>
+
+
+<p style="padding-top: 40px;">Finally, create a main function for creating charts
+ </p>
+<pre><code class="javascript">
+
+function createViews(w){
+	createPriceView('priceView',w,300);
+	createVolumeView('volumeView',w,200);
+	var synchronizer = new JenScript.TranslateSynchronizer({
+		translates : [ translate1, translate2 ]
+	});
+	translate1.select();
+
+	var __loader = new StockLoader(projPrice,[2013,2014,2015],function(year,stocks){
+		stockPlugin1.setStocks(stocks);
+		stockPlugin2.setStocks(stocks);
+	});
+}
+
+</code></pre>
 
  </div>
-
+</body>
+  
 
 <script type="text/javascript">
-$(document).ready(function() {
-	  $('pre code').each(function(i, block) {
-	    hljs.highlightBlock(block);
-	  });
-	});
-</script>
-  </body>
-  
-  <script type="text/javascript">
-	
 	$(window).resize(function() {
-		var w = $("#stockWebView").width();
-		create(w);
+		init();
 	});
-	
-	//date range
-	var startDate = new Date(2013, 09, 01);
-	var endDate = new Date(2013, 11, 01);
-	var projStocks;
-	var stockPlugin1,stockPlugin2;
-	var translate1,translate2;
-	
-	var indigo = JenScript.RosePalette.INDIGO;
-	var choco = JenScript.RosePalette.CHOCOLATE;
-	var emerald = JenScript.RosePalette.EMERALD;
-	var aegean = JenScript.RosePalette.AEGEANBLUE;
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
-	},
-	median = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 10
-	},
-	major = {
-		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.Color.lighten(choco,20),
-		tickMarkerStroke : 3,
-		tickTextColor : JenScript.Color.lighten(choco,20),
-		tickTextFontSize : 12,
-		tickTextOffset : 16
+	function init(){
+		var w = $("#priceView").width();
+		createViews(w);
 	}
-	
-	function stock(container, width, height) {
-		
-		//view
-		var view = new JenScript.View({
-			name : container,
-			width : width,
-			height : height,
-			holders : 20,
-			west : 100,
-			east : 80,
-			south : 80,
-		});
-
-		
-		projStocks = new JenScript.TimeXProjection({
-			cornerRadius : 6,
-			name : "proj1",
-			minXDate : startDate,
-			maxXDate : endDate,
-			minY : 17,
-			maxY : 23
-		});
-		view.registerProjection(projStocks);
-		
-		//stock plugin
-		stockPlugin1 = new JenScript.StockPlugin({
-			bearishColor : JenScript.RosePalette.AMETHYST,
-			bullishColor : JenScript.RosePalette.LIME,
-		});
-		projStocks.registerPlugin(stockPlugin1);
-
-		stockPlugin1.addLayer(new JenScript.CandleStickLayer({
-			lowHighColor : JenScript.RosePalette.COALBLACK
-		}));
-		stockPlugin1.addLayer(new JenScript.StockBollingerLayer({
-			bandColor:JenScript.RosePalette.FLANNELGRAY,
-			bandOpacity: 0.1,
-			lineColor:JenScript.Color.lighten(aegean,25),
-			lineOpacity:0.6,
-			lineWidth : 0.5
-		}));
-	
-		//device outline
-		var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
-		projStocks.registerPlugin(outline);
-
-
-		var southMetrics1 = new JenScript.AxisMetricsTiming({
-			axis : JenScript.Axis.AxisSouth,
-			models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
-			minor:minor,
-			median:median,
-			major:major
-		});
-		projStocks.registerPlugin(southMetrics1);
-		
-		
-		var westMetrics = new JenScript.AxisMetricsModeled({
-			axis : JenScript.Axis.AxisWest,
-			minor:minor,
-			median:median,
-			major:major
-		});
-		projStocks.registerPlugin(westMetrics);
-
-		//translate
-		translate1 = new JenScript.TranslatePlugin();
-		projStocks.registerPlugin(translate1);
-		var txw = new JenScript.TranslateX({
-				xIndex:100,
-				width : 150,
-				height : 22,
-				outlineStrokeColor : 'rgba(0,0,0,0)',
-				//outlineFillColor: 'gray',
-				buttonStrokeColor:'white',
-				buttonFillColor:'black',
-				buttonRolloverStrokeColor:JenScript.Color.lighten(emerald,40)}
-		);
-		translate1.registerWidget(txw);
-		translate1.select();
-
-		
-		
-
-		var title = new JenScript.TitleLegendPlugin({
-			layout : 'relative',
-			part   : JenScript.ViewPart.Device,
-			text   : 'SLV Stock',
-			fontSize : 14,
-			textColor : JenScript.RosePalette.CHOCOLATE,
-			xAlign : 'right',
-			yAlign : 'top',
-		});
-		projStocks.registerPlugin(title);
-		
-		
-	}
-	
-	function stock2(container, width, height) {
-		
-		//view
-		var view = new JenScript.View({
-			name : container,
-			width : width,
-			height : height,
-			holders : 20,
-			west : 100,
-			east : 80,
-			south : 80,
-		});
-
-
-		var projStocks = new JenScript.TimeXProjection({
-			cornerRadius : 6,
-			name : "proj1",
-			minXDate : startDate,
-			maxXDate : endDate,
-			minY : 0,
-			maxY : 100000000
-		});
-		view.registerProjection(projStocks);
-		
-		//device outline
-		var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
-		projStocks.registerPlugin(outline);
-
-
-		var southMetrics1 = new JenScript.AxisMetricsTiming({
-			axis : JenScript.Axis.AxisSouth,
-			models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
-			minor:minor,
-			median:median,
-			major:major
-		});
-		projStocks.registerPlugin(southMetrics1);
-		
-		var westMetrics = new JenScript.AxisMetricsModeled({
-			axis : JenScript.Axis.AxisWest,
-			minor:minor,
-			median:median,
-			major:major
-		});
-		projStocks.registerPlugin(westMetrics);
-
-		translate2 = new JenScript.TranslatePlugin({
-			mode : 'tx'
-		});
-		projStocks.registerPlugin(translate2);
-
-		stockPlugin2 = new JenScript.StockPlugin({
-			bearishColor : JenScript.RosePalette.EMERALD,
-			bullishColor : JenScript.RosePalette.CORALRED,
-		});
-		projStocks.registerPlugin(stockPlugin2);
-
-		stockPlugin2.addLayer(new JenScript.VolumeBarLayer({
-			volumeColor : JenScript.RosePalette.PINGPIZZAZZ
-		}));
-	
-		var title = new JenScript.TitleLegendPlugin({
-			layout : 'relative',
-			part   : JenScript.ViewPart.Device,
-			text   : 'SLV Volume',
-			fontSize : 14,
-			textColor : JenScript.RosePalette.CHOCOLATE,
-			xAlign : 'right',
-			yAlign : 'top',
-		});
-		projStocks.registerPlugin(title);
-	}
-	
-	function create(w){
-		console.log('w : '+w);
-		stock('stockWebView',w,300);
-		stock2('stock2WebView',w,200);
-		var synchronizer = new JenScript.TranslateSynchronizer({
-			translates : [ translate1, translate2 ]
-		});
-		translate1.select();
-
-		var __loader = new StockLoader(projStocks,[2013,2014,2015],function(year,stocks){
-			stockPlugin1.setStocks(stocks);
-			stockPlugin2.setStocks(stocks);
-		});
-	}
-	
-	var w = $("#stockWebView").width();
-	create(w);
-	
-	</script>
+	init();
+</script>
 </html>

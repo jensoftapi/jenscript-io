@@ -1,5 +1,4 @@
 var StockLoader = function(proj,args,callback){
-	 //console.log('new StockLoader');
 	 var years = [];
 	 var stocks = [];
 	 var that = this;
@@ -10,9 +9,6 @@ var StockLoader = function(proj,args,callback){
 			y : 20,
 			width : 100,
 			height : 6,
-//			outlineColor : 'black',
-//			backgroundColor : 'pink',
-//			foregroundColor : 'purple'
 	 });
 	 proj.registerPlugin(monitorPlugin);
 	 
@@ -27,15 +23,10 @@ var StockLoader = function(proj,args,callback){
 	 },
 	 
 	 this.loadYear = function(year){
-		//console.log('load year : '+year.year);
 		if(year === undefined || year.year === undefined)
 			return;
 		
 		var m = new JenScript.ProgressMonitor({
-			//x : 30,
-			//y : 20,
-			//width : 100,
-			//height : 6,
 			total : 250,//approximation of total which is (245/255 stock by year)
 			onComplete : function() {
 				proj.unregisterPlugin(this);
@@ -69,8 +60,6 @@ var StockLoader = function(proj,args,callback){
 						setTimeout(function(){
 							yo.monitor.setValue(stockCount, 'Load SLV '+yo.year+' stock '+ stockCount);
 						},20);
-					}else{
-						//console.log("no monitor found");
 					}
 					
 				}
@@ -120,7 +109,6 @@ var StockLoader = function(proj,args,callback){
 	};
 	
 	for (var i = 0; i < args.length; i++) {
-		//console.log('launch defaut year : '+args[i]);
 		years[i]={year:args[i],state:'processing'};
 		init(i,years[i]);
 	}
