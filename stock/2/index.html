@@ -7,18 +7,14 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>Stock Charts Part 2 - Case of Silver</title>
+    <title>Stock Chart Part 2 - OHLC</title>
    
-    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="../../assets/docs.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/github.min.css"> -->
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/mono-blue.min.css"> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
 <script>hljs.initHighlightingOnLoad();</script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -30,7 +26,6 @@
    <link rel="stylesheet" href="../../assets/style.css">
    <script src="../../jenscript-min.js"></script>
    <script src="../StockLoader.js"></script>
-   <script src="stock.js"></script> 
 </head>
 
 <body>
@@ -251,14 +246,14 @@ function createViewStockOHLC(container, width, height) {
  </div>
 </body>
   
-
+<script src="stock.js"></script> 
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w = $("#priceView").width();
-		createViewStockOHLC('priceView',w,300);
+		var w = $("#ohlcView").width();
+		createViewStockOHLC('ohlcView',w,300);
 	}
 	init();
 </script>
