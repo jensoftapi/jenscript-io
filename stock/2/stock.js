@@ -83,9 +83,6 @@ function createViewStockOHLC(container, width, height) {
 	}));
 	tx1.select();
 
-	var wheel = new JenScript.ZoomWheelPlugin();
-	proj1.registerPlugin(wheel);
-
 	var stockPlugin = new JenScript.StockPlugin({
 		//not required in OHLC
 		bearishColor : JenScript.RosePalette.CORALRED,

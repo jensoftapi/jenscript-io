@@ -202,9 +202,6 @@ function createViewStockCandleStick(container, width, height) {
 	}));
 	tx1.select();
 
-	var wheel = new JenScript.ZoomWheelPlugin();
-	proj1.registerPlugin(wheel);
-
 	var stockPlugin = new JenScript.StockPlugin({
 		bearishColor : JenScript.RosePalette.CORALRED,
 		bullishColor : JenScript.RosePalette.EMERALD,
