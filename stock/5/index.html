@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" class="jensoft-org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="javascript charts">
+    <meta name="author" content="Sébastien Janaud">
+	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
+    <title>Stock Chart Part 5 - Moving Average: SMA, WMA, EMA</title>
+   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/docs.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+   
+   <link rel="stylesheet" href="../../assets/style.css">
+   <script src="../../jenscript-min.js"></script>
+   <script src="../StockLoader.js"></script>
+</head>
+
+<body>
+
+
+
+<div class="container">
+   
+
+<h1>Stock Chart Part 5 - Moving Average: SMA, WMA, EMA</h1> 
+
+<small>Sébastien Janaud - May 23, 2015 / <a href="../../">JenScript</a>
+</small>
+
+
+
+<div class="bs-callout bs-callout-info" >
+    <h4 >Stock Feature</h4>
+   	Stock chart are graphical representations of historical stock prices which help to determine current supply and demand forces in a stock market exchange.
+   	In stock and commodity markets trading, studying chart patterns plays a large role during technical analysis. Analysis of stock chart allows a trader to determine with more accuracy just what the current supply and demand is in a stock.
+    <p>JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
+     Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts like <code>StockMovingAverageLayer</code> or <code>StockWeightedMovingAverageLayer</code> or <code>StockExponentialMovingAverageLayer</code> as moving average curves of these stocks on period.
+    </p>
+    
+    <p>
+    	<small> <a href="stock.js" download>Download sample source code</a></small>
+    </p>
+    <p>
+    <small><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">Learn more on github - stock plugin sources ?</a></small>
+  	<p>
+  </div>
+  
+	<div style="padding-top: 20px;">
+		<div  id="sma"></div>
+	</div>
+	
+	<div style="padding-top: 20px;">
+		<div  id="wma"></div>
+	</div>
+	
+	<div style="padding-top: 20px;">
+		<div  id="ema"></div>
+	</div>
+	
+	
+	<div>
+		
+		<p>
+		For this case study, we lookup historical stock prices at <a href="http://www.nasdaq.com" target="_blank">nasdaq market</a>. For example 'slv' which is The iShares Silver Trust (the 'Trust') seeks to reflect generally the performance of the price of silver.
+		Go in historical menu section and after re order this history we have <a href="../slv-history.zip">slv historical prices</a> split by years.
+		</p>
+		<p>
+		Stock item is defined by properties :
+		</p>
+		<ul>
+			<li>fixing : the fixing date</li>
+			<li>low : the lowest price over one unit of time(e.g., one day or one hour)</li>
+			<li>high price : the highest price over one unit of time ()e.g., one day or one hour)</li>
+			<li>open price : the opening price (e.g., for a daily chart this would be the starting price for that day)</li>
+			<li>close price : the closing price for this time fixing period</li>
+			<li>volume : the number of shares or contracts traded in a security or an entire market </li>
+		</ul>
+		
+		<p>
+		Non blocking UI process suppose we are using web work that loads asynchronously each historical data parts. 
+		we can use this  <a href="../StockWorker.js" download>stock worker</a> that provides the
+		data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manage the loaded data 
+		</p>
+		
+		<p>
+			In statistics, a moving average (rolling average or running average) is a calculation to analyze data points by creating a series of averages of different subsets of the full data set.
+			A moving average is commonly used with time series data to smooth out short-term fluctuations and highlight longer-term trends or cycles.
+			The threshold between short-term and long-term depends on the application, and the parameters of the moving average will be set accordingly.
+			For example, it is often used in technical analysis of financial data, like stock prices, returns or trading volumes. 
+			It is also used in economics to examine gross domestic product, employment or other macroeconomic time series.
+		</p>
+		
+		<p>
+		In financial applications a simple moving average (SMA) is the unweighted mean of the previous n data. However, in science and engineering the mean is normally taken from an equal number of data on either side of a central value. This ensures that variations in the mean are aligned with the variations in the data rather than being shifted in time. An example of a simple equally weighted running mean for a n-day sample of closing price is the mean of the previous n days' closing prices
+		</p>
+	</div>
+	
+	
+
+
+<p>
+First prepare HTML document.
+</p>
+<pre><code class="html">
+&lt;div style="padding-top: 20px;"&gt;
+	&lt;div  id="sma"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style="padding-top: 20px;"&gt;
+	&lt;div  id="wma"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div style="padding-top: 20px;"&gt;
+	&lt;div  id="ema"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;script type="text/javascript"&gt;
+	//action code
+&lt;/script&gt;
+</code></pre>
+
+
+
+<p style="padding-top: 30px;">
+Let's create functions
+</p>
+
+<pre><code class="javascript">
+
+/**
+ * Create stock moving average curve view
+ * 
+ * @param container
+ * @param width
+ * @param height
+ */
+function createViewStockMovingAverage(container, width, height) {
+
+
+	//view
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		west : 80,
+		south : 80,
+	});
+	
+	//date range
+	var startDate = new Date(2013, 04, 25);
+	var endDate = new Date(2013, 08, 05);
+
+	var proj1 = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 16,
+		maxY : 40
+	});
+	view.registerProjection(proj1);
+	
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	proj1.registerPlugin(outline);
+
+	
+	
+	var southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor : {
+			tickMarkerSize : 2,
+			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+			tickMarkerStroke : 1
+		},
+		median : {
+			tickMarkerSize : 4,
+			tickMarkerColor : JenScript.RosePalette.EMERALD,
+			tickMarkerStroke : 1.2,
+			tickTextColor : JenScript.RosePalette.EMERALD,
+			tickTextFontSize : 10
+		},
+		major : {
+			tickMarkerSize : 8,
+			tickMarkerColor : JenScript.RosePalette.CORALRED,
+			tickMarkerStroke : 3,
+			tickTextColor : JenScript.RosePalette.CORALRED,
+			tickTextFontSize : 12,
+			tickTextOffset : 16
+		}
+	});
+	proj1.registerPlugin(southMetrics1);
+	
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest
+	});
+	proj1.registerPlugin(westMetrics);
+
+	var tx1 = new JenScript.TranslatePlugin({
+		lockB2T : false //bottom to top translate not authorized , should be changed to same strategy of wheel like TranslateXY, TranslateX, TranslateY
+	});
+	proj1.registerPlugin(tx1);
+	tx1.select();
+
+
+	var stockPlugin = new JenScript.StockPlugin();
+	proj1.registerPlugin(stockPlugin);
+
+	stockPlugin.addLayer(new JenScript.StockFixingLayer({
+		curveColor:'black',
+		curveWidth : 0.4
+	}));
+	stockPlugin.addLayer(new JenScript.StockMovingAverageLayer({
+		curveColor:JenScript.RosePalette.EMERALD,
+		moveCount : 20
+	}));
+	
+	
+	var legend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'SLV Fixing',
+		fontSize : 12,
+		textColor : 'black',
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	proj1.registerPlugin(legend);
+	
+	var legend2 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'SLV SMA(20)',
+		fontSize : 12,
+		textColor : JenScript.RosePalette.EMERALD,
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin: 26
+	});
+	proj1.registerPlugin(legend2);
+
+	
+	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
+		stockPlugin.setStocks(stocks);
+	});
+
+
+}
+
+</code></pre>
+
+
+ </div>
+</body>
+  
+
+  
+<script src="stock.js"></script> 
+<script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#sma").width();
+		createViewStockMovingAverage('sma',w,300);
+		createViewStockWeightedMovingAverage('wma',w,300);
+		createViewStockExponentialMovingAverage('ema',w,300);
+	}
+	init();
+</script>
+</html>
