@@ -19,17 +19,6 @@ function createViewRealTimeCloud1(container, width, height) {
 		south : 80,
 	});
 
-	var bg1 = new JenScript.GradientViewBackground();
-	view.addViewBackground(bg1);
-	var textureBackground = new JenScript.TexturedViewBackground({
-		opacity : 0.3,
-		texture : JenScript.Texture.getTriangleCarbonFiber(),
-		strokeColor : 'cyan',
-		strokeWidth : 2,
-		cornerRadius : 0
-	});
-	view.addViewBackground(textureBackground);
-
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
 		minX : -2500,
@@ -85,7 +74,7 @@ function createViewRealTimeCloud1(container, width, height) {
 	var legend1 = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
-		text   : 'Real Time Cloud 1',
+		text   : 'Real Time Cloud',
 		fontSize : 12,
 		textColor : JenScript.RosePalette.MANDARIN,
 		xAlign : 'right',
@@ -109,7 +98,6 @@ function createViewRealTimeCloud1(container, width, height) {
 						},
 
 						setCloud : function(dataPoints) {
-							//console.log('set cloud :'+dataPoints.record);
 							this.dataPoints = dataPoints;
 							this.repaintPlugin();
 						},
@@ -118,80 +106,53 @@ function createViewRealTimeCloud1(container, width, height) {
 							if (part !== JenScript.ViewPart.Device)
 								return;
 
-							if (this.dataPoints === undefined)
+							if (this.dataPoints === undefined){
+								console.log("undefined datapoints");
 								return;
+							}
+								
 
-							//console.log("paint record with points : "+ this.dataPoints.record.length);
 							for (var i = 1; i < this.dataPoints.record.length; i++) {
 								var pt = this.dataPoints.record[i];
 								var p = this.getProjection().userToPixel(pt);
-								var svgRect = new JenScript.SVGRect().origin(p.x-0.5,p.y-0.5).size(1,1).fill(JenScript.RosePalette.LIME);
+								var svgRect = new JenScript.SVGRect().origin(p.x-0.5,p.y-0.5).size(1,1).fill(JenScript.RosePalette.INDIGO);
 								g2d.insertSVG(svgRect.toSVG());
 							}
 						}
-					});
+	});
 
 	var myDemoPlugin = new DemoPlugin.LineData({});
 	proj.registerPlugin(myDemoPlugin);
 	
 
 	
-function Simulator(name,data) {
+	function RealTimeSimulator(data) {
+		var highestTimeoutId = setTimeout(";");
+		for (var i = 0 ; i < highestTimeoutId ; i++) {
+		    clearTimeout(i); 
+		}
 		
-	this.Id = 'simulator'+JenScript.sequenceId++;
-	this.name = name;
-	this.running = true;
-	var that = this;
-	var run = function(i, dp, onFinish) {
-		
-		if(that.running){
+		var run = function(i, dp, onFinish) {
 			setTimeout(function() {
-				//console.log('run '+i);
-				if(!that.running) return;
 				myDemoPlugin.setCloud(dp);
 				onFinish(i);
-			}, i * 300);
+			}, i * 150);
+		};
+	
+		for (var i = 0; i < data.length; i++) {
+			var dp = data[i];
+			run(i, dp, function onFinish(rank) {
+				if (rank === (data.length - 1)) {
+					simulator = new RealTimeSimulator(data);
+				}
+			});
 		}
-		else{
-			//console.log('not run '+i);
-		}
-		
-	};
-
-	//console.log('start simulator : '+this.name +'[Id :'+this.Id+']');
-	for (var i = 0; i < data.length; i++) {
-		var dp = data[i];
-		run(i, dp, function onFinish(rank) {
-			if (rank === (data.length - 1)) {
-				window.cloudPointSimulator = new Simulator(name,data);
-			}
-		});
 	}
 	
-	this.toString = function(){
-		return 'simulator : '+this.name +'[Id :'+this.Id+']';
-	};
-	
-	this.stop= function(){
-		//console.log('stop simulator : '+this.name +'[Id :'+this.Id+']');
-		this.running = false;
-	};
-	
-	this.isAlive = function(){
-		return this.running;
-	};
-}
-	
-	window.cloudPointSimulator = undefined;
+	var simulator = undefined;
 	
 	var loader = new DataLoader(proj,'data-cloud1',function(data){
-		if(window.cloudPointSimulator === undefined){
-			window.cloudPointSimulator = new Simulator('cloud real time',data);
-		}else{
-			window.cloudPointSimulator.stop();
-			window.cloudPointSimulator = new Simulator('cloud real time',data);
-		}
-		
+		simulator = new RealTimeSimulator(data);
 	});
 
 }

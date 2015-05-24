@@ -148,22 +148,17 @@ function createViewRealTimeLineCurve(container, width, height) {
 	
 
 	function RealTimeSimulator(data, demoPlugin) {
-		console.log("new simulator for data : "+data.length);
-		
 		var highestTimeoutId = setTimeout(";");
 		for (var i = 0 ; i < highestTimeoutId ; i++) {
 		    clearTimeout(i); 
 		}
-		
 		var run = function(i, dp, onFinish) {
-			console.log("prepare run");
 			 setTimeout(function() {
 				demoPlugin.setDataPath(dp);
 				onFinish(i);
 			}, i * 1000/15);
 			
 		};
-		var that = this;
 		for (var i = 0; i < data.length; i++) {
 			var dp = data[i];
 			run(i, dp, function onFinish(rank) {
