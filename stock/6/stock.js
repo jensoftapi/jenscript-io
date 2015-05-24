@@ -15,7 +15,7 @@ function createViewStockMACD(container, width, height) {
 	
 	var nodeView1 = document.createElement("div");
 	nodeView1.setAttribute('id',container+'vview1');
-	nodeView1.setAttribute('style','float : left; padding-right : 5px;');
+	nodeView1.setAttribute('style','float : left;');
 	var nodeView2 = document.createElement("div");
 	nodeView2.setAttribute('id',container+'vview2');
 	nodeView2.setAttribute('style','float : left;');
@@ -158,7 +158,7 @@ function createViewStockMACD(container, width, height) {
 		width : width/2,
 		height : height,
 		east : 80,
-		west : 40,
+		west : 10,
 		south : 80,
 	});
 	//ANOTHER PROJ FOR MANAGE MACD IN DIFFERENT PROJECTION
