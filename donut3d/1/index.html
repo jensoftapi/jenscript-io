@@ -13,13 +13,10 @@
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="../../assets/docs.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/github.min.css"> -->
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/mono-blue.min.css"> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
 <script>hljs.initHighlightingOnLoad();</script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -48,14 +45,17 @@
 
 <div class="bs-callout bs-callout-info" >
     <h4 >Donut D3 Feature</h4>
+    <p>
     A doughnut chart displays value data as percentages of the whole. Categories are represented by individual slices. 
     A little more bit rock'n roll, Donut3D charts are functionally identical to pie charts.
 	Donut3D displays category groups, series groups, and values series as slices.
-    <p><strong>JenScript does support donut/doughnut 3D</strong> and common properties such as effect, label, listener.
+    JenScript does support donut/doughnut 3D and common properties such as effect, label, listener.
      Register plugin <code>Donut3DPlugin</code> in view projection. Add <code>Donut3D</code> in plugin then create <code>Donut3DSlice</code> as parts of donut.
     </p>
-    
-     <small><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/donut3d" target="_blank">Learn more on github - donut3D plugin source ?</a></small>
+    <p>
+    	<small><strong>Resource : </strong><a href="donut3d.js" download>chart source code</a></small>
+    </p>
+     	<small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/donut3d" target="_blank">javascript donut3D plugin source</a></small>
   </div>
 <div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
 
@@ -127,145 +127,18 @@ var s4 = new JenScript.Donut3DSlice({
 
 donut.addSlices([s1,s2,s3,s4]);
 </code></pre>
-
-
- </div>
+</div>
+</body>
+<script src="donut3d.js"></script>
 <script type="text/javascript">
 $(window).resize(function() {
-	var w = $("#view").width();
-	var h = $("#view").height();
-	create('view',w,h);
+	init();
 });
 
-function create(name,w,h) {
-	
- var view = new JenScript.View({
-		name : name,
-		width : w,
-		height : 300,
-		holders : 0,
-		north: 20,
-		south :20,
-	});
-	
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
-	});
-	
-	//or 
-	var proj = new JenScript.IdentityProjection();
-	
-	//or JenScript.IdentityProjection
-	view.registerProjection(proj);
-
-	var outline = new JenScript.DeviceOutlinePlugin({
-		color : 'rgb(220,220,220)'
-	});
-
-	//proj.registerPlugin(outline);
-
-	var donut3DPlugin = new JenScript.Donut3DPlugin();
-	proj.registerPlugin(donut3DPlugin);
-
-	var donut = new JenScript.Donut3D({innerRadius:100,outerRadius:150,thickness : 60, startAngle : 300, tilt:40});
-	donut3DPlugin.addDonut(donut);
-
-	donut.tilt = 60;
-
-	var s1 = new JenScript.Donut3DSlice({
-		name : "s1",
-		value : 45,
-		themeColor : 'rgb(250, 250, 250)'
-	});
-	var s2 = new JenScript.Donut3DSlice({
-		name : "s2",
-		value : 5,
-		themeColor : 'rgb(244, 145, 26)'
-	});
-	var s3 = new JenScript.Donut3DSlice({
-		name : "s3",
-		value : 30,
-		themeColor : 'rgb(78, 148, 44)'
-	});
-	var s4 = new JenScript.Donut3DSlice({
-		name : "s4",
-		value : 5,
-		themeColor : 'rgb(208, 58, 47)'
-	});
-
-	donut.addSlices([s1,s2,s3,s4]);
-
-
-	
-	var s1Label = new JenScript.Donut3DBorderLabel({
-		text : "JenScript",
-		fillColor:'black',
-		outlineColor : 'rgb(180,180,180)',
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
-	});
-	s1.addSliceLabel(s1Label);
-
-	var s2Label = new JenScript.Donut3DBorderLabel({
-		text : "SVG",
-		fillColor:'black',
-		outlineColor : s2.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),20),
-	});
-	s2.addSliceLabel(s2Label);
-
-	var s3Label = new JenScript.Donut3DBorderLabel({
-		text : "API",
-		fillColor:'black',
-		outlineColor : s3.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),20),
-	});
-	s3.addSliceLabel(s3Label);
-	
-	var s4Label = new JenScript.Donut3DBorderLabel({
-		text : "JavaScript",
-		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s4.getThemeColor(),20),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),20),
-	});
-	s4.addSliceLabel(s4Label);
-
-	var tx1 = new JenScript.TranslatePlugin();
-	proj.registerPlugin(tx1);
-
-	tx1.select();
-
-};
-
-var w = $("#view").width();
-var h = $("#view").height();
-create('view',w,300);
-</script>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-	  $('pre code').each(function(i, block) {
-	    hljs.highlightBlock(block);
-	  });
-	});
-</script>
-   
- 
-   
-  </body>
-  
- 
+function init(){
+	var w = $("#view").width();
+	create('view',w,300);
+}
+init();
+</script>  
 </html>
