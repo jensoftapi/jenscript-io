@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="jensoft-org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="javascript charts">
+    <meta name="author" content="Sébastien Janaud">
+	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
+    <title>JavaScript RealTime Charts - JenScript JS</title>
+   
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../assets/docs.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+   
+   <link rel="stylesheet" href="../../assets/style.css">
+   <script src="../../jenscript-min.js"></script>
+   <script src="../DataLoader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Dynamic & Realtime like Chart</h1> 
+
+<small>Sébastien Janaud - May 23, 2015 / <a href="../../">JenScript</a>
+</small>
+
+
+
+<div class="bs-callout bs-callout-info" >
+    <h4 >RealTime Charts</h4>
+   
+	<p>
+	</p>
+	
+	 <p>
+    	<small><strong>Resource :</strong><a href="realtime-line.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../realtime-assets.zip">real time data</a>&nbsp;-&nbsp;<a href="../DataWorker.js" download>Data Web Worker</a>&nbsp;-&nbsp;<a href="../DataLoader.js" download>Data Loader</a></small>
+    </p>
+  </div>
+  
+  <div class="row">
+  	<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="realtime"></div>
+  </div>
+	
+
+ </div>
+
+  </body>
+  
+  <script src="realtime-line.js"></script> 
+<script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#realtime").width();
+		createViewRealTimeLineCurve('realtime',w,300);
+	}
+	init();
+</script>
+ 
+</html>
