@@ -200,5 +200,93 @@ function createLargeRangeMetricsView(container, width, height) {
 	
 }
 
+function createSmallAsymRangeMetricsView(container, width, height) {
+	
+	//view
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		west : 100,
+		east : 80,
+		south : 80,
+	});
+
+	
+	var proj = new JenScript.LinearProjection({
+		cornerRadius : 6,
+		name : "proj1",
+		minX : 0.0005007874222222,
+		maxX : 0.000500789125432333333,
+		minY : 0.0000004,
+		maxY : 0.00000053
+	});
+	view.registerProjection(proj);
+	
+	
+
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	proj.registerPlugin(outline);
+
+
+	var southMetrics1 = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisSouth,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	proj.registerPlugin(southMetrics1);
+	
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	proj.registerPlugin(westMetrics);
+
+	//translate
+	translate1 = new JenScript.TranslatePlugin();
+	proj.registerPlugin(translate1);
+	var txw = new JenScript.TranslateX({
+			xIndex:100,
+			width : 150,
+			height : 22,
+			outlineStrokeColor : 'rgba(0,0,0,0)',
+			//outlineFillColor: 'gray',
+			sample  : {step : 10, sleep : 5,fraction : 20},
+			
+			buttonFillColor:'black',
+			buttonRolloverFillColor:JenScript.Color.lighten(emerald,40),
+			
+			buttonDrawColor:'white',
+			buttonRolloverDrawColor:JenScript.Color.lighten(emerald,20)
+		}
+	);
+	
+	translate1.registerWidget(txw);
+	translate1.select();
+
+	
+	var wheel = new JenScript.ZoomWheelPlugin({});
+	proj.registerPlugin(wheel);
+
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Small Range Metrics',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CHOCOLATE,
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	proj.registerPlugin(title);
+	
+	
+}
+
 
 
