@@ -12,13 +12,10 @@
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="../../assets/docs.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/github.min.css"> -->
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/mono-blue.min.css"> -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
 <script>hljs.initHighlightingOnLoad();</script>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,20 +46,24 @@
 
 <div class="bs-callout bs-callout-info" >
     <h4 >Stock Feature</h4>
+    <p>
    Stock chart are graphical representations of historical stock prices which help to determine current supply and demand forces in a stock market exchange.
    In stock and commodity markets trading, studying chart patterns plays a large role during technical analysis. Analysis of stock chart allows a trader to determine with more accuracy just what the current supply and demand is in a stock.
-    <p>JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
-     Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts like <code>StockMovingAverageLayer</code>,<code>StockMACDLayer</code> as indicators of these stocks on period.
+   JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
+     Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts as indicators or overlays of these stocks on period.
     </p>
     
     <p>
-    	<small> <a href="stock.js" download>Download sample source code</a></small>
+    	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
     </p>
     <p>
-    <small><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">Learn more on github - stock plugin sources ?</a></small>
+    	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
   	<p>
   	<p>
-    	<small>Part 1&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a></small>
+    	<small><strong>Part :</strong> Part 1&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a></small>
+    </p>
+    <p>
+    	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
     </p>
   </div>
   
@@ -97,8 +98,6 @@
 		</p>
 	</div>
 	
-	
-
 
 <p>
 First prepare HTML document. For clear and readable information, we split chart into 2 distinct views, first for displaying stock prices and the other for volume bar chart.
