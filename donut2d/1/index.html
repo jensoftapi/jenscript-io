@@ -13,7 +13,6 @@
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="../../assets/docs.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
@@ -48,14 +47,20 @@
 
 <div class="bs-callout bs-callout-info" >
     <h4 >Donut D2 Feature</h4>
+    <p>
     A doughnut chart displays value data as percentages of the whole. Categories are represented by individual slices. 
     A little more bit rock'n roll, Donut2D charts are functionally identical to pie charts.
 	Donut2D displays category groups, series groups, and values series as slices.
-    <p><strong>JenScript does support donut/doughnut 2D</strong> and common properties such as effect, label, listener.
+   JenScript does support donut/doughnut 2D and common properties such as effect, label, listener.
      Register plugin <code>Donut2DPlugin</code> in view projection. Add <code>Donut2D</code> in plugin then create <code>Donut2DSlice</code> as parts of donut.
     </p>
     
-     <small><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/donut2d" target="_blank">Learn more on github - donut2D plugin source ?</a></small>
+    <p>
+    	<small><strong>Resource : </strong><a href="donut2d.js" download>chart source code</a></small>
+    </p>
+    <p>
+     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/donut2d" target="_blank">javascript donut2D plugin source</a></small>
+     </p>
   </div>
 <div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
 
@@ -138,144 +143,19 @@ donut.addSlices([s1,s2,s3,s4,s5]);
 
 </code></pre>
 
-
- </div>
+</div>
+</body>  
+<script src="donut2d.js"></script>
 <script type="text/javascript">
 $(window).resize(function() {
-	var w = $("#view").width();
-	var h = $("#view").height();
-	create('view',w,h);
+	init();
 });
 
-function create(container, width, height) {
-
-	var view = new JenScript.View({
-		name : container,
-		width : width,
-		height : 400,
-		holders : 0,
-		north: 20,
-		south :20,
-	});
-	
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
-	});
-	view.registerProjection(proj);
-
-
-	var donut2DPlugin = new JenScript.Donut2DPlugin();
-	proj.registerPlugin(donut2DPlugin);
-
-	var donut = new JenScript.Donut2D({innerRadius :  80,outerRadius :  120});
-	donut2DPlugin.addDonut(donut);
-
-	donut.setFill(new JenScript.Donut2DRadialFill());
-	donut.addEffect(new JenScript.Donut2DLinearEffect());
-	donut.addEffect(new JenScript.Donut2DReflectionEffect());
-
-	var s1 = new JenScript.Donut2DSlice({
-		name : "s1",
-		value : 45,
-		themeColor : 'rgb(240,240,240)'
-	});
-	var s2 = new JenScript.Donut2DSlice({
-		name : "s2",
-		value : 5,
-		themeColor : 'rgb(237, 54, 162)'
-	});
-	var s3 = new JenScript.Donut2DSlice({
-		name : "s3",
-		value : 30,
-		themeColor : 'rgb(244, 145, 26)'
-	});
-	var s4 = new JenScript.Donut2DSlice({
-		name : "s4",
-		value : 5,
-		themeColor : 'rgb(22,125,218)'
-	});
-	var s5 = new JenScript.Donut2DSlice({
-		name : "s5",
-		value : 5,
-		themeColor : 'rgba(61,44,105,1)'
-	});
-
-	
-	donut.addSlices([s1,s2,s3,s4,s5]);
-
-	var s1Label = new JenScript.Donut2DRadialLabel({
-		text : "Silver",
-		fillColor:'black',
-		outlineColor : 'rgb(180,180,180)',
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
-	});
-	s1.addSliceLabel(s1Label);
-
-	var s2Label = new JenScript.Donut2DRadialLabel({
-		text : "Platinium",
-		fillColor:'black',
-		outlineColor : s2.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),30),
-	});
-	s2.addSliceLabel(s2Label);
-
-	var s3Label = new JenScript.Donut2DRadialLabel({
-		text : "Rhodium",
-		fillColor:'black',
-		outlineColor : s3.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),30),
-		
-	});
-	s3.addSliceLabel(s3Label);
-
-	var s4Label = new JenScript.Donut2DRadialLabel({
-		text : "Gold",
-		fillColor:'black',
-		outlineColor : s4.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),30),
-	});
-	s4.addSliceLabel(s4Label);
-
-	var s5Label = new JenScript.Donut2DRadialLabel({
-		text : "Uranium",
-		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
-	});
-	s5.addSliceLabel(s5Label);
-
-	
-	var tx1 = new JenScript.TranslatePlugin();
-	proj.registerPlugin(tx1);
-
-	tx1.select();
+function init(){
+	var w = $("#view").width();
+	create('view',w,300);
 }
-
-var w = $("#view").width();
-var h = $("#view").height();
-create('view',w,400);
+init();
 </script>
-
-<script type="text/javascript">
-$(document).ready(function() {
-	  $('pre code').each(function(i, block) {
-	    hljs.highlightBlock(block);
-	  });
-	});
-</script>
-  </body>
+  
 </html>
