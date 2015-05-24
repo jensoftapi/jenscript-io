@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>Stock Chart Part 4 - Fixing Line, long-term trend</title>
+    <title>JavaScript Stock Chart - Fixing Line, Long-term trend</title>
    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -57,7 +57,7 @@
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
   	</p>
   		<p>
-    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;Part 4&nbsp;-&nbsp;<a href="../5">Part 5</a></small>
+    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;Part 4&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;<a href="../6">Part 6</a></small>
     </p>
      <p>
     	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
@@ -71,11 +71,11 @@
 	
 	<div>
 		<p>
-		For this case study, we lookup historical stock prices at <a href="http://www.nasdaq.com" target="_blank">nasdaq market</a>. For example 'slv' which is The iShares Silver Trust (the 'Trust') seeks to reflect generally the performance of the price of silver.
-		Go in historical menu section and after re order this history we have <a href="../slv-history.zip">slv historical prices</a> split by years.
+			For this case study, we lookup historical stock prices at <a href="http://www.nasdaq.com" target="_blank">nasdaq market</a>. For example 'slv' which is The iShares Silver Trust (the 'Trust') seeks to reflect generally the performance of the price of silver.
+			Go in historical menu section and after re order this history we have <a href="../slv-history.zip">slv historical prices</a> split by years.
 		</p>
 		<p>
-		Stock item is defined by properties :<br>
+			Stock item is defined by properties :<br>
 		</p>
 		<ul>
 			<li>fixing : the fixing date</li>
@@ -87,9 +87,9 @@
 		</ul>
 		
 		<p>
-		Non blocking UI process supposes we are using web work that loads asynchronously each historical data parts. 
-		we can use this  <a href="../StockWorker.js" download>stock worker</a> that provides the
-		data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manages the loaded data.
+			Non blocking UI process supposes we are using web work that loads asynchronously each historical data parts. 
+			we can use this  <a href="../StockWorker.js" download>stock worker</a> that provides the
+			data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manages the loaded data.
 		</p>
 		
 		
