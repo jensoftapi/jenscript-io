@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Stock Chart - MACD</title>
+    <title>JavaScript Stock Chart - Bollinger Band</title>
    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -35,24 +35,35 @@
 <div class="container">
    
 
-<h1>Stock Chart - MACD</h1> 
+<h1>Stock Chart - Bollinger Band</h1> 
 
-<small>Sébastien Janaud - May 24, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 25, 2015 / <a href="../../">JenScript</a>
 </small>
 
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Moving Average Convergence Divergence</h4>
+    <h4 >Bollinger Band</h4>
+    
     <p>
-	   	MACD, short for moving average convergence/divergence, is a trading indicator used in technical analysis of stock prices, created by Gerald Appel in the late 1970s. It is supposed to reveal changes in the strength, direction, momentum, and duration of a trend in a stock's price.
+    	Bollinger Bands is a technical analysis tool invented by John Bollinger in the 1980s as well as a term trademarked by him in 2011. Having evolved from the concept of trading bands, Bollinger Bands and the related indicators %b and bandwidth can be used to measure the "highness" or "lowness" of the price relative to previous trades. Bollinger Bands are a volatility indicator similar to the Keltner channel.
+	 </p>
+	Bollinger Bands consist of:
+	<ul>
+		<li>an N-period <a href="http://en.wikipedia.org/wiki/Moving_average" target="_blank">moving average</a> (MA)</li>
+		<li>an upper band at K times an N-period <a href="http://en.wikipedia.org/wiki/Standard_deviation" target="_blank">standard deviation</a> above the moving average (MA + Kσ)</li>
+		<li>a lower band at K times an N-period <a href="http://en.wikipedia.org/wiki/Standard_deviation" target="_blank">standard deviation</a> below the moving average (MA − Kσ)</li>
+	</ul>
+   	<p>
+   	Typical values for N and K are 20 and 2, respectively. The default choice for the average is a simple moving average, but other types of averages can be employed as needed. Exponential moving averages is a common second choice. Usually the same period is used for both the middle band and the calculation of standard deviation.
+   	</p>
+   
+    <p>
 
-		The MACD indicator (or "oscillator") is a collection of three time series calculated from historical price data, most often the closing price. These three series are: the MACD series proper, the "signal" or "average" series, and the "divergence" series which is the difference between the two. The MACD series is the difference between a "fast" (short period) exponential moving average (EMA), and a "slow" (longer period) EMA of the price series. The average series is an EMA of the MACD series itself.
-
-	    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layer <code>JenScript.StockMACDLayer</code>
+	    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layer <code>JenScript.StockBollingerLayer</code>
     </p>
     <p>
-    	<small><strong>definition :</strong><a href="http://en.wikipedia.org/wiki/MACD"  target="_blank"> wikipedia</a></small>
+    	<small><strong>definition :</strong><a href="http://en.wikipedia.org/wiki/Bollinger_Bands"  target="_blank"> Bollinger Bands Wikipedia</a></small>
     </p>
     <p>
     	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
@@ -60,8 +71,8 @@
      <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
   	</p>
-  		<p>
-    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;Part 6&nbsp;-&nbsp;<a href="../7">Part 7</a></small>
+  	<p>
+    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;<a href="../6">Part 6</a>&nbsp;-&nbsp;Part 7</small>
     </p>
      <p>
     	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
@@ -69,7 +80,7 @@
   </div>
   
 	<div class="row" style="padding-top: 20px;">
-		<div  id="macd"></div>
+		<div  id="bollinger"></div>
 	</div>
 	
 
@@ -115,8 +126,8 @@
 		init();
 	});
 	function init(){
-		var w = $("#macd").width();
-		createViewStockMACD('macd',w,300);
+		var w = $("#bollinger").width();
+		createViewStockBollingerBand('bollinger',w,300);
 	}
 	init();
 </script>
