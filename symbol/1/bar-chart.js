@@ -66,17 +66,19 @@ function createSymbolBarView(container, width, height) {
 	proj.registerPlugin(gridPlugin);
 	
 	//TOOL
-//	var tx1 = new JenScript.TranslatePlugin();
-//	proj.registerPlugin(tx1);
-//	tx1.registerWidget(new JenScript.TranslateCompassWidget({
-//		ringFillColor : 'pink'
-//	}));
-	//tx1.select();
+	var tx1 = new JenScript.TranslatePlugin({
+		mode :tx,
+	});
+	proj.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
 	
-//	var zoomwheel = new JenScript.ZoomWheelPlugin({
-//		mode : 'wheelY'
-//	});
-//	proj.registerPlugin(zoomwheel);
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelY'
+	});
+	proj.registerPlugin(zoomwheel);
 	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Vertical'
@@ -105,7 +107,7 @@ function createSymbolBarView(container, width, height) {
 	var barLayer = new JenScript.SymbolBarLayer();
 	symbolPlugin.addLayer(barLayer);
 	
-	// arbitrary values between 100, 800
+	// arbitrary values between min max values
 	var random = function getRandomArbitrary(min, max) {
 	  return Math.random() * (max - min) + min;
 	}
