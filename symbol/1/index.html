@@ -165,10 +165,12 @@ function createSymbolBarView(container, width, height) {
 	
 	//lay out
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
-	for (var i = 0; i < 10; i++) {
+	for (var i = 1; i <= 10; i++) {
 		var bar = createBar(barValue());
 		barLayer.addSymbol(bar);
-		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid
+		
+		if(i < 10)
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
 	}
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
 	
