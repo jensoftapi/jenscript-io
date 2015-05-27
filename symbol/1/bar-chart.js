@@ -67,7 +67,7 @@ function createSymbolBarView(container, width, height) {
 	
 	//TOOL
 	var tx1 = new JenScript.TranslatePlugin({
-		mode :tx,
+		mode : 'tx',
 	});
 	proj.registerPlugin(tx1);
 	tx1.registerWidget(new JenScript.TranslateCompassWidget({
