@@ -48,6 +48,10 @@ body {
   color: #000;
 }
 
+code {
+	color : rgb(22, 125, 218);
+}
+
 pre { 
     display : block;
     padding-left : 20px;
