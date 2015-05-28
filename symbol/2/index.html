@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Bar Charts - JenScript JS</title>
+    <title>JavaScript Stacked Bar Charts - JenScript JS</title>
    
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -34,13 +34,13 @@
 
 <h1>Bar Charts</h1> 
 
-<small>Sébastien Janaud - May 26, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 28, 2015 / <a href="../../">JenScript</a>
 </small>
 
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Bar Charts</h4>
+    <h4 >Stacked Bar Charts</h4>
     <p>
     A bar chart or bar graph is a chart that presents Grouped data with rectangular bars with lengths proportional to the values that they represent. The bars can be plotted vertically or horizontally. A vertical bar chart is sometimes called a column bar chart.
 	A bar graph is a chart that uses either horizontal or vertical bars to show comparisons among categories. One axis of the chart shows the specific categories being compared, and the other axis represents a discrete value. Some bar graphs present bars clustered in groups of more than one (grouped bar graphs), and others show the bars divided into subparts to show cumulative effect (stacked bar graphs).
@@ -53,7 +53,7 @@
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/symbol" target="_blank">javascript symbol plugin sources</a></small>
   	<p>
   	<p>
-    	<small><strong>Part : </strong>Part 1&nbsp;-&nbsp;<a href="../2">Part 2</a></small>
+    	<small><strong>Part : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp;Part 2</small>
     </p>
   </div>
 <div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="barchart"></div>
@@ -126,33 +126,25 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
+	//TOOL
+	var tx1 = new JenScript.TranslatePlugin({
+		mode : 'ty',
+	});
+	proj.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
+	
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelY'
+	});
+	proj.registerPlugin(zoomwheel);
 	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Vertical'
 	});
 	proj.registerPlugin(symbolPlugin);
-	
-	
-	
-	//symbol factory
-	var createBar = function(val){
-		var symbol = new JenScript.SymbolBar({
-			base : 0,
-			value: val,
-			thickness : 32,
-			direction : 'ascent',
-			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
-			opacity : 1,
-			barFill : new JenScript.SymbolBarFill1({}),
-			barEffect  : new JenScript.SymbolBarEffect0({}),
-		});
-		return symbol;
-	}
-	
-	//layer
-	var barLayer = new JenScript.SymbolBarLayer();
-	symbolPlugin.addLayer(barLayer);
 	
 	// arbitrary values between min max values
 	var random = function getRandomArbitrary(min, max) {
@@ -162,6 +154,55 @@ function createSymbolBarView(container, width, height) {
 	barValue = function (){
 		return random(200,800);
 	}
+	
+	stackValue = function (){
+		return random(20,60);
+	}
+	
+	//symbol factory
+	var createBar = function(val){
+		var symbol = new JenScript.SymbolBarStacked({
+			base : 0,
+			value: val,
+			thickness : 32,
+			direction : 'ascent',
+			morpheStyle : 'Round',
+			themeColor : JenScript.RosePalette.MANDARIN,
+			opacity : 1,
+			barFill : new JenScript.SymbolBarFill0({}),
+			barEffect  : new JenScript.SymbolBarEffect0({}),
+		});
+		
+		
+		
+		var  s1 = new JenScript.SymbolStack({
+			name : 'stack1',
+			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			stackValue : stackValue()
+		});
+		var  s2 = new JenScript.SymbolStack({
+			name : 'stack2',
+			themeColor : JenScript.RosePalette.NEPTUNE,
+			stackValue : stackValue()
+		});
+		var  s3 = new JenScript.SymbolStack({
+			name : 'stack3',
+			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			stackValue : stackValue()
+		});
+		
+		symbol.addStack(s1);
+		symbol.addStack(s2);
+		symbol.addStack(s3);
+		
+		return symbol;
+	}
+	
+	//layer
+	var barLayer = new JenScript.SymbolBarLayer();
+	symbolPlugin.addLayer(barLayer);
+	
+
 	
 	//lay out
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
@@ -173,9 +214,6 @@ function createSymbolBarView(container, width, height) {
 		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
 	}
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
-	
-}
-
 </code></pre>
 
  </div>
