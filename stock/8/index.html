@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Stock Chart - MACD</title>
+    <title>JavaScript Stock Chart - Time Picker</title>
    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -35,33 +35,24 @@
 <div class="container">
    
 
-<h1>Stock Chart - MACD</h1> 
+<h1>Stock Chart - Time Picker</h1> 
 
-<small>Sébastien Janaud - May 24, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 29, 2015 / <a href="../../">JenScript</a>
 </small>
 
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Moving Average Convergence Divergence</h4>
-    <p>
-	   	MACD, short for moving average convergence/divergence, is a trading indicator used in technical analysis of stock prices, created by Gerald Appel in the late 1970s. It is supposed to reveal changes in the strength, direction, momentum, and duration of a trend in a stock's price.
-
-		The MACD indicator (or "oscillator") is a collection of three time series calculated from historical price data, most often the closing price. These three series are: the MACD series proper, the "signal" or "average" series, and the "divergence" series which is the difference between the two. The MACD series is the difference between a "fast" (short period) exponential moving average (EMA), and a "slow" (longer period) EMA of the price series. The average series is an EMA of the MACD series itself.
-
-	    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layer <code>JenScript.StockMACDLayer</code>
-    </p>
-    <p>
-    	<small><strong>definition :</strong><a href="http://en.wikipedia.org/wiki/MACD"  target="_blank"> wikipedia</a></small>
-    </p>
+    <h4 >Time Picker</h4>
+    
     <p>
     	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
     </p>
      <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
   	</p>
-  		<p>
-    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;Part 6&nbsp;-&nbsp;<a href="../7">Part 7</a>&nbsp;-&nbsp;<a href="../8">Part 8</a></small>
+  	<p>
+    	<small><strong>Part :</strong> <a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;<a href="../6">Part 6</a>&nbsp;-&nbsp;<a href="../7">Part 7</a>&nbsp;-&nbsp;Part 8</small>
     </p>
      <p>
     	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
@@ -69,7 +60,7 @@
   </div>
   
 	<div class="row" style="padding-top: 20px;">
-		<div  id="macd"></div>
+		<div  id="timepicker"></div>
 	</div>
 	
 
@@ -115,8 +106,8 @@
 		init();
 	});
 	function init(){
-		var w = $("#macd").width();
-		createViewStockMACD('macd',w,300);
+		var w = $("#timepicker").width();
+		createViewStockTimePicker('timepicker',w,300);
 	}
 	init();
 </script>
