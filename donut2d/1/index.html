@@ -66,14 +66,15 @@
     	<small><strong>Related  :</strong> <a href="../../pie/1">Pie Chart</a>&nbsp;-&nbsp;<a href="../../donut3d/1">Donut3D Chart</a></small>
     </p>
   </div>
-<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
+  
+<div id="donut2dview"></div>
 
 
 <p>
 First step is to create the view which is the end chart. name attribute refers the root element where view chart is attached. 
 </p>
 <pre><code>
-&lt;div style="padding-top : 40 px;float:left;" id="donut2dview"&gt;&lt;/div&gt;
+&lt;div id="donut2dview"&gt;&lt;/div&gt;
 </code></pre>
 <pre><code class="javascript">var view = new JenScript.View({
 		name : 'donut2dview',
@@ -154,12 +155,10 @@ donut.addSlices([s1,s2,s3,s4,s5]);
 $(window).resize(function() {
 	init();
 });
-
 function init(){
-	var w = $("#view").width();
-	create('view',w,300);
+	var w = $("#donut2dview").width();
+	create('donut2dview',w,300);
 }
 init();
 </script>
-  
 </html>
