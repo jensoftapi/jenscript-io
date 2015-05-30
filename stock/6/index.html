@@ -44,18 +44,20 @@
 
 <div class="bs-callout bs-callout-info" >
     <h4 >Moving Average Convergence Divergence</h4>
+     <p>
+	   	Stock chart are graphical representations of historical stock prices which help to determine current supply and demand forces in a stock market exchange.
+	   	In stock and commodity markets trading, studying chart patterns plays a large role during technical analysis. Analysis of stock chart allows a trader to determine with more accuracy just what the current supply and demand is in a stock.
+	    JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
+	</p>
     <p>
 	   	MACD, short for moving average convergence/divergence, is a trading indicator used in technical analysis of stock prices, created by Gerald Appel in the late 1970s. It is supposed to reveal changes in the strength, direction, momentum, and duration of a trend in a stock's price.
-
 		The MACD indicator (or "oscillator") is a collection of three time series calculated from historical price data, most often the closing price. These three series are: the MACD series proper, the "signal" or "average" series, and the "divergence" series which is the difference between the two. The MACD series is the difference between a "fast" (short period) exponential moving average (EMA), and a "slow" (longer period) EMA of the price series. The average series is an EMA of the MACD series itself.
-
-	    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layer <code>JenScript.StockMACDLayer</code>
     </p>
     <p>
-    	<small><strong>definition :</strong><a href="http://en.wikipedia.org/wiki/MACD"  target="_blank"> wikipedia</a></small>
+    	Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layer <code>JenScript.StockMACDLayer</code>
     </p>
     <p>
-    	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
+    	<small><strong>Resource : </strong><a href="http://en.wikipedia.org/wiki/MACD"  target="_blank"> wikipedia</a>&nbsp;-&nbsp;<a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
     </p>
      <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
@@ -69,7 +71,8 @@
   </div>
   
 	<div class="row" style="padding-top: 20px;">
-		<div  id="macd"></div>
+		<div  id="price" class="col-md-6"></div>
+		<div  id="macd" class="col-md-6"></div>
 	</div>
 	
 
@@ -98,11 +101,254 @@
 			data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manages the loaded data.
 		</p>
 		
-		
-		
-		
 	</div>
 	
+<div class="row">
+<p style="padding-top: 30px;">
+Let's create function
+</p>
+
+<pre><code class="javascript">
+/**
+ * Create stock MACD view
+ * 
+ * @param container
+ * @param width
+ * @param height
+ */
+function createViewStockMACD(container1,container2, width, height) {
+
+	//view
+	var view = new JenScript.View({
+		name : container1,
+		width : width,
+		height : height,
+		east : 10,
+		west : 80,
+		south : 80,
+	});
+	
+	//date range
+	var startDate = new Date(2013, 04, 25);
+	var endDate = new Date(2013, 08, 05);
+	
+	var minor = {
+		tickMarkerSize : 2,
+		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+		tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerStroke : 1.2,
+		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextFontSize : 10,
+		tickTextOffset : 8
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : JenScript.RosePalette.INDIGO,
+		tickMarkerStroke : 3,
+		tickTextColor : JenScript.RosePalette.INDIGO,
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+
+	var proj1 = new JenScript.TimeXProjection({
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 17,
+		maxY : 25
+	});
+	view.registerProjection(proj1);
+	
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	proj1.registerPlugin(outline);
+
+	
+	
+	var southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(southMetrics1);
+	
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(westMetrics);
+
+	var tx1 = new JenScript.TranslatePlugin({});
+	proj1.registerPlugin(tx1);
+	
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'purple'
+	}));
+	
+	tx1.select();
+	
+
+	var stockPlugin = new JenScript.StockPlugin({
+		bearishColor : JenScript.RosePalette.CORALRED,
+		bullishColor : JenScript.RosePalette.EMERALD,
+	});
+	proj1.registerPlugin(stockPlugin);
+
+	stockPlugin.addLayer(new JenScript.CandleStickLayer({
+		lowHighColor : JenScript.RosePalette.COALBLACK
+	}));
+	
+	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'purple'}));
+	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'green'}));
+	
+	
+	var mme12Legend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MME 12',
+		fontSize : 14,
+		textColor : 'purple',
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	proj1.registerPlugin(mme12Legend);
+	var mme26Legend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MME 26',
+		fontSize : 14,
+		textColor : 'green',
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin: 26
+	});
+	
+	
+	proj1.registerPlugin(mme26Legend);
+	
+	//proj 1 manage loading and duplicate on proj2
+	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
+		stockPlugin.setStocks(stocks);
+		stockPlugin2.setStocks(stocks);
+	});
+
+
+	//view
+	var view2 = new JenScript.View({
+		name : container2,
+		width : width,
+		height : height,
+		east : 80,
+		west : 10,
+		south : 80,
+	});
+	//ANOTHER PROJ FOR MANAGE MACD IN DIFFERENT PROJECTION
+	var proj2 = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj2",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : -1.5,
+		maxY : 1.5
+	});
+	view2.registerProjection(proj2);
+	
+	//device outline
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	proj2.registerPlugin(outline2);
+	
+
+	var southMetrics2 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj2.registerPlugin(southMetrics2);
+	
+	var eastMetrics2 = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisEast,
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj2.registerPlugin(eastMetrics2);
+	
+	var stockPlugin2 = new JenScript.StockPlugin();
+	proj2.registerPlugin(stockPlugin2);
+	stockPlugin2.addLayer(new JenScript.StockMACDLayer({
+		moveCountSignal:9,
+		moveCountMin:12,
+		moveCountMax:26,
+		lineColor:JenScript.RosePalette.MANDARIN,
+		lineOpacity:1,
+		lineWidth:1,
+		
+		macdColor:JenScript.RosePalette.CORALRED,
+		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+	}));
+	
+	var legend1 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MACD (12-26-9)',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.MANDARIN,
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin: 5
+	});
+	proj2.registerPlugin(legend1);
+	
+	var legend2 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Signal MME 9',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		xAlign : 'right',
+		yAlign : 'bottom',
+		yMargin: 5
+	});
+	proj2.registerPlugin(legend2);
+	var legend3 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MACD (12/26)',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CORALRED,
+		xAlign : 'right',
+		yAlign : 'bottom',
+		yMargin: 25
+	});
+	proj2.registerPlugin(legend3);
+	
+	var tx2 = new JenScript.TranslatePlugin({
+		mode:'tx'
+	});
+	tx2.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'purple'
+	}));
+	
+	proj2.registerPlugin(tx2);
+	var synchronizer = new JenScript.TranslateSynchronizer({
+		translates : [ tx1, tx2 ]
+	});
+	tx1.select();
+}
+
+</code></pre>
+</div>
 
  </div>
 </body>
@@ -116,7 +362,7 @@
 	});
 	function init(){
 		var w = $("#macd").width();
-		createViewStockMACD('macd',w,300);
+		createViewStockMACD('price','macd',w - 50,300);
 	}
 	init();
 </script>

@@ -5,29 +5,12 @@
  * @param width
  * @param height
  */
-function createViewStockMACD(container, width, height) {
-
-	width = width - 80;
-	var rootContainer = document.getElementById(container);
-	while (rootContainer.firstChild) {
-		rootContainer.removeChild(rootContainer.firstChild);
-	}
-	
-	var nodeView1 = document.createElement("div");
-	nodeView1.setAttribute('id',container+'vview1');
-	nodeView1.setAttribute('style','float : left;');
-	var nodeView2 = document.createElement("div");
-	nodeView2.setAttribute('id',container+'vview2');
-	nodeView2.setAttribute('style','float : left;');
-	
-	
-	rootContainer.appendChild(nodeView1);
-	rootContainer.appendChild(nodeView2);
+function createViewStockMACD(container1,container2, width, height) {
 
 	//view
 	var view = new JenScript.View({
-		name : container + 'vview1',
-		width : width/2,
+		name : container1,
+		width : width,
 		height : height,
 		east : 10,
 		west : 80,
@@ -102,9 +85,6 @@ function createViewStockMACD(container, width, height) {
 	
 	tx1.select();
 	
-	
-
-	
 
 	var stockPlugin = new JenScript.StockPlugin({
 		bearishColor : JenScript.RosePalette.CORALRED,
@@ -151,11 +131,10 @@ function createViewStockMACD(container, width, height) {
 	});
 
 
-	
 	//view
 	var view2 = new JenScript.View({
-		name : container + 'vview2',
-		width : width/2,
+		name : container2,
+		width : width,
 		height : height,
 		east : 80,
 		west : 10,
@@ -206,9 +185,6 @@ function createViewStockMACD(container, width, height) {
 		
 		macdColor:JenScript.RosePalette.CORALRED,
 		signalColor:JenScript.RosePalette.CALYPSOBLUE,
-		
-		
-		
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({

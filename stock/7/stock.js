@@ -1,7 +1,4 @@
 
-
-
-
 var indigo = JenScript.RosePalette.INDIGO;
 var choco = JenScript.RosePalette.CHOCOLATE;
 var emerald = JenScript.RosePalette.EMERALD;

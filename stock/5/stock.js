@@ -72,9 +72,7 @@ function createViewStockMovingAverage(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	var tx1 = new JenScript.TranslatePlugin({
-		lockB2T : false //bottom to top translate not authorized , should be changed to same strategy of wheel like TranslateXY, TranslateX, TranslateY
-	});
+	var tx1 = new JenScript.TranslatePlugin();
 	proj1.registerPlugin(tx1);
 	tx1.select();
 
@@ -196,9 +194,7 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	var tx1 = new JenScript.TranslatePlugin({
-		lockB2T : false //bottom to top translate not authorized , should be changed to same strategy of wheel like TranslateXY, TranslateX, TranslateY
-	});
+	var tx1 = new JenScript.TranslatePlugin();
 	proj1.registerPlugin(tx1);
 	tx1.select();
 
@@ -319,9 +315,7 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	var tx1 = new JenScript.TranslatePlugin({
-		lockB2T : false //bottom to top translate not authorized , should be changed to same strategy of wheel like TranslateXY, TranslateX, TranslateY
-	});
+	var tx1 = new JenScript.TranslatePlugin();
 	proj1.registerPlugin(tx1);
 	tx1.select();
 
@@ -331,7 +325,7 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 
 	stockPlugin.addLayer(new JenScript.StockFixingLayer({
 		curveColor:'black',
-		curveWidth : 2
+		curveWidth : 1
 	}));
 	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({
 		curveColor:'purple',

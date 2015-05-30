@@ -43,16 +43,25 @@
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Stock</h4>
+    <h4 >Stock Moving Average</h4>
     <p>
 	   	Stock chart are graphical representations of historical stock prices which help to determine current supply and demand forces in a stock market exchange.
 	   	In stock and commodity markets trading, studying chart patterns plays a large role during technical analysis. Analysis of stock chart allows a trader to determine with more accuracy just what the current supply and demand is in a stock.
 	    JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
+	</p>
+	<p>
+		In statistics, a moving average (rolling average or running average) is a calculation to analyze data points by creating a series of averages of different subsets of the full data set.
+		A moving average is commonly used with time series data to smooth out short-term fluctuations and highlight longer-term trends or cycles.
+		The threshold between short-term and long-term depends on the application, and the parameters of the moving average will be set accordingly.
+		For example, it is often used in technical analysis of financial data, like stock prices, returns or trading volumes. 
+		It is also used in economics to examine gross domestic product, employment or other macroeconomic time series.
+	</p>    
+	<p>
 	    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts like <code>StockMovingAverageLayer</code> or <code>StockWeightedMovingAverageLayer</code> or <code>StockExponentialMovingAverageLayer</code> as moving average curves of these stocks on period.
     </p>
     
     <p>
-    	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
+    	<small><strong>Resource : </strong><a href="http://en.wikipedia.org/wiki/Moving_average"  target="_blank">wikipedia</a>&nbsp;-&nbsp;<a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
     </p>
      <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
@@ -64,18 +73,33 @@
     	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
     </p>
   </div>
-  
-	<div style="padding-top: 20px;">
-		<div  id="sma"></div>
-	</div>
-	
-	<div style="padding-top: 20px;">
-		<div  id="wma"></div>
-	</div>
-	
-	<div style="padding-top: 20px;">
-		<div  id="ema"></div>
-	</div>
+
+<h4>Case of Simple Moving Average</h4>
+<p>
+In financial applications a simple moving average  <strong>(SMA)</strong> is the unweighted average of the previous n data. However, in science and engineering the mean is normally taken from an equal number of data on either side of a central value. This ensures that variations in the mean are aligned with the variations in the data rather than being shifted in time. An example of a simple equally weighted running mean for a n-day sample of closing price is the mean of the previous n days' closing prices
+</p>
+<div style="padding-top: 20px;">
+	<div  id="sma"></div>
+</div>
+
+<h4>Case of Weighted Moving Average</h4>
+<p>
+A weighted average is any average that has multiplying factors to give different weights to data at different positions in the sample window. Mathematically, the moving average is the convolution of the datum points with a fixed weighting function.
+In technical analysis of financial data, a weighted moving average <strong>(WMA)</strong> has the specific meaning of weights that decrease in arithmetical progression. In an n-day WMA the latest day has weight n, the second latest n − 1, etc., down to one.
+</p>
+<div style="padding-top: 20px;">
+	<div  id="wma"></div>
+</div>
+
+<h4>Case of Exponential Moving Average</h4>
+<p>
+A type of moving average that is similar to a simple moving average, except that more weight is given to the latest data. The exponential moving average <strong>(EMA)</strong> is also known as "exponentially weighted moving average".
+This type of moving average reacts faster to recent price changes than a simple moving average. The 12- and 26-day EMAs are the most popular short-term averages, and they are used to create indicators like the moving average convergence divergence (MACD) and the percentage price oscillator (PPO). In general, the 50- and 200-day EMAs are used as signals of long-term trends.
+
+</p>
+<div style="padding-top: 20px;">
+	<div  id="ema"></div>
+</div>
 	
 	
 	<div>
@@ -102,17 +126,7 @@
 		data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manages the loaded data.
 		</p>
 		
-		<p>
-			In statistics, a moving average (rolling average or running average) is a calculation to analyze data points by creating a series of averages of different subsets of the full data set.
-			A moving average is commonly used with time series data to smooth out short-term fluctuations and highlight longer-term trends or cycles.
-			The threshold between short-term and long-term depends on the application, and the parameters of the moving average will be set accordingly.
-			For example, it is often used in technical analysis of financial data, like stock prices, returns or trading volumes. 
-			It is also used in economics to examine gross domestic product, employment or other macroeconomic time series.
-		</p>
-		
-		<p>
-		In financial applications a simple moving average (SMA) is the unweighted mean of the previous n data. However, in science and engineering the mean is normally taken from an equal number of data on either side of a central value. This ensures that variations in the mean are aligned with the variations in the data rather than being shifted in time. An example of a simple equally weighted running mean for a n-day sample of closing price is the mean of the previous n days' closing prices
-		</p>
+
 	</div>
 	
 	
@@ -221,9 +235,7 @@ function createViewStockMovingAverage(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	var tx1 = new JenScript.TranslatePlugin({
-		lockB2T : false //bottom to top translate not authorized , should be changed to same strategy of wheel like TranslateXY, TranslateX, TranslateY
-	});
+	var tx1 = new JenScript.TranslatePlugin();
 	proj1.registerPlugin(tx1);
 	tx1.select();
 
