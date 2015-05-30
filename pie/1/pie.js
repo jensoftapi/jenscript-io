@@ -37,7 +37,7 @@ function create(container, width, height) {
 	var s1 = new JenScript.PieSlice({
 		name : "s1",
 		value : 45,
-		themeColor : 'rgba(240, 240, 240, 0.9)'
+		themeColor : 'rgba(240, 240, 240, 0.9)',
 	});
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
@@ -52,7 +52,8 @@ function create(container, width, height) {
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE
+		themeColor : JenScript.RosePalette.AEGEANBLUE,
+		divergence : 20
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
@@ -95,7 +96,7 @@ function create(container, width, height) {
 	s3.setSliceLabel(s3Label);
 
 	var s4Label = new JenScript.PieRadialLabel({
-		text : "Gold",
+		text : "Chrome",
 		fillColor:'black',
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
