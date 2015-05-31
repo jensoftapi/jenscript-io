@@ -40,10 +40,59 @@
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Require JS</h4>
+   <h4 >Require JS</h4>
+    <p>
+    Asynchronous module definition (AMD) is a JavaScript specification that defines an API for defining code modules and their dependencies, and loading them asynchronously if desired. Implementations of AMD provide the following benefits:
+ 	</p>
+	<ul>
+		<li>Website performance improvements. AMD implementations load smaller JavaScript files, and only load them when they're needed.</li>
+		<li>Fewer page errors. AMD implementations allow developers to define dependencies that must load before a module is executed, so the module doesn't try to use outside code that isn't yet available.</li>
+	</ul>
+ 	<p>
+		In addition to loading multiple JavaScript files at runtime, AMD implementations allow developers to encapsulate code in smaller, more logically-organized files in a way similar to other programming languages such as Java. For production and deployment, developers can concatenate and minify JavaScript modules based on an AMD API into one file, the same as traditional JavaScript.
+    </p>
+    <p>
+    	<small><strong>Resource : </strong><a href="http://requirejs.org/" target="_blank">Require JS</a>&nbsp;-&nbsp;<a href="http://en.wikipedia.org/wiki/Asynchronous_module_definition" target="_blank">wikipedia</a>&nbsp;-&nbsp;<a href="view-require.js" download>chart source code</a></small>
+    </p>
+     <p>
+    	<small><strong>Part :</strong> <a href="../1"> Part 1</a>&nbsp;-&nbsp;Part 2</small>
+    </p>
 </div>
   
   	<div  id="viewrequire"></div>
+  	
+  	<p>
+First step is to create the view which is the end chart. name attribute refers the root element where view chart is attached. 
+</p>
+<pre><code>
+&lt;div id="viewrequire"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>
+Does not import JenScript as head script, use require as below to get jenscript and view demo file. Use underscore symbol as jenscript name.
+</p>
+<pre><code class="javascript">
+require.config({
+	  paths: {
+	    jen: "/jenscript-min",
+	    demo: "/require/2/view-require"
+	  }
+});
+	
+requirejs(["jen","demo"], function(_) {
+	
+	$(window).resize(function() {
+		init();
+	});
+	
+	function init(){
+		var w = $("#viewrequire").width();
+		createView(_,'viewrequire',w,400);
+	}
+	init();
+});
+</code></pre>
+  	
 
  </div>
 
