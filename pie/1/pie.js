@@ -1,3 +1,4 @@
+
 function create(container, width, height) {
 
 	var view = new JenScript.View({
@@ -23,9 +24,11 @@ function create(container, width, height) {
 	var piePlugin = new JenScript.PiePlugin();
 	proj.registerPlugin(piePlugin);
 
-	var pie = new JenScript.Pie();
+	var pie = new JenScript.Pie({radius : 120, startAngleDegree : 30});
 	piePlugin.addPie(pie);
 
+	pie.paint = false; //paint one time plugin by calling repainPlugin at end of block code section
+	
 	var fill = new JenScript.PieDefaultFill();
 	pie.setFill(fill);
 
@@ -115,9 +118,6 @@ function create(container, width, height) {
 	});
 	s5.setSliceLabel(s5Label);
 
-
-	pie.setRadius(120);
-	pie.setStartAngleDegree(30);
-	
+	piePlugin.repaintPlugin();
 	
 }
