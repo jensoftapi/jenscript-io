@@ -60,7 +60,7 @@
 
 createView = function(container,w,h){
 
-		JenScript.view({
+		var finalVarIGetByLastMethodChainDude = JenScript.view({
 			name : container,
 			width : w,
 			height : h,
@@ -133,8 +133,9 @@ createView = function(container,w,h){
 			cornerRadius : 8,
 			outlineWidth : 2,
 			textColor :JenScript.Color.lighten(JenScript.RosePalette.INDIGO,50)
-		}).effect('linear',{offset : 0,incidence : 300}).effect('reflection');
-
+		}).linearFx({offset : 2, fillOpacity : 0.6,incidence : 1200}).reflectFx({}).linearFx({offset :6,fillOpacity : 0.4,incidence : 300}).view();
+		
+		console.log("last var i get is view: "+finalVarIGetByLastMethodChainDude);
 }
 </code></pre>
 
@@ -148,7 +149,7 @@ createView = function(container,w,h){
 	});
 	function init(){
 		var w = $("#chartbuilder").width();
-		createView('chartbuilder',w,300);
+		createView('chartbuilder',w,400);
 	}
 	init();
 </script>
