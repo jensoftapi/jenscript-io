@@ -107,4 +107,29 @@ function create(name,w,h) {
 
 	tx1.select();
 	
+	
+	// 2 times 360 in 2 seconds with 20 repaint frames
+	setTimeout(function() {
+		donut.shift(2 * 360, 2000, 20);
+	}, 1000);
+	setTimeout(function() {
+		donut.shift(-140, 500, 8);
+	}, 4000);
+	
+	
+//	var _ = function(i){
+//		setTimeout(function(){
+//			s1.divergence = 200-i*40;
+//			s2.divergence = 200-i*40;
+//			s3.divergence = 200-i*40;
+//			s4.divergence = 200-i*40;
+//			donut3DPlugin.repaintPlugin();
+//		},100);
+//	}
+//	
+//	for (var i = 0; i <= 5; i++) {
+//		_(i);
+//	}
+	
+
 }
