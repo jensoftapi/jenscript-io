@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Donut3D Charts Builder - JenScript JS</title>
+    <title>JavaScript Donut2D Charts Builder - JenScript JS</title>
    
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -32,7 +32,7 @@
 
 <div class="container">
 
-<h1>JavaScript Donut3D Chart <span style="color : rgb(22, 125, 218);"> Pattern Builder</span> </h1> 
+<h1>JavaScript Donut2D Chart <span style="color : rgb(22, 125, 218);">Pattern Builder</span> </h1> 
 
 <small>Sébastien Janaud - June 2, 2015 / <a href="../../">JenScript</a>
 </small>
@@ -42,28 +42,28 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Pie Charts Builder</h4>
    	<p>
-		JenScript provides a donut3d builder for &#171;afionados&#187; of pattern builder with wrapper function.
+		JenScript provides a donut2d builder for &#171;afionados&#187; of pattern builder with wrapper function.
 	</p>
 	<p>
-    	<small><strong>Resource : </strong><a href="donut3d-builder.js" download>chart source code</a></small>
+    	<small><strong>Resource : </strong><a href="donut2d-builder.js" download>chart source code</a></small>
     </p>
     <p>
-     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/blob/master/src/plugins/donut3d/donut3d-builder.js" target="_blank">javascript Donut3D builder source.</a></small>
+     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/blob/master/src/plugins/donut2d/donut2d-builder.js" target="_blank">javascript donut2d builder source.</a></small>
   	</p>
   	 <p>
-    	<small><strong>Parts : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp; Part 2&nbsp;-&nbsp;<a href="../3">Part 3</a></small>
+    	<small><strong>Parts : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp; Part 2</small>
     </p>
   </div>
   
  
-<div  id="donut3dbuilder"></div>
+<div  id="donut2dbuilder"></div>
 
 
 <pre><code class="javascript">
 
 createView = function(container,w,h){
 
-		var finalVarIGetByLastMethodChainDude = JenScript.view({
+		JenScript.view({
 			name : container,
 			width : w,
 			height : h,
@@ -76,9 +76,9 @@ createView = function(container,w,h){
 			maxX : 1000,
 			minY : -1000,
 			maxY : 1000
-		}).donut3d({
-			innerRadius : 120,
-			startAngleDegree : 45
+		}).donut2d({
+			innerRadius :  80,
+			outerRadius :  120
 		}).slice({
 			name : "s1",
 			value : 45,
@@ -136,23 +136,21 @@ createView = function(container,w,h){
 			cornerRadius : 8,
 			outlineWidth : 2,
 			textColor :JenScript.Color.lighten(JenScript.RosePalette.INDIGO,50)
-		}).linearFx({offset : 2, fillOpacity : 0.6,incidence : 1200}).reflectFx({}).linearFx({offset :6,fillOpacity : 0.4,incidence : 300}).view();
-		
-		console.log("last var i get is view: "+finalVarIGetByLastMethodChainDude);
+		}).linearFx({offset : 2, fillOpacity : 0.6,incidence : 1200}).reflectFx({}).linearFx({offset :6,fillOpacity : 0.4,incidence : 300});
 }
 </code></pre>
 
 </div>
 </body>
   
-<script src="donut3d-builder.js"></script> 
+<script src="donut2d-builder.js"></script> 
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w = $("#donut3dbuilder").width();
-		createView('donut3dbuilder',w,400);
+		var w = $("#donut2dbuilder").width();
+		createView('donut2dbuilder',w,400);
 	}
 	init();
 </script>

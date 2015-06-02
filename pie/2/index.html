@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Donut3D Charts Builder - JenScript JS</title>
+    <title>JavaScript Pie Charts Builder - JenScript JS</title>
    
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -32,7 +32,7 @@
 
 <div class="container">
 
-<h1>JavaScript Donut3D Chart <span style="color : rgb(22, 125, 218);"> Pattern Builder</span> </h1> 
+<h1>JavaScript Pie Chart with<span style="color : rgb(22, 125, 218);">Pattern Builder</span> </h1> 
 
 <small>Sébastien Janaud - June 2, 2015 / <a href="../../">JenScript</a>
 </small>
@@ -42,21 +42,18 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Pie Charts Builder</h4>
    	<p>
-		JenScript provides a donut3d builder for &#171;afionados&#187; of pattern builder with wrapper function.
+		JenScript provides a pie builder for &#171;afionados&#187; of pattern builder with wrapper function.
 	</p>
 	<p>
-    	<small><strong>Resource : </strong><a href="donut3d-builder.js" download>chart source code</a></small>
+    	<small><strong>Resource : </strong><a href="pie-builder.js" download>chart source code</a></small>
     </p>
     <p>
-     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/blob/master/src/plugins/donut3d/donut3d-builder.js" target="_blank">javascript Donut3D builder source.</a></small>
+     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/blob/master/src/plugins/pie/pie-builder.js" target="_blank">javascript pie builder source.</a></small>
   	</p>
-  	 <p>
-    	<small><strong>Parts : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp; Part 2&nbsp;-&nbsp;<a href="../3">Part 3</a></small>
-    </p>
   </div>
   
  
-<div  id="donut3dbuilder"></div>
+<div  id="piebuilder"></div>
 
 
 <pre><code class="javascript">
@@ -76,8 +73,8 @@ createView = function(container,w,h){
 			maxX : 1000,
 			minY : -1000,
 			maxY : 1000
-		}).donut3d({
-			innerRadius : 120,
+		}).pie({
+			radius : 120,
 			startAngleDegree : 45
 		}).slice({
 			name : "s1",
@@ -145,14 +142,14 @@ createView = function(container,w,h){
 </div>
 </body>
   
-<script src="donut3d-builder.js"></script> 
+<script src="pie-builder.js"></script> 
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w = $("#donut3dbuilder").width();
-		createView('donut3dbuilder',w,400);
+		var w = $("#piebuilder").width();
+		createView('piebuilder',w,400);
 	}
 	init();
 </script>
