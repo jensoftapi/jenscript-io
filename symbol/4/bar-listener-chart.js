@@ -138,10 +138,10 @@ function createSymbolView(container, width, height) {
 	});
 	labelPlugin.addLabel(label);
 
-	var updateText = function(action, point) {
+	var updateText = function(action, event) {
 		label.setText(action);
-		label.setX(point.device.x);
-		label.setY(point.device.y);
+		label.setX(event.device.x);
+		label.setY(event.device.y);
 		labelPlugin.repaintPlugin();
 	};
 	
