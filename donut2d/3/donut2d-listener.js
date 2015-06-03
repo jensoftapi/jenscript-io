@@ -1,12 +1,12 @@
 
 /**
- * Create pie with listener
+ * Create donut2d with listener
  * 
  * @param container
  * @param width
  * @param height
  */
-function createPieWithListener(container, width, height) {
+function createView(container, width, height) {
 
 	var view = new JenScript.View({
 		name : container,
@@ -27,44 +27,47 @@ function createPieWithListener(container, width, height) {
 	view.registerProjection(proj);
 
 
-	var piePlugin = new JenScript.PiePlugin();
-	proj.registerPlugin(piePlugin);
+	var donutPlugin = new JenScript.Donut2DPlugin();
+	proj.registerPlugin(donutPlugin);
 
-	var pie = new JenScript.Pie({radius : 120,startAngleDegree : 45});
-	pie.name = 'JenScript Pie';
-	piePlugin.addPie(pie);
+	var donut = new JenScript.Donut2D({innerRadius : 80, outerRadius : 120, startAngleDegree : 45});
+	donutPlugin.addDonut(donut);
+	
+	donut.setFill(new JenScript.Donut2DRadialFill());
+	donut.addEffect(new JenScript.Donut2DLinearEffect());
+	donut.addEffect(new JenScript.Donut2DReflectionEffect());
 
-	var s1 = new JenScript.PieSlice({
+	var s1 = new JenScript.Donut2DSlice({
 		name : "s1",
 		value : 45,
 		themeColor : 'rgba(240, 240, 240, 0.9)'
 	});
-	var s2 = new JenScript.PieSlice({
+	var s2 = new JenScript.Donut2DSlice({
 		name : "s2",
 		value : 5,
 		themeColor : 'rgba(37,38,41,1)'
 	});
-	var s3 = new JenScript.PieSlice({
+	var s3 = new JenScript.Donut2DSlice({
 		name : "s3",
 		value : 30,
 		themeColor : 'rgba(78,148,44,1)'
 	});
-	var s4 = new JenScript.PieSlice({
+	var s4 = new JenScript.Donut2DSlice({
 		name : "s4",
 		value : 5,
 		themeColor : 'rgba(22,125,218, 1)'
 	});
-	var s5 = new JenScript.PieSlice({
+	var s5 = new JenScript.Donut2DSlice({
 		name : "s5",
 		value : 5,
 		themeColor : 'rgba(61,44,105,1)'
 	});
 
-	pie.addSlice(s1);
-	pie.addSlice(s2);
-	pie.addSlice(s3);
-	pie.addSlice(s4);
-	pie.addSlice(s5);
+	donut.addSlice(s1);
+	donut.addSlice(s2);
+	donut.addSlice(s3);
+	donut.addSlice(s4);
+	donut.addSlice(s5);
 	
 	
 	//label for listener
@@ -95,35 +98,28 @@ function createPieWithListener(container, width, height) {
 	
 
 	/**
-	 * add pie listener such as press, release, move, enter, exit
+	 * add Donut listener such as press, release, move, enter, exit
 	 */
-	piePlugin.addPieListener('enter', function(event) {
+	donutPlugin.addDonutListener('enter', function(event) {
 		updateText('enter',event);
 		lock = true;
 		setTimeout(function(){lock=false;},200);
 	});
-	piePlugin.addPieListener('exit', function(event) {
+	donutPlugin.addDonutListener('exit', function(event) {
 		updateText('exit',event);
 		setTimeout(function(){updateText(undefined,event);},200);
 	});
-	piePlugin.addPieListener('press', function(event) {
+	donutPlugin.addDonutListener('press', function(event) {
 		updateText('press',event);
 	});
-	piePlugin.addPieListener('release', function(event) {
+	donutPlugin.addDonutListener('release', function(event) {
 		updateText('release',event);
 	});
-	piePlugin.addPieListener('move', function(event) {
+	donutPlugin.addDonutListener('move', function(event) {
 		if(!lock)
 			updateText('move',event);
 	});
 
-	var fill = new JenScript.PieDefaultFill();
-	pie.setFill(fill);
-
-	var fx0 = new JenScript.PieLinearEffect();
-	pie.addEffect(fx0);
-	var fxl = new JenScript.PieReflectionEffect();
-	pie.addEffect(fxl);
-
+	
 
 }
