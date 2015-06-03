@@ -4,7 +4,7 @@ function create(container, width, height) {
 	var view = new JenScript.View({
 		name : container,
 		width : width,
-		height : 400,
+		height : height,
 		holders : 0,
 		north: 20,
 		south :20,

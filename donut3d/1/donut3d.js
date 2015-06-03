@@ -34,6 +34,9 @@ function create(name,w,h) {
 
 	var donut = new JenScript.Donut3D({innerRadius:100,outerRadius:150,thickness : 60, startAngle : 300, tilt:40});
 	donut3DPlugin.addDonut(donut);
+	
+	var donutFx = new JenScript.Donut3DReflectionEffect();
+	donut.addEffect(donutFx);
 
 	donut.tilt = 60;
 	

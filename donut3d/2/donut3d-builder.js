@@ -1,7 +1,7 @@
 
 createView = function(container,w,h){
 
-		var finalVarIGetByLastMethodChainDude = JenScript.view({
+		JenScript.view({
 			name : container,
 			width : w,
 			height : h,
@@ -77,10 +77,7 @@ createView = function(container,w,h){
 			cornerRadius : 8,
 			outlineWidth : 2,
 			textColor :JenScript.Color.lighten(JenScript.RosePalette.INDIGO,50)
-		}).linearFx({offset : 2, fillOpacity : 0.6,incidence : 1200}).reflectFx({}).linearFx({offset :6,fillOpacity : 0.4,incidence : 300}).view();
-		
-		console.log("last var i get is view: "+finalVarIGetByLastMethodChainDude);
-		
+		});
 		
 
 }
