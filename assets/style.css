@@ -17,17 +17,20 @@ a {
 
 .footer {
   position: absolute;
-  padding-top: 100px;
+  padding-top: 40px;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 100px;
   background-color: white;
 }
 
+.footer-title {
+ 	color : #FF8000;
+}
 
 body {
-	 	margin-bottom: 60px;
+	 	padding-bottom: 120px;
   		padding-top: 40px;
 	}
 	
