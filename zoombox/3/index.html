@@ -42,13 +42,29 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Zoom BoxX Tool</h4>
    
+   <p>
    	Zoom Box Plugin allows to zoom Y dimension only.
+   </p>
    
+   <p>
+    	<small><strong>Resource :</strong><a href="zoombox.js" download> sample source code</a></small>
+    </p>
 	<p>
     	<small><strong>Part : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;Part 3&nbsp;-&nbsp;<a href="../4">Part 4</a></small>
     </p>
   </div>
 <div  id="view"></div>
+
+<p style="padding-top: 40px;">Zoom Box mode Y</p>
+<pre><code class="javascript">
+var zoombox = new JenScript.ZoomBoxPlugin({
+	mode : 'by',
+	zoomBoxDrawColor : 'cyan',
+	zoomBoxFillColor : 'pink'
+});
+proj.registerPlugin(zoombox);
+zoombox.select();
+</code></pre>
 
  </div>
 

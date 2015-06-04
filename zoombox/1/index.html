@@ -42,17 +42,37 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Zoom Box Tool</h4>
    
+   <p>
    Zoom Box Plugin allows to zoom a part of projection.
-   
+   </p>
    <ul>
    	<li>zoom xy, x or y dimensions</li>
    	<li>synchronization</li>
    </ul>
+   
+   <p>
+    	<small><strong>Resource :</strong><a href="zoombox.js" download> sample source code</a></small>
+    </p>
 	<p>
     	<small><strong>Part : </strong>Part 1&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a></small>
     </p>
   </div>
 <div  id="view"></div>
+
+<p style="padding-top: 40px;">Zoom Box</p>
+<pre><code class="javascript">
+
+//create zoom box and register instance in projection.
+var zoombox = new JenScript.ZoomBoxPlugin({
+	speed : 'fast', //slow, default, fast
+	zoomBoxDrawColor : 'cyan',
+	zoomBoxFillColor : 'pink'
+});
+proj.registerPlugin(zoombox);
+
+//zoom box requires a lock 
+zoombox.select();
+</code></pre>
 
  </div>
 
