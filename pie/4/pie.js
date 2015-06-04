@@ -28,52 +28,59 @@ function create(container, width, height) {
 		radius : 120, 
 		startAngleDegree : 30,
 		opacity: 1,
+		Id :'myPie'
 	});
 	piePlugin.addPie(pie);
 
 	pie.paint = false; //paint one time plugin by calling repainPlugin at end of block code section
 	
-	var fill = new JenScript.PieDefaultFill();
+	var fill = new JenScript.PieDefaultFill({Id : 'MyFill'});
 	pie.setFill(fill);
 
-	var fx0 = new JenScript.PieLinearEffect();
+	var fx0 = new JenScript.PieLinearEffect({Id : 'MyLinearFX'});
 	pie.addEffect(fx0);
-	var fxl = new JenScript.PieReflectionEffect();
+	var fxl = new JenScript.PieReflectionEffect({Id : 'MyReflectFX'});
 	pie.addEffect(fxl);
 	
 	var s1 = new JenScript.PieSlice({
 		name : "s1",
 		value : 45,
 		themeColor : 'rgba(240, 240, 240, 0.9)',
+		Id :'mySlice1'
 	});
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED,
+		themeColor : JenScript.RosePalette.MANDARIN,
+		Id :'mySlice2'
 	});
 	var s3 = new JenScript.PieSlice({
 		name : "s3",
 		value : 30,
 		opacity : 1,
 		themeColor : 'rgba(78,148,44,1)',
+		Id : 'mySlice3'
 	});
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
 		themeColor : JenScript.RosePalette.AEGEANBLUE,
 		divergence : 20,
+		Id :'mySlice4'
 		
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
 		value : 5,
 		themeColor : JenScript.RosePalette.INDIGO,
+		Id :'mySlice5'
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);
 	
 
 	var s1Label = new JenScript.PieRadialLabel({
+		Id :'myLabel1',
 		text : "Silver",
 		fillColor:'black',
 		outlineColor : s1.getThemeColor(),
@@ -84,6 +91,7 @@ function create(container, width, height) {
 	s1.setSliceLabel(s1Label);
 
 	var s2Label = new JenScript.PieRadialLabel({
+		Id :'myLabel2',
 		text : "Platinium",
 		fillColor:'black',
 		outlineColor : JenScript.Color.lighten(s2.getThemeColor(),20),
@@ -94,6 +102,7 @@ function create(container, width, height) {
 	s2.setSliceLabel(s2Label);
 
 	var s3Label = new JenScript.PieRadialLabel({
+		Id :'myLabel3',
 		text : "Rhodium",
 		fillColor:'black',
 		outlineColor : s3.getThemeColor(),
@@ -105,6 +114,7 @@ function create(container, width, height) {
 	s3.setSliceLabel(s3Label);
 
 	var s4Label = new JenScript.PieRadialLabel({
+		Id :'myLabel4',
 		text : "Chrome",
 		fillColor:'black',
 		outlineColor : s4.getThemeColor(),
@@ -115,6 +125,7 @@ function create(container, width, height) {
 	s4.setSliceLabel(s4Label);
 
 	var s5Label = new JenScript.PieRadialLabel({
+		Id :'myLabel5',
 		text : "Uranium",
 		fillColor:'black',
 		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
@@ -124,6 +135,9 @@ function create(container, width, height) {
 	});
 	s5.setSliceLabel(s5Label);
 
+	piePlugin.repaintPlugin();
+	piePlugin.repaintPlugin();
+	piePlugin.repaintPlugin();
 	piePlugin.repaintPlugin();
 	
 }
