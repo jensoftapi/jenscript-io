@@ -142,8 +142,22 @@ function createView(container, width, height) {
 	var translate = new JenScript.TranslatePlugin({mode : 'y'});
 	proj.registerPlugin(translate);
 	
-	
-	var ty = new JenScript.TranslateY();
+	var percents = ['0%','50%','100%'];
+	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+	var opacity  = [0.8,0.8,0.8];
+	var ty = new JenScript.TranslateY({
+		width : 16,
+		height :  60,
+		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeWidth : 2,
+		shader : {percents : percents, colors : colors,opacity:opacity},
+		//outlineFillColor : 'white',
+		
+		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		//buttonDrawColor : 'orange',
+		buttonStrokeWidth : 1,
+		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+	});
 	translate.registerWidget(ty);
 
 	translate.select();
