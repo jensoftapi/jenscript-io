@@ -132,7 +132,8 @@ function createView(container, width, height) {
 	
 	var curve = new JenScript.Curve({
 			name :'my spline curve function',
-			themeColor : 'pink',
+			themeColor : JenScript.Color.lighten(choco,40),
+			strokeWidth : 1.2,
 			source : splineSource
 			});
 	
@@ -141,6 +142,10 @@ function createView(container, width, height) {
 
 	var tx1 = new JenScript.TranslatePlugin();
 	proj.registerPlugin(tx1);
+	
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : JenScript.RosePalette.EMERALD,
+	}));
 
 	tx1.select();
 

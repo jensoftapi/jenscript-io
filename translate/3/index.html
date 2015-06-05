@@ -42,7 +42,14 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Translate Ty</h4>
    
+  	<p>
+  		Ty widget is a control bar with two buttons that perform shift to north or south direction.
   	
+  	</p>
+  	
+  	 <p>
+    	<small><strong>Resource : </strong><a href="translate.js" download>chart source code</a></small>
+    </p>
   	<p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/translate" target="_blank">javascript translate plugin sources</a></small>
   	<p>
@@ -51,6 +58,34 @@
     </p>
   </div>
 <div  id="view"></div>
+
+
+<p style="padding-top: 40px;">Translate Ty Widget</p>
+<pre><code class="javascript">
+
+var choco = JenScript.RosePalette.CHOCOLATE;
+var translate = new JenScript.TranslatePlugin({mode : 'y'});
+proj.registerPlugin(translate);
+
+var percents = ['0%','50%','100%'];
+var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+var opacity  = [0.8,0.8,0.8];
+var ty = new JenScript.TranslateY({
+	width : 16,
+	height :  60,
+	outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+	outlineStrokeWidth : 2,
+	shader : {percents : percents, colors : colors,opacity:opacity},
+	//outlineFillColor : 'white',
+	buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+	buttonStrokeWidth : 1,
+	buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+});
+translate.registerWidget(ty);
+
+translate.select();
+</code></pre>
+
 
  </div>
 

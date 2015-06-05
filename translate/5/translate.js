@@ -6,29 +6,13 @@
  * @param width
  * @param height
  */
-function createView(container, width, height) {
+function createView(container1,container2, width, height) {
 
-	var rootContainer = document.getElementById(container);
-	while (rootContainer.firstChild) {
-		rootContainer.removeChild(rootContainer.firstChild);
-	}
-	
-	var nodeView1 = document.createElement("div");
-	nodeView1.setAttribute('id',container+'vview1');
-	nodeView1.setAttribute('style','float : left; padding-right : 5px;');
-	var nodeView2 = document.createElement("div");
-	nodeView2.setAttribute('id',container+'vview2');
-	nodeView2.setAttribute('style','float : left;');
-	
-	
-	rootContainer.appendChild(nodeView1);
-	rootContainer.appendChild(nodeView2);
-	
 	
 
 	//view 1
 	var view = new JenScript.View({
-		name : container+'vview1',
+		name : container1,
 		width : width,
 		height : height,
 		holders : 40,
@@ -56,12 +40,14 @@ function createView(container, width, height) {
 	proj.registerPlugin(westMetrics);
 
 	var tx1 = new JenScript.TranslatePlugin();
-	tx1.registerWidget(new JenScript.TranslateCompassWidget());
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : JenScript.RosePalette.CHOCOLATE,
+	}));
 	proj.registerPlugin(tx1);
 
 	//view 2
 	var view = new JenScript.View({
-		name : container+'vview2',
+		name : container2,
 		width : width,
 		height : height,
 		holders : 40,

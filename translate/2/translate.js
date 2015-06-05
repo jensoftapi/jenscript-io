@@ -153,9 +153,7 @@ function createView(container, width, height) {
 		outlineStrokeWidth : 2,
 		shader : {percents : percents, colors : colors,opacity:opacity},
 		//outlineFillColor : 'white',
-		
 		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		//buttonDrawColor : 'orange',
 		buttonStrokeWidth : 1,
 		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
 	});
