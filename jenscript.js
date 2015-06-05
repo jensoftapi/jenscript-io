@@ -5,7 +5,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2015 JenScript, product by JenSoftAPI company, France.
-// build: 2015-06-04
+// build: 2015-06-05
 // All Rights reserved
 
 /**
@@ -18012,15 +18012,11 @@ function stringInputToObject(color) {
 			config.Id = 'lensX'+JenScript.sequenceId++;
 			config.width=(config.width !== undefined)?config.width : 100;
 			config.height=(config.height !== undefined)?config.height : 16;
-			config.xIndex=2;
-			config.yIndex=100;
+			config.xIndex=(config.xIndex !== undefined)?config.xIndex:3;
+			config.yIndex=(config.yIndex !== undefined)?config.yIndex:100;
 			config.barOrientation = 'Horizontal';
 			JenScript.AbstractPlusMinusBarWidget.call(this,config);
 			
-		    this.setOutlineStrokeColor((config.outlineStrokeColor !== undefined)?config.outlineStrokeColor : 'black');
-		    this.setOutlineFillColor(config.outlineFillColor);
-		    this.setButtonDrawColor((config.buttonStrokeColor !== undefined)?config.buttonStrokeColor : 'black');
-		    this.setButtonRolloverDrawColor((config.buttonRolloverStrokeColor !== undefined)?config.buttonRolloverStrokeColor : 'green');
 		    this.setOrphanLock(true);
 		},
 		
@@ -18054,15 +18050,11 @@ function stringInputToObject(color) {
 			config.Id = 'LensY'+JenScript.sequenceId++;
 			config.width=(config.width !== undefined)?config.width : 16;
 			config.height=(config.height !== undefined)?config.height : 100;
-			config.xIndex=100;
-			config.yIndex=0;
+			config.xIndex=(config.xIndex !== undefined)?config.xIndex:100;
+			config.yIndex=(config.yIndex !== undefined)?config.yIndex:2;
 			config.barOrientation = 'Vertical';
 			JenScript.AbstractPlusMinusBarWidget.call(this,config);
 
-			this.setOutlineStrokeColor((config.outlineStrokeColor !== undefined)?config.outlineStrokeColor : 'black');
-		    this.setOutlineFillColor(config.outlineFillColor);
-		    this.setButtonDrawColor((config.buttonStrokeColor !== undefined)?config.buttonStrokeColor : 'black');
-		    this.setButtonRolloverDrawColor((config.buttonRolloverStrokeColor !== undefined)?config.buttonRolloverStrokeColor : 'green');
 		    this.setOrphanLock(true);
 		},
 		
