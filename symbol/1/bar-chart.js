@@ -117,16 +117,18 @@ function createSymbolBarView(container, width, height) {
 	}
 	
 	//lay out
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
 	for (var i = 1; i <= 10; i++) {
 		var bar = createBar(barValue());
-		barLayer.addSymbol(bar);
+		barLayer.addSymbol(bar,false);
 		
 		if(i < 10)
-		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20),false); //glue rigid except after last bar
 	}
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
 	
+	//invoke repaint only one time
+	symbolPlugin.repaintPlugin();
 	
 	//listener
 	barLayer.addSymbolListener('enter',function(event){

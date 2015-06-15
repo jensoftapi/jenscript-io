@@ -157,8 +157,8 @@ function createSymbolView(container, width, height) {
 	symbolPlugin.addLayer(pointlayer);
 	
 	//lay out
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
-	pointlayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
+	pointlayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
 	for (var i = 1; i <= 10; i++) {
 		var value = barValue();
 		
@@ -166,23 +166,25 @@ function createSymbolView(container, width, height) {
 		var point = createPoint(value);
 		
 		//lay bar
-		barLayer.addSymbol(bar);
+		barLayer.addSymbol(bar,false);
 		if(i < 10)
-			barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
+			barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20),false); //glue rigid except after last bar
 		
 		//lay point
-		pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(16));//compensate for bar thickness (half)
-		pointlayer.addSymbol(point);
-		pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(16));//compensate for bar thickness (half)
+		pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(16),false);//compensate for bar thickness (half)
+		pointlayer.addSymbol(point,false);
+		pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(16),false);//compensate for bar thickness (half)
 		if(i < 10)
-			pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
+			pointlayer.addSymbol(JenScript.SymbolFiller.createStrut(20),false); //glue rigid except after last bar
 		
 		//polyline
 		polyline.addSymbol(point);
 	}
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
-	pointlayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
+	pointlayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
 	
 	pointlayer.addSymbol(polyline); //does not contribute to filling
 	
+	//invoke repaint only one time
+	symbolPlugin.repaintPlugin();
 }
