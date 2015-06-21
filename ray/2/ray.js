@@ -12,8 +12,8 @@ function createView(container, width, height) {
 	
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
-		minX : -250,
-		maxX : 250,
+		minX : -300,
+		maxX : 300,
 		minY : -250,
 		maxY : 250
 	});
@@ -86,12 +86,12 @@ function createView(container, width, height) {
 	for (var i = -250; i <= 250; i = i + 10) {
 		var ray = new JenScript.Ray();
 		ray.setName("ray" + i);
-		ray.setThicknessType('Device');//means in pixel
+		ray.setThicknessType('User');//means in user coordinate
 		ray.setThickness(6);
 		ray.setRayNature('XRay');
 		ray.setRayBase(0);
 		ray.setAscentValue(rayValue());
-		ray.setThemeColor('purple');
+		ray.setThemeColor(JenScript.RosePalette.CORALRED);
 		ray.setRay(i);
 		rayPlugin.addRay(ray);
 	}
@@ -99,12 +99,12 @@ function createView(container, width, height) {
 	for (var i = -250; i <= 250; i = i + 10) {
 		var ray = new JenScript.Ray();
 		ray.setName("ray" + i);
-		ray.setThicknessType('Device');
+		ray.setThicknessType('Users');
 		ray.setThickness(6);
 		ray.setRayNature('XRay');
 		ray.setRayBase(0);
 		ray.setDescentValue(rayValue());
-		ray.setThemeColor('orange');
+		ray.setThemeColor(JenScript.RosePalette.CALYPSOBLUE);
 		ray.setRay(i);
 		rayPlugin.addRay(ray);
 	}

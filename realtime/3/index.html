@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link rel="icon" type="image/png" href="../../assets/creep-001.png" />
-    <title>JavaScript Ray Bar Charts - JenScript JS</title>
+    <title>JavaScript RealTime Scan Charts - JenScript JS</title>
    
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -32,24 +32,28 @@
 
 <div class="container">
 
-<h1>Ray Bar Charts</h1> 
+<h1>Case of <span style="color : rgb(22, 125, 218);">Scan Chart.</span></h1> 
 
-<small>Sébastien Janaud - June 15, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - June 21, 2015 / <a href="../../">JenScript</a>
 </small>
 
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Ray Charts with fixed size</h4>
+    <h4 >Scan Charts</h4>
    
-    <p>
-   		In this sample Rays have fixed thickness in pixels coordinate.
-   	</p>
 	<p>
-    	<small><strong>Resource : </strong><a href="ray.js" download>chart source code</a></small>
+	</p>
+	
+	 <p>
+    	<small><strong>Resource :</strong><a href="realtime-scan.js" download> sample source code</a></small>
     </p>
- </div>
-<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
+  </div>
+  
+  <div class="row">
+  	<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
+  </div>
+	
 
  </div>
 
@@ -59,15 +63,16 @@
    </div>
  </footer>
 </body>
-<script src="ray.js"></script> 
+<script src="scan-info.js"></script>
+<script src="scan-progress.js"></script>
+<script src="realtime-scan.js"></script> 
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
 		var w = $("#view").width();
-		createView('view',w,300);
-		
+		createView('view',w,400);
 	}
 	init();
 </script>

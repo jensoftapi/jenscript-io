@@ -5,7 +5,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2015 JenScript, product by JenSoftAPI company, France.
-// build: 2015-06-15
+// build: 2015-06-21
 // All Rights reserved
 
 /**
@@ -27393,7 +27393,7 @@ function stringInputToObject(color) {
 	JenScript.Model.addMethods(JenScript.StackedRay, {
 		_init : function(config){
 			this.stacks = [];
-			JenScript.Ray.call(this,{ name : "RayPlugin"});
+			JenScript.Ray.call(this,config);
 		},
 		
 		 /**
@@ -27405,21 +27405,32 @@ function stringInputToObject(color) {
 	     */
 	    getStackBase : function(stack) {
 	        //var base = super.getRayBase();
+	    	//console.log(".................getStackBase ");
 			var base = this.getRayBase();
+			//console.log("ray base : "+base);
+			//console.log("check stack base : "+stack);
 			for (var i = 0; i < this.stacks.length; i++) {
 				var s = this.stacks[i];
+				//console.log("compare to stack "+s);
 	            if (stack.equals(s)) {
+	            	//console.log("return base "+base);
 	                return base;
 	            }
 
 	            if (this.isAscent()) {
+	            	 //console.log("increment ascent base : "+base);
 	                base = base + s.getNormalizedValue();
 	            }
 	            else if (this.isDescent()) {
+	            	 //console.log("increment descent base : "+base);
 	                base = base - s.getNormalizedValue();
 	            }
+	            else{
+	            	// console.log("not ascent/descent");
+	            }
+	            //console.log("increment base : "+base);
 	        }
-
+			//console.log('ray stack'+stack+' base : '+base);
 	        return base;
 	    },
 
@@ -27444,7 +27455,7 @@ function stringInputToObject(color) {
 	        var deltaValue = Math.abs(this.getRayValue());
 	        var stacksValue = 0;
 	        for (var i = 0; i < this.stacks.length; i++) {
-	        	 stacksValue = stacksValue + s.getValue();
+	        	 stacksValue = stacksValue + this.stacks[i].getValue();
 			}
 	        for (var i = 0; i < this.stacks.length; i++) {
 	        	this.stacks[i].setNormalizedValue(this.stacks[i].getValue() * deltaValue / stacksValue);
@@ -27482,12 +27493,10 @@ function stringInputToObject(color) {
 			this.Id = (config.Id !== undefined)?config.Id:'raystack'+JenScript.sequenceId++;
 			 /** the host of this stack */
 		    this.host;
-		    /** the stack name */
-		    this.stackName;
 		    /** stack theme color */
-		    this.themeColor;
+		    this.themeColor = (config.themeColor !== undefined)?config.themeColor:JenScript.createColor();
 		    /** stack value */
-		    this.value;
+		    this.value = (config.value !== undefined)?config.value:1;
 		    /** stack normalized value */
 		    this.normalizedValue;
 		    /** the generated ray of this stack */
@@ -27495,17 +27504,17 @@ function stringInputToObject(color) {
 		    /** ray draw */
 		    this.rayDraw;
 		    /** ray fill */
-		    this.rayFill;
+		    this.rayFill = new JenScript.RayFill0();
 		    /** ray effect */
 		    this.rayEffect;
 		},
 	
 		equals : function(stack){
-			return (stack.Id ===this.Id);
+			return (stack.Id === this.Id);
 		},
 		
 	    toString : function() {
-	        return "Ray Stack [stackName=" + this.stackName + ", value=" + this.value
+	        return "Ray Stack [name=" +  this.name + ", Id=" + this.Id + ", value=" + this.value
 	                + ", normalizedValue=" + this.normalizedValue + "]";
 	    },
 
@@ -27514,8 +27523,8 @@ function stringInputToObject(color) {
 	     * 
 	     * @return the stack name
 	     */
-	    getStackName : function() {
-	        return stackName;
+	    getName : function() {
+	        return this.name;
 	    },
 
 	    /**
@@ -27524,8 +27533,8 @@ function stringInputToObject(color) {
 	     * @param stackName
 	     *            the stack name to set
 	     */
-	    setStackName : function(stackName) {
-	        this.stackName = stackName;
+	    setName : function(name) {
+	        this.name = name;
 	    },
 
 	    /**
@@ -27537,7 +27546,7 @@ function stringInputToObject(color) {
 	        if (this.themeColor === undefined) {
 	            this.themeColor = JenScript.createColor();
 	        }
-	        return themeColor;
+	        return this.themeColor;
 	    },
 
 	    /**
@@ -27556,7 +27565,7 @@ function stringInputToObject(color) {
 	     * @return stack value
 	     */
 	    getValue : function() {
-	        return value;
+	        return this.value;
 	    },
 
 	    /**
@@ -27715,6 +27724,15 @@ function stringInputToObject(color) {
 			this.raysListeners=[];
 			JenScript.Plugin.call(this,{ name : "RayPlugin"});
 		},
+		
+		onProjectionRegister : function(){
+			var that = this;
+			this.getProjection().addProjectionListener('boundChanged', function(){
+				that.repaintPlugin();
+			},that.toString());
+		},
+		
+		
 		/**
 		 * register the specified ray
 		 * 
@@ -27733,7 +27751,6 @@ function stringInputToObject(color) {
 		 *            the ray to validate
 		 */
 		checkRay : function(ray) {
-			console.log("check ray : "+ray);
 			if (ray.getRayNature() === undefined) {
 				throw new Error("Ray nature should be supplied");
 			}
@@ -27953,9 +27970,9 @@ function stringInputToObject(color) {
 				// stacks
 				for (var i = 0; i < stackedRay.getStacks().length; i++) {
 					var s = stackedRay.getStacks()[i];
-
+					
 					var rayStack = new JenScript.Ray();
-					rayStack.setName(s.getStackName());
+					rayStack.setName(s.getName());
 					rayStack.setRayNature(stackedRay.getRayNature());
 					rayStack.setThickness(stackedRay.getThickness());
 					rayStack.setThicknessType(stackedRay.getThicknessType());
@@ -27996,8 +28013,7 @@ function stringInputToObject(color) {
 					var stackwidth = deviceRayWidth;
 					var stackheight = Math.abs(yDeviceStackRayFleche - yDeviceStackRayBase);
 
-					//Rectangle2D stackRayShape = new Rectangle2D.Double(stackx, stacky, stackwidth, stackheight);
-					var rayShape = new JenScript.SVGRect().origin(x, y).size(width,height);
+					var stackRayShape = new JenScript.SVGRect().origin(stackx, stacky).size(stackwidth,stackheight);
 					rayStack.setRayShape(stackRayShape);
 
 					s.setRay(rayStack);
@@ -28055,7 +28071,7 @@ function stringInputToObject(color) {
 					var s = stackedRay.getStacks()[i];
 
 					var rayStack = new JenScript.Ray();
-					rayStack.setName(s.getStackName());
+					rayStack.setName(s.getName());
 					rayStack.setRayNature(stackedRay.getRayNature());
 					rayStack.setThickness(stackedRay.getThickness());
 					rayStack.setThicknessType(stackedRay.getThicknessType());
@@ -28097,12 +28113,10 @@ function stringInputToObject(color) {
 					var stackwidth = Math.abs(xDeviceStackRayFleche - xDeviceStackRayBase);
 					var stackheight = deviceRayHeight;
 
-					//Rectangle2D stackRayShape = new Rectangle2D.Double(stackx, stacky, stackwidth, stackheight);
-					var rayShape = new JenScript.SVGRect().origin(x, y).size(width,height);
+					var stackRayShape = new JenScript.SVGRect().origin(stackx, stacky).size(stackwidth,stackheight);
 					rayStack.setRayShape(stackRayShape);
 
 					s.setRay(rayStack);
-
 				}
 
 			}
@@ -28122,7 +28136,7 @@ function stringInputToObject(color) {
 
 			ray.plugin = this;
 
-//			if (paintRequest == PaintRequest.RayLayer) {
+			if (paintRequest === 'RayLayer') {
 				if (ray.getRayFill() !== undefined) {
 					ray.getRayFill().paintRay(g2d, ray, viewPart);
 				}
@@ -28134,11 +28148,11 @@ function stringInputToObject(color) {
 				if (ray.getRayDraw() !== undefined) {
 					ray.getRayDraw().paintRay(g2d, ray, viewPart);
 				}
-//			} else {
-//				if (ray.getRayLabel() != null) {
-//					ray.getRayLabel().paintRay(g2d, ray, viewPart);
-//				}
-//			}
+			} else {
+				if (ray.getRayLabel() != null) {
+					ray.getRayLabel().paintRay(g2d, ray, viewPart);
+				}
+			}
 
 		},
 
@@ -28159,7 +28173,7 @@ function stringInputToObject(color) {
 				var stackRay = s.getRay();
 				this.paintRay(g2d, stackRay, viewPart, paintRequest);
 			}
-			this.paintRay(g2d, stackedRay, viewPart, paintRequest);
+			//this.paintRay(g2d, stackedRay, viewPart, paintRequest);
 		},
 
 		
