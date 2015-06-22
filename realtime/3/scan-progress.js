@@ -11,7 +11,7 @@ JenScript.Model.addMethods(ProgressDevicePlugin,{
     	 JenScript.Plugin.call(this,config);
     },
     
-    start() {
+    start :  function () {
         this.lockProgress = true;
         this.repaintPlugin();
     },
@@ -34,10 +34,15 @@ JenScript.Model.addMethods(ProgressDevicePlugin,{
 
         g2d.insertSVG(recZone2D.fill(this.getProjection().getThemeColor()).opacity(0.3).toSVG());
 
-//        String annotation = "Current Process : " + currentProgress;
-//        g2d.setFont(new Font("Tahoma", Font.PLAIN, 10));
-//        g2d.setColor(Color.BLACK);
-//        g2d.drawString(annotation, 5, 20);
+        var annotation = "Current Process : " + this.currentProgresscurrentProgress;
+		var text = new JenScript.SVGElement().name('text')
+							.attr('x',5)
+							.attr('y',20)
+							.attr('font-size','12')
+							.attr('fill','black')
+							.textContent(annotation);
+		
+		g2d.insertSVG(text.buildHTML());
     },
 
     paintPlugin : function(g2d,viewPart) {
