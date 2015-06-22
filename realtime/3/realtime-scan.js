@@ -168,8 +168,11 @@ function createView(container, width, height) {
 				}
 				
 				progress.setCurrentProgress(i);
-				if(i == 150)
+				if(i == 150){
 					progress.stop();
+					scanInfo.stop();
+				}
+					
 		},millis);
 	}
 	

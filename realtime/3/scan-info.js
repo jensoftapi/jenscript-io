@@ -23,10 +23,12 @@ JenScript.Model.addMethods(ScanInfo,{
 	
 	start : function() {
 		this.lockScan = true;
+		this.repaintPlugin();
 	},
 
 	stop : function() {
 		this.lockScan = false;
+		this.repaintPlugin();
 	},
 
 	addChannel : function(channel) {
@@ -50,7 +52,7 @@ JenScript.Model.addMethods(ScanInfo,{
 		var annotation = "Number Scanned channels : " + this.channels.length;
 		var text = new JenScript.SVGElement().name('text')
 							.attr('x',5)
-							.attr('y',40)
+							.attr('y',20)
 							.attr('font-size','12')
 							.attr('fill','black')
 							.textContent(annotation);
@@ -64,7 +66,7 @@ JenScript.Model.addMethods(ScanInfo,{
 			var annotation = "Last Channel detect : " + sm.getName() + " | Power " + sm.getRayValue() + " dBm";
 			var text = new JenScript.SVGElement().name('text')
 					.attr('x',5)
-					.attr('y',60)
+					.attr('y',40)
 					.attr('font-size','12')
 					.attr('fill','black')
 					.textContent(annotation);
