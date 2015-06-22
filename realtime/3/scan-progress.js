@@ -34,7 +34,7 @@ JenScript.Model.addMethods(ProgressDevicePlugin,{
 
         g2d.insertSVG(recZone2D.fill(this.getProjection().getThemeColor()).opacity(0.3).toSVG());
 
-        var annotation = "Current Process : " + this.currentProgresscurrentProgress;
+        var annotation = "Current Process : " + this.currentProgress;
 		var text = new JenScript.SVGElement().name('text')
 							.attr('x',5)
 							.attr('y',20)
