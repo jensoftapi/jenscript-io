@@ -31,10 +31,11 @@ JenScript.Model.addMethods(ProgressDevicePlugin,{
         var p2dUser = new JenScript.Point2D(this.currentProgress, 0);
         var p2ddevice = w2d.userToPixel(p2dUser);
         var h  =this.getProjection().getView().getDevice().getHeight();
-        var recZone2D = new JenScript.SVGRect().origin(0,0).size(p2ddevice.getX(),h);
+        var deviceArea = new JenScript.SVGRect().origin(0,0).size(p2ddevice.getX(),h);
 
-        g2d.insertSVG(recZone2D.fill(this.getProjection().getThemeColor()).opacity(0.3).toSVG());
-
+        //g2d.insertSVG(recZone2D.fill(this.getProjection().getThemeColor()).opacity(0.3).toSVG());
+        g2d.insertSVG(deviceArea.fill('rgba(255,255,50,0.8)').opacity(0.3).toSVG());
+        
         var annotation = "Current Process : " + this.currentProgress;
 		var text = new JenScript.SVGElement().name('text')
 							.attr('x',5)

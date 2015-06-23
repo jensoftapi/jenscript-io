@@ -110,7 +110,7 @@ function createView(container, width, height) {
 		ray.setRayBase(0);
 		ray.setThickness(6);
 		ray.setThicknessType('Device');
-		ray.setThemeColor('purple');
+		ray.setThemeColor(JenScript.RosePalette.EMERALD);
 		ray.setName('Mpx '+i+' MHz');
 		ray.setAscentValue(rayValue());
 		rayPlugin.addRay(ray);
@@ -127,46 +127,7 @@ function createView(container, width, height) {
 	
 	var makeProgress = function(i,millis){
 		setTimeout(function(){
-				if (i == 12) {
-					makeChannel(12);
-				}
-			
-				if (i == 16) {
-					makeChannel(16);
-				}
-			
-				if (i == 20) {
-					makeChannel(20);
-				}
-			
-				if (i == 32) {
-					makeChannel(32);
-				}
-			
-				if (i == 59) {
-					makeChannel(59);
-				}
-			
-				if (i == 70) {
-					makeChannel(70);
-				}
-			
-				if (i == 77) {
-					makeChannel(77);
-				}
-			
-				if (i == 80) {
-					makeChannel(80);
-				}
-			
-				if (i == 89) {
-					makeChannel(89);
-				}
-			
-				if (i == 130) {
-					makeChannel(130);
-				}
-				
+				makeChannel(i);
 				progress.setCurrentProgress(i);
 				if(i == 150){
 					progress.stop();

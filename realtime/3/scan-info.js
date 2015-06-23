@@ -63,7 +63,7 @@ JenScript.Model.addMethods(ScanInfo,{
 	paintCurrentLastMultiplexScanningInfo : function(g2d) {
 		if (this.channels.length - 1 >= 0) {
 			var sm = this.channels[this.channels.length - 1];
-			var annotation = "Last Channel detect : " + sm.getName() + " | Power " + sm.getRayValue() + " dBm";
+			var annotation = "Last Channel detect : " + sm.getName() + " | Power " + sm.getRayValue().toFixed(3) + " dBm";
 			var text = new JenScript.SVGElement().name('text')
 					.attr('x',5)
 					.attr('y',40)
