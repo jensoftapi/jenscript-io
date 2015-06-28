@@ -42,10 +42,13 @@
 <div class="bs-callout bs-callout-info" >
     <h4 >Ray Charts with fixed size</h4>
     <p>
-   		Ray is a bi-dimensional rectangle shape, like bar symbol but ray has not a discrete but a scalar user value that defines the ray value. For vertical ray, the ray extends from given y base to y value and is located at a given x user coordinate. ray has a thickness, in fixed pixel or in the user coordinate system. 
+   		Ray is a bi-dimensional rectangle shape, like bar symbol but ray has not a discrete but a scalar user value that defines the ray value. For vertical ray, the ray extends from given y base to y value (like symbol) and is located at a given x user coordinate. ray has a thickness, in fixed pixel or in the user coordinate system.
+   	</p>
+   	<p>
+   		Scan chart is a suitable sample to figure out ray feature. As a broadcaster, you want to make a frequency scan and detect multiplex channels on a given frequency range. A RF (Radio Frequency) multiplex is defined by the channel frequency (the ray value in MHz) and the power of the multiplex (Db&#181;V, widely used in television and aerial amplifier specifications). Moreover, you maybe want define multiplex with a just detected peak (thickness with fixed size pixel) or draw with a given thickness value (some thickness width with related to the user frequency range). 
    	</p>
     <p>
-   		In this sample Rays have fixed thickness in pixels coordinate.
+   		In this sample Rays have fixed thickness in pixels coordinate and randomized values. Ascent ray goes from base to positive value and descent ray goes from base to negative value (ascent or descent mode).
    	</p>
 	<p>
     	<small><strong>Resource : </strong><a href="ray.js" download>chart source code</a></small>
