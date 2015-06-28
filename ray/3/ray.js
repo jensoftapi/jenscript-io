@@ -103,9 +103,10 @@ function createView(container, width, height) {
 		sray.setAscentValue(rayValue());
 		sray.setRay(i);
 		sray.setThemeColor('white');
-		var rs11 = new JenScript.RayStack({name : "ray 1 stack 1", themeColor: BUTTER3,value: stackValue()});
-		var rs12 = new JenScript.RayStack({name : "ray 1 stack 2", themeColor:CHAMELEON3,value: stackValue()});
-		var rs13 = new JenScript.RayStack({name: "ray 1 stack 3",themeColor: ORANGE3,value:stackValue()});
+		//stack value is defined as percent of the whole
+		var rs11 = new JenScript.RayStack({name : "ray "+i+" stack 1", themeColor: BUTTER3,stackValue: 20});
+		var rs12 = new JenScript.RayStack({name : "ray "+i+" stack 2", themeColor:CHAMELEON3,stackValue: 30}); 
+		var rs13 = new JenScript.RayStack({name: "ray "+i+" stack 3",themeColor: ORANGE3,stackValue:50});
 
 		sray.addStack(rs11);
 		sray.addStack(rs12);
