@@ -32,7 +32,8 @@
 </strong></small>
 
 
-<div style="padding-top: 20px;">
+<div style="padding-top: 20px;float : left; width : 100%;">
+<div style="padding-top: 20px;float : left; width : 40%;">
 <!-- <h3><span style="color: rgb(180,180,180)">JenScript Articles</span></h3>  -->
 <p style="font-size: 0.9em;">
 	<a href="pie/1">Let's Make a Pie</a><br>
@@ -86,6 +87,11 @@
 	<a href="ray/3">Ray Chart Part 3 - Stacked Ray Chart</a><br>
 	<a href="ray/4">Ray Chart Part 4 - Listener</a><br>
 </p>
+</div>
+<div style="padding-top: 20px; width : 60%; float:left;">
+<div id="view"></div>
+</div>
+
 
 </div>
 <div style="padding-top: 20px;">
@@ -130,4 +136,16 @@
    </div>
  </footer>
  </body>
+ <script src="index.js"></script>
+ <script type="text/javascript">
+$(window).resize(function() {
+	init();
+});
+
+function init(){
+	var w = $("#view").width();
+	create('view',w,450);
+}
+init();
+</script> 
 </html>
