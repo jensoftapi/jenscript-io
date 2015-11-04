@@ -24,7 +24,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
    
-    <link rel="stylesheet" href="../../../assets/style.css">
+   <link rel="stylesheet" href="../../../assets/style.css">
    <script src="../../../jenscript.min.js"></script>
 </head>
 
@@ -32,7 +32,7 @@
 
 <div class="container">
 
-<h1>Spline X Charts</h1> 
+<h1>Area Line X Charts</h1> 
 
 <small>Sébastien Janaud - November 3, 2015 / <a href="../../">JenScript</a>
 </small>
@@ -40,17 +40,18 @@
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Spline X Function Charts</h4>
+    <h4 >Area Line X Function Charts</h4>
    
-   <p>
-    	<small><strong>Resource :</strong><a href="curve-xfunction-spline.js" download> sample source code</a></small>
+    <p>
+    	<small><strong>Resource :</strong><a href="area-xfunction-line.js" download> sample source code</a></small>
     </p>
     <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/function" target="_blank">javascript function plugin sources</a></small>
   	<p>
   	<p>
-    	<small><strong>Part :</strong><a href="../1"> Part 1</a>&nbsp;-&nbsp;Part 2&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a></small>
+    	<small><strong>Part :</strong> Part 1&nbsp;-&nbsp;</small>
     </p>
+    
 	
   </div>
 <div style="padding-top : 40 px;float:left;  width: 100%; height: 300 px;" id="function"></div>
@@ -63,14 +64,14 @@
    </div>
  </footer>
 </body>
-<script src="curve-xfunction-spline.js"></script> 
+<script src="area-xfunction-line.js"></script> 
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
 		var w = $("#function").width();
-		createViewSplineCurveXFunction('function',w,300);
+		createViewLineAreaXFunction('function',w,300);
 		
 	}
 	init();
