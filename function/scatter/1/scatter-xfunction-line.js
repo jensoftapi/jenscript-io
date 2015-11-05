@@ -16,16 +16,6 @@ function createViewLineScatterXFunction(container, width, height) {
 		
 	});
 
-	var bg1 = new JenScript.GradientViewBackground();
-	view.addViewBackground(bg1);
-	var textureBackground = new JenScript.TexturedViewBackground({
-		opacity : 0.3,
-		texture : JenScript.Texture.getTriangleCarbonFiber(),
-		strokeColor : 'cyan',
-		strokeWidth : 2,
-		cornerRadius : 0
-	});
-	view.addViewBackground(textureBackground);
 
 
 	var proj = new JenScript.LinearProjection({
