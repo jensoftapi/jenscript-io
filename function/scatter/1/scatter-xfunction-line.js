@@ -16,7 +16,7 @@ function createViewLineScatterXFunction(container, width, height) {
 		
 	});
 
-
+	
 
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
