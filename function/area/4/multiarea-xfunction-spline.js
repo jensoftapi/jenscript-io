@@ -22,7 +22,7 @@ function createViewSplineMultipleAreaXFunction(container, width, height) {
 
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
-		minX : -1,
+		minX : -2,
 		maxX : 12,
 		minY : 0,
 		maxY : 20
@@ -73,8 +73,8 @@ function createViewSplineMultipleAreaXFunction(container, width, height) {
 	
 	
 	//CURVE FUNCTION 
-	var xValues1 = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-	var yValues1 = [ 6, 1.8, 15, 1.9, 3.4, 6.1, 4.2, 8.5, 9.9, 12, 8 ];
+	var xValues1 = [ -2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,12 ];
+	var yValues1 = [ 0, 6, 1.8, 15, 1.9, 3.4, 6.1, 4.2, 8.5, 9.9, 12, 8,0 ];
 	var splineSource1 = new JenScript.SplineSource({
 					nature : 'XFunction',
 					xValues : xValues1,
@@ -82,8 +82,8 @@ function createViewSplineMultipleAreaXFunction(container, width, height) {
 					delta : 0.2
 				});
 	
-	var xValues2 = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-	var yValues2 = [ 6,3, 9, 4, 8, 3, 4, 1, 14, 8, 4 ];
+	var xValues2 = [-2, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,12 ];
+	var yValues2 = [0, 6,3, 9, 4, 8, 3, 4, 1, 14, 8, 4,0 ];
 	var splineSource2 = new JenScript.SplineSource({
 					nature : 'XFunction',
 					xValues : xValues2,
