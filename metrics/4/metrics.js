@@ -27,7 +27,6 @@ var major = {
 	
 function createMetricsView(container, width, height) {
 	
-	//view
 	var view = new JenScript.View({
 		name : container,
 		width : width,
@@ -37,7 +36,6 @@ function createMetricsView(container, width, height) {
 		east : 80,
 		south : 80,
 	});
-
 	
 	var proj = new JenScript.LinearProjection({
 		cornerRadius : 6,
@@ -48,22 +46,16 @@ function createMetricsView(container, width, height) {
 		maxY : 3600
 	});
 	view.registerProjection(proj);
-	
-	
 
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
 	proj.registerPlugin(outline);
 
-
-	var southMetrics1 = new JenScript.AxisMetricsFree({
+	var southMetrics = new JenScript.AxisMetricsFree({
 		axis : JenScript.Axis.AxisSouth,
 		minor:minor,
 		median:median,
 		major:major
 	});
-	proj.registerPlugin(southMetrics1);
-	
 	
 	var westMetrics = new JenScript.AxisMetricsFree({
 		axis : JenScript.Axis.AxisWest,
@@ -72,9 +64,16 @@ function createMetricsView(container, width, height) {
 		major:major
 	});
 	
-	
-	westMetrics.addMetrics(1000,'1000');
+	westMetrics.addMetrics(600,'Label A');
 	westMetrics.addMetrics(2000,'2000');
+	westMetrics.addMetrics(2000,'2000');
+	
+	southMetrics.addMetrics(-1000,'-1000');
+	southMetrics.addMetrics(500,'500');
+	southMetrics.addMetrics(234);
+	southMetrics.addMetrics(0,'Label B');
+	
+	proj.registerPlugin(southMetrics);
 	proj.registerPlugin(westMetrics);
 
 	//translate
@@ -85,12 +84,9 @@ function createMetricsView(container, width, height) {
 			width : 150,
 			height : 22,
 			outlineStrokeColor : 'rgba(0,0,0,0)',
-			//outlineFillColor: 'gray',
 			sample  : {step : 10, sleep : 5,fraction : 20},
-			
 			buttonFillColor:'black',
 			buttonRolloverFillColor:JenScript.Color.lighten(emerald,40),
-			
 			buttonDrawColor:'white',
 			buttonRolloverDrawColor:JenScript.Color.lighten(emerald,20)
 		}
@@ -98,9 +94,6 @@ function createMetricsView(container, width, height) {
 	
 	translate1.registerWidget(txw);
 	translate1.select();
-
-	
-	
 
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
@@ -112,7 +105,6 @@ function createMetricsView(container, width, height) {
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
-	
 	
 }
 
