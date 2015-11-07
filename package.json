@@ -8,7 +8,7 @@
     "visualization",
     "charts"
   ],
-  "description": "JenScript JS Chart Blog",
+  "description": "JenScript JS Chart Site",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
