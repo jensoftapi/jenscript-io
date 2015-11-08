@@ -67,7 +67,7 @@ function createMetricsView(container, width, height) {
 	});
 	proj.registerPlugin(flowSouthMetrics);
 	
-	var flowSouthMetrics2 = new JenScript.AxisMetricsFlow({
+	var flowWestMetrics = new JenScript.AxisMetricsFlow({
 		flowStart : -1200,
 		flowEnd : 1200,
 		flowInterval : 300,
@@ -76,9 +76,7 @@ function createMetricsView(container, width, height) {
 		median:median,
 		major:major
 	});
-	proj.registerPlugin(flowSouthMetrics2);
-	
-	var wm = new JenScript.AxisMetricsFLow({
+	proj.registerPlugin(flowWestMetrics);
 	
 
 	//translate
