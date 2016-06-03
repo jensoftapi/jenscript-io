@@ -1,11 +1,11 @@
 // JenScript -  JavaScript HTML5/SVG Library
 // Product of JenSoftAPI - Visualization Java & JS Libraries
-// version : 1.1.7
+// version : 1.1.8
 // Author : Sebastien Janaud 
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2015 JenScript, product by JenSoftAPI company, France.
-// build: 2015-11-10
+// build: 2016-06-03
 // All Rights reserved
 
 /**
@@ -18,7 +18,7 @@ var JenScript = {};
 	
 		JenScript = {
 				
-				version : '1.1.7',
+				version : '1.1.8',
 				views : [],
 				sequenceId: 0,
 				SVG_NS : 'http://www.w3.org/2000/svg',
@@ -3366,6 +3366,10 @@ function stringInputToObject(color) {
 })();
 (function() {
 	
+	SVGElement.prototype.getTransformToElement = SVGElement.prototype.getTransformToElement || function(elem) {
+	    return elem.getScreenCTM().inverse().multiply(this.getScreenCTM());
+	};
+	
 	/**
      * @constructor
      * @memberof JenScript
@@ -5873,8 +5877,6 @@ function stringInputToObject(color) {
 		
 	});
 })();
-
-
 (function(){
 	
 	JenScript.TimeXProjection = function(config) {
@@ -5914,7 +5916,6 @@ function stringInputToObject(color) {
 		getMaxXAsDate : function() {
 			return new Date(this.getMaxX());
 		},
-
 		
 		pixelToTime : function(pixel) {
 			var dateMillis = this.pixelToUserX(pixel);
@@ -5943,10 +5944,8 @@ function stringInputToObject(color) {
 		boundTimeX : function(minXDate, maxXDate, miny, maxy) {
 			boundLinear(minXDate.getTime(), maxXDate.getTime(), miny, maxy);
 		}
-		
 	});
 })();
-
 
 
 (function(){
