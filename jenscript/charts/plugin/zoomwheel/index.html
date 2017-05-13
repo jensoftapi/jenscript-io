@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<script src="/jenscript.min.js"></script>
+    <title>Javascript Chart Library | JenScript Zoom Wheel Plugin</title>
+
+     <link href="/favicon.png" rel="icon" type="image/png" />
+    <meta name="description" content="zoom wheel javascript chart with jenscript chart zoomm wheel plugin">
+
+    <!-- CSS -->
+    <link href="/assets/css/preload.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/font-mfizz/font-mfizz.css">
+    <link href="/assets/css/vendors.css" rel="stylesheet">
+    <link href="/assets/css/syntaxhighlighter/shCore.css" rel="stylesheet" >
+
+    <!-- RS5.0 Stylesheet -->
+    <!--<link rel="stylesheet" type="text/css" href="assets/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/navigation.css">-->
+
+    <link href="/assets/css/style-green5.css" rel="stylesheet" title="default">
+    <link href="/assets/css/width-full.css" rel="stylesheet" title="default">
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+
+<body>
+
+<div class="sb-site-container">
+<div class="boxed">
+
+<div id="contentNav"></div>
+
+<header id="header-full">
+    <div class="wrap-primary">
+        <div class="container">
+
+            
+          <div class="row" style="padding-top: 20px;">
+				<div  id="price" class="col-md-6"></div>
+				<div  id="macd" class="col-md-6"></div>
+			</div>
+
+            <div class="row header-full-icons text-center">
+                <div class="col-sm-3 animated fadeInDown animation-delay-19">
+                    <span class="icon-ar icon-ar-circle icon-ar-turquoise icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cube"></i></span>
+                    <h3>Translate</h3>
+                    <p class="text-center">Geometric translate of projection</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-21">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-play-circle" ></i></span>
+                    <h3>Widgets</h3>
+                    <p class="text-center">UI Bar, Pad and Compass Widgets</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-22">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-exchange" ></i></span>
+                    <h3>Synchronization</h3>
+                    <p class="text-center">Components synchronization</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-20">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-wrench" ></i></span>
+                    <h3>Tool</h3>
+                    <p class="text-center">Interaction tool </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="wrap-dark-color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 feature-container">
+                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-translate.min.js">
+                        <i class="fa fa-download"></i>
+                        <h4>Downloads</h4>
+                    </a>
+                    <a class="feature-icon" href="/jenscript/charts/samples/translate/1">
+                        <i class="fa fa-file-code-o"></i>
+                        <h4>Samples</h4>
+                    </a>
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/translate">
+                        <i class="fa fa-github"></i>
+                        <h4>Source</h4>
+                    </a>
+                </div>
+                <div class="col-md-5 hidden-sm hidden-xs">
+                    <p class="lead text-center">JenScript HTML5 SVG Javascript Chart Library. New Release! Monkey 1.1.8 is now available. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</div> <!-- boxed -->
+</div> <!-- sb-site -->
+
+
+<script src="/assets/js/vendors.js"></script>
+
+
+<!-- Syntaxhighlighter -->
+<script src="/assets/js/syntaxhighlighter/shCore.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushXml.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushJScript.js"></script>
+
+<script src="/assets/js/DropdownHover.js"></script>
+<script src="/assets/js/app.js"></script>
+<script src="/assets/js/holder.js"></script>
+<script src="/assets/js/home_full.js"></script>
+
+
+<script type="text/javascript">
+$.get("/assets/nav-content.html", function(data){
+    $("#contentNav").replaceWith(data);
+    $("#header-full-top").addClass("hidden-sm hidden-md hidden-lg");
+
+	$("#header").removeClass('navbar-header-full');
+	$("#ar-brand").removeClass("hidden-lg hidden-md hidden-sm");
+	$("#bs-example-navbar-collapse-1").addClass("navbar-right");
+
+	$("#header").addClass('navbar-light');
+	$("#header").removeClass('navbar-dark navbar-inverse');
+	$('[data-hover="dropdown"]').dropdownHover();
+});
+
+</script>
+
+<script src="/jenscript/charts/samples/stock/StockLoader.js"></script>
+<script src="index.js"></script>
+   <script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#macd").width();
+		createViewStockMACD('price','macd',w,400);
+	}
+	init();
+</script>
+
+</body>
+
+</html>

@@ -1,358 +1,523 @@
-var index;
-var viewName;
-var width;
-var height;
-var view;
+
+var view1;
 var proj;
-var donut3DPlugin;
-var donut;
-var s1,s2,s3,s4;
-var s1Label,s2Label,s3Label,s4Label;
+var proj12;
 
-function sleep(ref,millis){
+var view2;
+var proj2;
+
+var stockPluginView1Proj1;
+var stockPluginView1Proj2;
+var stockPluginView2Proj1;
+
+//date range
+var startDate = new Date(2014, 08, 15);
+var endDate = new Date(2015, 04, 15);
+
+var minor = {
+	tickMarkerSize : 2,
+	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
+	tickMarkerStroke : 1
+};
+var median = {
+	tickMarkerSize : 4,
+	tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+	tickMarkerStroke : 1.2,
+	tickTextColor : JenScript.RosePalette.TURQUOISE,
+	tickTextFontSize : 10,
+	tickTextOffset : 8
+};
+var major = {
+	tickMarkerSize : 8,
+	tickMarkerColor : JenScript.RosePalette.MANDARIN,
+	tickMarkerStroke : 3,
+	tickTextColor : JenScript.RosePalette.MANDARIN,
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
+
+var minor2 = {
+		tickMarkerSize : 2,
+		tickMarkerColor : JenScript.RosePalette.LIME,
+		tickMarkerStroke : 1
+	};
+var median2 = {
+		tickMarkerSize : 4,
+		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerStroke : 1.2,
+		tickTextColor : JenScript.RosePalette.TURQUOISE,
+		tickTextFontSize : 10,
+		tickTextOffset : 8
+	};
+var major2 = {
+		tickMarkerSize : 8,
+		tickMarkerColor : JenScript.RosePalette.MANDARIN,
+		tickMarkerStroke : 3,
+		tickTextColor : JenScript.RosePalette.TURQUOISE,
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+
+var southMetrics1;
+var westMetrics;
+var eastMetrics;
+
+function createView1Proj1() {
+	proj1 = new JenScript.TimeXProjection({
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 12,
+		maxY : 18,
+		paintMode : 'ALWAYS'
+	});
+	view1.registerProjection(proj1);
 	
-	if(ref > index){
-		console.log("sleep index : "+index);
-		setTimeout(function(){
-			index = index+1;
-			//console.log("call next index : "+(index))
-			draw(viewName,width,height);
-		},millis);
-	}
-	return (index<ref);
+	//OUTLINE PLUGIN
+	var outline = new JenScript.DeviceOutlinePlugin({color : JenScript.RosePalette.MELON, strokeOpacity : 0.8, strokeWidth : 1});
+	proj1.registerPlugin(outline);
+	
+	
+	//METRICS PLUGIN
+	 southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({}), new JenScript.YearModel({})],
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(southMetrics1);
+	
+	
+	 westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(westMetrics);
+	
+	 eastMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisEast,
+		minor : minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(eastMetrics);
+	
+	//LEGEND
+	var mme12Legend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MME 12',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.DEEPHARBOR,
+		xAlign : 'left',
+		yAlign : 'bottom',
+	});
+	proj1.registerPlugin(mme12Legend);
+	var mme26Legend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MME 26',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.LEMONPEEL,
+		xAlign : 'left',
+		yAlign : 'bottom',
+		yMargin: 26
+	});
+	proj1.registerPlugin(mme26Legend);
+	
+	
+	//STOCK PLUGIN
+	stockPluginView1Proj1 = new JenScript.StockPlugin({
+		bearishColor : 'rgb(153, 102, 255)',
+		bullishColor : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,30),
+	});
+	proj1.registerPlugin(stockPluginView1Proj1);
+	
+	stockPluginView1Proj1.addLayer(new JenScript.CandleStickLayer({
+		lowHighColor : JenScript.RosePalette.SAFFRON
+	}));
+	
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
+	
 }
 
-
-function draw(name,w,h) {
-if(index === undefined)
-	 index = 0;
+function createView1Proj2() {
+	proj12 = new JenScript.TimeXProjection({
+		name : "proj12",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 12,
+		maxY : 18,
+		paintMode : 'ACTIVE'
+	});
+	view1.registerProjection(proj12);
 	
-// console.log("draw with index : "+index);
- viewName = name;
- width = w;
- height=h;
- 
- if(index == 0){
-	  console.log("draw index : "+index);
-	  view = new JenScript.View({
-			name : name,
-			width : w,
-			height : h,
-			holders : 0,
-			north: 20,
-			south :20,
-		});
-		
-		 proj = new JenScript.LinearProjection({
-			name : "proj1",
-			minX : -1,
-			maxX : 1,
-			minY : -1,
-			maxY : 1
-		});
-		
-		//or 
-		 proj = new JenScript.IdentityProjection();
-		
-		//or JenScript.IdentityProjection
-		view.registerProjection(proj);
+	var outline12 = new JenScript.DeviceOutlinePlugin({color : '#ffb6c1', strokeOpacity : 0.8, strokeWidth : 1});
+	proj12.registerPlugin(outline12);
+	
+	//LEGEND PLUGIN
+	var ohlcLegend = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'OHLC',
+		fontSize : 14,
+		textColor : 'cyan',
+		xAlign : 'left',
+		yAlign : 'bottom',
+		yMargin: 46
+	});
+	proj12.registerPlugin(ohlcLegend);
 
-		var outline = new JenScript.DeviceOutlinePlugin({
-			color : 'rgb(220,220,220)'
-		}); 
- }
- 
- 
+	//STOCK PLUGIN
+	stockPluginView1Proj2 = new JenScript.StockPlugin({
+		bearishColor : JenScript.RosePalette.MELON,
+		bullishColor : JenScript.RosePalette.TURQUOISE,
+	});
+	proj12.registerPlugin(stockPluginView1Proj2);
+	
+	stockPluginView1Proj2.addLayer(new JenScript.OhlcLayer({
+		markerColor : 'cyan',
+		markerWidth : 1.5
+	}));
+	
+}
 
-	if(sleep(1,300))return;
-	if(index == 1){
-		//proj.registerPlugin(outline);
-		 console.log("draw index : "+index);
-		 donut3DPlugin = new JenScript.Donut3DPlugin();
-		proj.registerPlugin(donut3DPlugin);
+function createView2Proj1() {
+	
+	//ANOTHER PROJ FOR MANAGE MACD IN DIFFERENT PROJECTION
+	 proj2 = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj2",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : -1.5,
+		maxY : 1.5
+	});
+	view2.registerProjection(proj2);
+	
+	//device outline
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	proj2.registerPlugin(outline2);
+	
 
-		donut = new JenScript.Donut3D({innerRadius:0,outerRadius:160,thickness : 2, startAngle : 300, tilt:0});
-		donut3DPlugin.addDonut(donut);
+	var southMetrics2 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor : minor2,
+		median:median2,
+		major:major2
+	});
+	proj2.registerPlugin(southMetrics2);
+	
+	var eastMetrics2 = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisEast,
+		minor : minor2,
+		median:median2,
+		major:major2
+	});
+	proj2.registerPlugin(eastMetrics2);
+	
+	stockPluginView2Proj1 = new JenScript.StockPlugin();
+	proj2.registerPlugin(stockPluginView2Proj1);
+	stockPluginView2Proj1.addLayer(new JenScript.StockMACDLayer({
+		moveCountSignal:9,
+		moveCountMin:12,
+		moveCountMax:26,
+		lineColor:JenScript.RosePalette.MANDARIN,
+		lineOpacity:1,
+		lineWidth:1,
 		
-		var donutFx = new JenScript.Donut3DReflectionEffect();
-		//donut.addEffect(donutFx);
+		macdColor:JenScript.RosePalette.CORALRED,
+		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+	}));
+	
+	var legend1 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MACD (12-26-9)',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.MANDARIN,
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin: 5
+	});
+	proj2.registerPlugin(legend1);
+	
+	var legend2 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Signal MME 9',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		xAlign : 'right',
+		yAlign : 'bottom',
+		yMargin: 5
+	});
+	proj2.registerPlugin(legend2);
+	var legend3 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'MACD (12/26)',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CORALRED,
+		xAlign : 'right',
+		yAlign : 'bottom',
+		yMargin: 25
+	});
+	proj2.registerPlugin(legend3);
+}
 
-		//donut.tilt = 60;
-		
-		 s1 = new JenScript.Donut3DSlice({
-			name : "s1",
-			value : 45,
-			themeColor : 'rgb(250, 250, 250)',
-		});
-		 s2 = new JenScript.Donut3DSlice({
-			name : "s2",
-			value : 5,
-			themeColor : 'rgb(244, 145, 26)',
-		});
-		 s3 = new JenScript.Donut3DSlice({
-			name : "s3",
-			value : 30,
-			themeColor : 'rgb(78, 148, 44)',
-		});
-		 s4 = new JenScript.Donut3DSlice({
-			name : "s4",
-			value : 5,
-			themeColor : 'rgb(208, 58, 47)',
-		});
+function createViewStockMACD(container1,container2, width, height) {
 
-		donut.addSlices([s1,s2,s3,s4]);
-		//donut.tilt = 0;
-		setTimeout(function() {
-			shiftTilt = function(i,count) {
-				setTimeout(function() {
-					donut.tilt = i;
-					donut.plugin.repaintDonuts();	
-				}, count);
-				
-			};
-			
-			var count = 0;
-//			for (var i = donut.tilt; i >= 0; i = i - 1) {
-//				shiftTilt(i,count);
-//				count = count+50;
+	//view
+	view1 = new JenScript.View({
+		name : container1,
+		width : width,
+		height : height,
+		east : 50,
+		west : 50,
+		south : 60,
+	});
+	
+
+	createView1Proj1();
+	createView1Proj2();
+	
+	
+	var translateView1Proj1 = new JenScript.TranslatePlugin({
+				name : 'mainTranslate',
+				slaves : [
+				          {plugin : stockPluginView1Proj1, direction : 'xy'},
+				          {plugin : southMetrics1, direction :'x'},
+				          {plugin : westMetrics, direction :'y'},
+				          {plugin : eastMetrics, direction :'y'}
+				         ]
+			});
+	proj1.registerPlugin(translateView1Proj1);
+	
+	var translateView1Proj2 = new JenScript.TranslatePlugin({
+				name : 'secondaryTranslate',
+				slaves : [
+				          {plugin : stockPluginView1Proj2 , direction :'xy'}
+				         ]
+	});
+	proj12.registerPlugin(translateView1Proj2);
+	
+	translateView1Proj1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'orange',
+		ringFillOpacity : 0.7,
+	}));
+	
+	var choco = JenScript.RosePalette.CHOCOLATE;
+	var percents = ['0%','50%','100%'];
+	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+	var opacity  = [0.8,0.8,0.8];
+	
+	var txWidget = new JenScript.TranslateX({
+		width : 60,
+		height :  16,
+		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeWidth : 2,
+		shader : {percents : percents, colors : colors,opacity:opacity},
+		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		buttonStrokeWidth : 1,
+		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		sample  : {step : 20, sleep : 10,fraction : 3}, // pixel/3 with 40 step, each step execute in 10 millisecond
+		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'selected'}}
+	});
+	
+	
+	var tyWidget = new JenScript.TranslateY({
+		width : 16,
+		height :  60,
+		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeWidth : 2,
+		shader : {percents : percents, colors : colors,opacity:opacity},
+		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		buttonStrokeWidth : 1,
+		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		sample  : {step : 20, sleep : 10,fraction : 3}, // pixel/3 with 40 step, each step execute in 10 millisecond
+		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'selected'}}
+	});
+	
+	
+	translateView1Proj1.registerWidget(tyWidget);
+	translateView1Proj1.registerWidget(txWidget);
+	
+	
+	
+	
+
+	//view 2
+	view2 = new JenScript.View({
+		name : container2,
+		width : width,
+		height : height,
+		east : 50,
+		west : 50,
+		south : 60,
+	});
+	
+	createView2Proj1();
+	
+	
+	
+	
+	var loader = new StockLoader(proj1,[2014,2015,2016],function(year,stocks){
+		stockPluginView1Proj1.setStocks(stocks);
+		stockPluginView1Proj2.setStocks(stocks);
+		stockPluginView2Proj1.setStocks(stocks);
+	},{foregroundColor : 'rgba(153, 255, 51,0.5)', outlineColor : 'rgb(255, 255, 0)'});
+
+
+	
+	
+	var tx2 = new JenScript.TranslatePlugin({
+		mode:'tx',
+		name : 'tertiaryTranslate',
+		slaves : [{plugin : stockPluginView2Proj1, direction :'xy'}]
+	});
+	tx2.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : JenScript.RosePalette.AEGEANBLUE,
+		ringFillOpacity : 0.7,
+		xIndex :0,
+	}));
+	proj2.registerPlugin(tx2);
+//	var txWidget2 = new JenScript.TranslateX({
+//		width : 60,
+//		height :  16,
+//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+//		outlineStrokeWidth : 2,
+//		shader : {percents : percents, colors : colors,opacity:opacity},
+//		//outlineFillColor : 'white',
+//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonStrokeWidth : 1,
+//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
+//	});
+//	tx2.registerWidget(txWidget2);
+//	
+//	var tyWidget2 = new JenScript.TranslateY({
+//		width : 16,
+//		height :  60,
+//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+//		outlineStrokeWidth : 2,
+//		shader : {percents : percents, colors : colors,opacity:opacity},
+//		//outlineFillColor : 'white',
+//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonStrokeWidth : 1,
+//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
+//	});
+	
+	
+	
+	//tx2.registerWidget(tyWidget2);
+	
+	
+	var synchronizer = new JenScript.TranslateSynchronizer({
+		translates : [ translateView1Proj1,translateView1Proj2, tx2 ]
+	});
+	
+//	
+//	var zoombox = new JenScript.ZoomBoxPlugin({
+//		mode : 'bx',
+//		zoomBoxDrawColor : 'cyan',
+//		zoomBoxFillColor : 'pink'
+//	});
+//	proj1.registerPlugin(zoombox);
+//	//zoombox.select();
+//	
+//	var lens = new JenScript.ZoomLensPlugin();
+//	proj1.registerPlugin(lens);
+//
+//	var percents = ['0%','50%','100%'];
+//	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+//	var opacity  = [0.8,0.8,0.8];
+//	
+//	var lx = new JenScript.LensX({
+//		width : 60,
+//		height :  16,
+//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+//		outlineStrokeWidth : 2,
+//		shader : {percents : percents, colors : colors,opacity:opacity},
+//		//outlineFillColor : 'white',
+//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonStrokeWidth : 2,
+//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//	});
+//	lens.registerWidget(lx);
+//	
+//	var ly = new JenScript.LensY({
+//		width : 16,
+//		height :  60,
+//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+//		outlineStrokeWidth : 2,
+//		shader : {percents : percents, colors : colors,opacity:opacity},
+//		//outlineFillColor : 'white',
+//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+//		buttonStrokeWidth : 2,
+//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+//	});
+//	lens.registerWidget(ly);
+	
+
+	//createPie(view)
+	//translate.select();
+	
+	view1.setActiveProjection(proj1);
+	translateView1Proj1.select();
+	//lens.select();
+	
+//	var buttonGroup = new JenScript.ButtonPlugin();
+//	proj1.registerPlugin(buttonGroup);
+//	var button1 = new JenScript.ButtonWidget({
+//		width : 50,
+//		height : 30,
+//		radius : 0,
+//		inset : 8,
+//		text : 'Lock',
+//		textColor : 'white',
+//		buttonDrawColor : 'white',
+//		buttonRolloverDrawColor : 'yellow',
+//		buttonFillColor : 'black',
+//		buttonRolloverFillColor : 'green',
+//		buttonFillColorOpacity : 0.5,
+//		buttonDrawColorOpacity : 1,
+//		xIndex : 6,
+//		onPress : function(){
+//			if(!lens.isLockSelected()){
+//				lens.select();
+//				return;
+//			}	
+//			if(!tx1.isLockSelected()){
+//				tx1.select();
+//				return;
 //			}
-			for (var i = 0; i <= 40; i = i + 5) {
-				shiftTilt(i,count);
-				count = count+30;
-			}
-
-		}, 100);
-
-	}
-
-	if(sleep(2,300))return;
-	if(index == 2){
-		 console.log("draw index : "+index);
-		 s1Label = new JenScript.Donut3DBorderLabel({
-			text : "JenScript",
-			fillColor:'black',
-			outlineColor : 'rgb(180,180,180)',
-			cornerRadius : 8,
-			margin: 10,
-			outlineWidth : 2,
-			textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
-		});
-		s1.addSliceLabel(s1Label);
-	}
-	
-	
-	if(sleep(3,200))return;
-	if(index == 3){
-		 console.log("draw index : "+index);
-		 s2Label = new JenScript.Donut3DBorderLabel({
-			text : "SVG",
-			fillColor:'black',
-			outlineColor : s2.getThemeColor(),
-			cornerRadius : 8,
-			margin: 10,
-			outlineWidth : 2,
-			textColor :JenScript.Color.lighten(s2.getThemeColor(),20),
-		});
-		s2.addSliceLabel(s2Label);
-	}
-	
-	
-	if(sleep(4,200))return;
-	if(index == 4){
-		 console.log("draw index : "+index);
-		 s3Label = new JenScript.Donut3DBorderLabel({
-			text : "API",
-			fillColor:'black',
-			outlineColor : s3.getThemeColor(),
-			cornerRadius : 8,
-			margin: 10,
-			outlineWidth : 2,
-			textColor :JenScript.Color.lighten(s3.getThemeColor(),20),
-		});
-		s3.addSliceLabel(s3Label);
-	}
-	
-	if(sleep(5,200))return;
-	if(index == 5){
-		 console.log("draw index : "+index);
-		 s4Label = new JenScript.Donut3DBorderLabel({
-			text : "JavaScript",
-			fillColor:'black',
-			outlineColor : JenScript.Color.lighten(s4.getThemeColor(),20),
-			cornerRadius : 8,
-			margin: 10,
-			outlineWidth : 2,
-			textColor :JenScript.Color.lighten(s4.getThemeColor(),20),
-		});
-		s4.addSliceLabel(s4Label);
-		
-
-		
-	}
-	
-	if(sleep(6,400))return;
-	if(index == 6){
-		function extendsLabel(i){
-			setTimeout(function(){
-				s1Label.setMargin((s1Label.margin+i/2));
-				s2Label.setMargin((s2Label.margin+i/2));
-				s3Label.setMargin((s3Label.margin+i/2));
-				s4Label.setMargin((s4Label.margin+i/2));
-			},i*6);
-		}
-		
-		for (var i = 0; i < 20; i++) {
-			extendsLabel(i);
-		}
-	}
-	
-	
-	
-	if(sleep(7,200))return;
-	if(index == 7){
-		// 2 times 360 in 2 seconds with 20 repaint frames
-		setTimeout(function() {
-			donut.shift( 360, 2000, 20);
-		}, 200);
-		setTimeout(function() {
-			donut.shift(-360, 500, 8);
-		}, 2200);
-		
-	}
-	
-	
-	if(sleep(8,2000))return;
-	if(index == 8){
-		function r1(r){
-			setTimeout(function(){
-				donut.setInnerRadius(r);
-				donut.plugin.repaintDonuts();	
-			},r*5);
-		}
-		for (var k = 0; k < 100; k=k+5) {
-			r1(k);
-		}
-		function t(t){
-			setTimeout(function(){
-				donut.setThickness(t);
-				//donut.plugin.repaintDonuts();	
-			},t*10);
-		}
-		for (var k = donut.thickness; k < (donut.thickness+30); k=k+1) {
-			//console.log("k :"+k)
-			t(k);
-		}
-		
-	}
-	
-	if(sleep(9,800))return;
-	if(index == 9){
-		//proj.unregisterPlugin(donut3DPlugin);
-		setTimeout(function() {
-			donut.shift( -30, 400, 8);
-		}, 200);
-		function d(r){
-			setTimeout(function(){
-				s3.divergence = r;
-				donut.plugin.repaintDonuts();	
-			},r*10);
-		}
-		for (var k = 0; k < 20; k=k+3) {
-			d(k);
-		}
-	}
-	
-	
-	
-	
+//				
+//		}
+//	});
+//	buttonGroup.registerWidget(button1);
+	//tx1.select();
 }
 
-
-function createDonut2D(container, width, height) {
-
-	var view = new JenScript.View({
-		name : container,
-		width : width,
-		height : height,
-		holders : 20,
+function createPie(view){
+	var proj = new JenScript.LinearProjection({
+		name : "proj1",
+		minX : -1,
+		maxX : 1,
+		minY : -3,
+		maxY : 3,
+		paintMode : 'ACTIVE'
 		
-	});
-
-
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1000,
-		maxX : 1000,
-		minY : -1000,
-		maxY : 1000
-	});
-	view.registerProjection(proj);
-
-
-	var donutPlugin = new JenScript.Donut2DPlugin();
-	proj.registerPlugin(donutPlugin);
-
-	var donut = new JenScript.Donut2D({innerRadius : 80, outerRadius : 120, startAngleDegree : 45});
-	donutPlugin.addDonut(donut);
-	
-	donut.setFill(new JenScript.Donut2DRadialFill());
-	donut.addEffect(new JenScript.Donut2DLinearEffect());
-	donut.addEffect(new JenScript.Donut2DReflectionEffect());
-
-	var s1 = new JenScript.Donut2DSlice({
-		name : "s1",
-		value : 45,
-		themeColor : 'rgba(240, 240, 240, 0.9)'
-	});
-	var s2 = new JenScript.Donut2DSlice({
-		name : "s2",
-		value : 5,
-		themeColor : 'rgba(37,38,41,1)'
-	});
-	var s3 = new JenScript.Donut2DSlice({
-		name : "s3",
-		value : 30,
-		themeColor : 'rgba(78,148,44,1)'
-	});
-	var s4 = new JenScript.Donut2DSlice({
-		name : "s4",
-		value : 5,
-		themeColor : 'rgba(22,125,218, 1)'
-	});
-	var s5 = new JenScript.Donut2DSlice({
-		name : "s5",
-		value : 5,
-		themeColor : 'rgba(61,44,105,1)'
-	});
-
-	donut.addSlice(s1);
-	donut.addSlice(s2);
-	donut.addSlice(s3);
-	donut.addSlice(s4);
-	donut.addSlice(s5);
-	
-
-}
-
-
-function createPie(container, width, height) {
-
-	var view = new JenScript.View({
-		name : container,
-		width : width,
-		height : height,
-		holders : 0,
-		north: 20,
-		south :20,
-	});
-
-
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1000,
-		maxX : 1000,
-		minY : -1000,
-		maxY : 1000
 	});
 	view.registerProjection(proj);
 
@@ -361,9 +526,10 @@ function createPie(container, width, height) {
 	proj.registerPlugin(piePlugin);
 
 	var pie = new JenScript.Pie({
-		radius : 120, 
+		radius : 80, 
 		startAngleDegree : 30,
 		opacity: 1,
+		y : -1 
 	});
 	piePlugin.addPie(pie);
 
@@ -374,8 +540,8 @@ function createPie(container, width, height) {
 
 	var fx0 = new JenScript.PieLinearEffect();
 	pie.addEffect(fx0);
-	var fxl = new JenScript.PieReflectionEffect();
-	pie.addEffect(fxl);
+	//var fxl = new JenScript.PieReflectionEffect();
+	//pie.addEffect(fxl);
 	
 	var s1 = new JenScript.PieSlice({
 		name : "s1",
@@ -412,6 +578,7 @@ function createPie(container, width, height) {
 	var s1Label = new JenScript.PieRadialLabel({
 		text : "Silver",
 		fillColor:'black',
+		fontSize : 11,
 		outlineColor : s1.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
@@ -422,6 +589,7 @@ function createPie(container, width, height) {
 	var s2Label = new JenScript.PieRadialLabel({
 		text : "Platinium",
 		fillColor:'black',
+		fontSize : 11,
 		outlineColor : JenScript.Color.lighten(s2.getThemeColor(),20),
 		cornerRadius : 8,
 		outlineWidth : 2,
@@ -432,6 +600,7 @@ function createPie(container, width, height) {
 	var s3Label = new JenScript.PieRadialLabel({
 		text : "Rhodium",
 		fillColor:'black',
+		fontSize : 11,
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
@@ -443,6 +612,7 @@ function createPie(container, width, height) {
 	var s4Label = new JenScript.PieRadialLabel({
 		text : "Chrome",
 		fillColor:'black',
+		fontSize : 11,
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
@@ -456,10 +626,10 @@ function createPie(container, width, height) {
 		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
 		cornerRadius : 8,
 		outlineWidth : 2,
+		fontSize : 11,
 		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
 	});
 	s5.setSliceLabel(s5Label);
 
 	piePlugin.repaintPlugin();
-	
 }

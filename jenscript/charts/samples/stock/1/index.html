@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" class="jensoft-org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="javascript charts">
+    <meta name="author" content="Sébastien Janaud">
+	<link rel="icon" type="image/svg+xml" href="../../svg/donut2d.svg" />
+    <title>JavaScript Stock Charts - Case of Silver</title>
+   
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/docs.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+   
+   <link rel="stylesheet" href="/assets/style.css">
+   <script src="/jenscript.min.js"></script>
+   <script src="../StockLoader.js"></script>
+   <script src="stock.js"></script> 
+</head>
+
+<body>
+
+
+
+<div class="container">
+   
+
+<h1>Stock Charts - <span style="color : rgb(22, 125, 218);">Case of Silver.</span></h1> 
+
+<small>Sébastien Janaud - May 17, 2015 / <a href="../../">JenScript</a>
+</small>
+
+
+
+<div class="bs-callout bs-callout-info" >
+    <h4 >Stock Feature</h4>
+    <p>
+   Stock chart are graphical representations of historical stock prices which help to determine current supply and demand forces in a stock market exchange.
+   In stock and commodity markets trading, studying chart patterns plays a large role during technical analysis. Analysis of stock chart allows a trader to determine with more accuracy just what the current supply and demand is in a stock.
+   JenScript does support common indicators and overlays such as ohlc, candle stick, moving average, sma, ema, wma, macd, bollinger bands, time picker, etc.
+   </p>
+    <p>
+    Register plugin <code>StockPlugin</code> in view projection. Add <code>Stock</code> in plugin then register layouts as indicators or overlays of these stocks on period.
+    </p>
+    
+    <p>
+    	<small><strong>Resource :</strong><a href="stock.js" download> sample source code</a>&nbsp;-&nbsp;<a href="../slv-history.zip">slv historical prices</a>&nbsp;-&nbsp;<a href="../StockWorker.js" download>Stock Web Worker</a>&nbsp;-&nbsp;<a href="../StockLoader.js" download>Stock Loader</a></small>
+    </p>
+    <p>
+    	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/stock" target="_blank">javascript stock plugin sources</a></small>
+  	<p>
+  	<p>
+    	<small><strong>Part :</strong> Part 1&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;<a href="../6">Part 6</a>&nbsp;-&nbsp;<a href="../7">Part 7</a>&nbsp;-&nbsp;<a href="../8">Part 8</a></small>
+    </p>
+    <p>
+    	<small><strong>Related  :</strong> <a href="../../metrics/1">Modeling Chart Metrics</a></small>
+    </p>
+  </div>
+  
+	<div style="padding-top: 20px;">
+		<div  id="priceView"></div>
+	</div>
+	<div style="padding-top: 20px;">
+		<div  id="volumeView"></div>
+	</div>
+	
+	<div>
+		
+		<p>
+		For this case study, we lookup historical stock prices at <a href="http://www.nasdaq.com" target="_blank">nasdaq market</a>. For example 'slv' which is The iShares Silver Trust (the 'Trust') seeks to reflect generally the performance of the price of silver.
+		Go in historical menu section and after re order this history we have <a href="../slv-history.zip">slv historical prices</a> split by years.
+		</p>
+		<p>
+		Stock item is defined by properties :<br>
+		</p>
+		<ul>
+			<li>fixing : the fixing date</li>
+			<li>low : the lowest price over one unit of time(e.g., one day or one hour)</li>
+			<li>high price : the highest price over one unit of time (e.g., one day or one hour)</li>
+			<li>open price : the opening price (e.g., for a daily chart this would be the starting price for that day)</li>
+			<li>close price : the closing price for this time fixing period</li>
+			<li>volume : the number of shares or contracts traded in a security or an entire market </li>
+		</ul>
+		
+		<p>
+		Non blocking UI process supposes we are using web work that loads asynchronously each historical data parts. 
+		we can use this  <a href="../StockWorker.js" download>stock worker</a> that provides the
+		data download processing and the  <a href="../StockLoader.js" download>stock loader</a> that manages the loaded data.
+		</p>
+	</div>
+	
+
+<p>
+First prepare HTML document. For clear and readable information, we split chart into 2 distinct views, first for displaying stock prices and the other for volume bar chart.
+</p>
+<pre><code class="html">
+&lt;div style="padding-top: 20px;"&gt;
+	&lt;div  id="priceView"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div style="padding-top: 20px;"&gt;
+	&lt;div  id="volumeView"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;script type="text/javascript"&gt;
+	//action code
+&lt;/script&gt;
+</code></pre>
+
+
+
+<p style="padding-top: 30px;">
+Let's create 2 functions for creating stock charts views and declare some globals that will be shared.
+</p>
+
+<pre><code class="javascript">
+
+var startDate = new Date(2013, 09, 01);
+var endDate = new Date(2013, 11, 01);
+var projPrice;
+var stockPlugin1,stockPlugin2;
+var translate1,translate2;
+
+var indigo = JenScript.RosePalette.INDIGO;
+var choco = JenScript.RosePalette.CHOCOLATE;
+var emerald = JenScript.RosePalette.EMERALD;
+var aegean = JenScript.RosePalette.AEGEANBLUE;
+var minor = {
+	tickMarkerSize : 2,
+	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerStroke : 1
+};
+var median = {
+	tickMarkerSize : 4,
+	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerStroke : 1.2,
+	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextFontSize : 10
+};
+var major = {
+	tickMarkerSize : 8,
+	tickMarkerColor : JenScript.Color.lighten(choco,20),
+	tickMarkerStroke : 3,
+	tickTextColor : JenScript.Color.lighten(choco,20),
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
+</code></pre>
+
+
+<p style="padding-top: 40px;">Now, create a function for creating price view. We use <code>View</code> the end chart which is attached to the root dom element, <code>TimeXProjection</code> 
+the projection in timing fashion behavior.<code>StockPlugin</code> manage the stocks layouts.
+ </p>
+<pre><code class="javascript">
+
+function createPriceView(container, width, height) {
+	
+	//view
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		west : 100,
+		east : 80,
+		south : 80,
+	});
+
+	
+	projPrice = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 17,
+		maxY : 23
+	});
+	view.registerProjection(projPrice);
+	
+	//stock plugin
+	stockPlugin1 = new JenScript.StockPlugin({
+		bearishColor : JenScript.RosePalette.AMETHYST,
+		bullishColor : JenScript.RosePalette.LIME,
+	});
+	projPrice.registerPlugin(stockPlugin1);
+
+	stockPlugin1.addLayer(new JenScript.CandleStickLayer({
+		lowHighColor : JenScript.RosePalette.COALBLACK
+	}));
+	stockPlugin1.addLayer(new JenScript.StockBollingerLayer({
+		bandColor:JenScript.RosePalette.FLANNELGRAY,
+		bandOpacity: 0.1,
+		lineColor:JenScript.Color.lighten(aegean,25),
+		lineOpacity:0.6,
+		lineWidth : 0.5
+	}));
+
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	projPrice.registerPlugin(outline);
+
+
+	var southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projPrice.registerPlugin(southMetrics1);
+	
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projPrice.registerPlugin(westMetrics);
+
+	//translate
+	translate1 = new JenScript.TranslatePlugin();
+	projPrice.registerPlugin(translate1);
+	var txw = new JenScript.TranslateX({
+			xIndex:100,
+			width : 150,
+			height : 22,
+			outlineStrokeColor : 'rgba(0,0,0,0)',
+			//outlineFillColor: 'gray',
+			buttonStrokeColor:'white',
+			buttonFillColor:'black',
+			buttonRolloverStrokeColor:JenScript.Color.lighten(emerald,40)}
+	);
+	translate1.registerWidget(txw);
+	translate1.select();
+
+	
+	
+
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'SLV Stock',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CHOCOLATE,
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	projPrice.registerPlugin(title);
+	
+}
+</code></pre>
+
+
+<p style="padding-top: 40px;">Now, create a function for creating volume view.
+ </p>
+<pre><code class="javascript">
+
+function createVolumeView(container, width, height) {
+	
+	//view
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		west : 100,
+		east : 80,
+		south : 80,
+	});
+
+
+	var projVolume = new JenScript.TimeXProjection({
+		cornerRadius : 6,
+		name : "proj1",
+		minXDate : startDate,
+		maxXDate : endDate,
+		minY : 0,
+		maxY : 100000000
+	});
+	view.registerProjection(projVolume);
+	
+	//device outline
+	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	projVolume.registerPlugin(outline);
+
+
+	var southMetrics1 = new JenScript.AxisMetricsTiming({
+		axis : JenScript.Axis.AxisSouth,
+		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projVolume.registerPlugin(southMetrics1);
+	
+	var westMetrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	projVolume.registerPlugin(westMetrics);
+
+	translate2 = new JenScript.TranslatePlugin({
+		mode : 'tx'
+	});
+	projVolume.registerPlugin(translate2);
+
+	stockPlugin2 = new JenScript.StockPlugin({
+		bearishColor : JenScript.RosePalette.EMERALD,
+		bullishColor : JenScript.RosePalette.CORALRED,
+	});
+	projVolume.registerPlugin(stockPlugin2);
+
+	stockPlugin2.addLayer(new JenScript.VolumeBarLayer({
+		volumeColor : JenScript.RosePalette.PINGPIZZAZZ
+	}));
+
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'SLV Volume',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CHOCOLATE,
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	projVolume.registerPlugin(title);
+}
+
+</code></pre>
+
+
+<p style="padding-top: 40px;">Finally, create a main function for creating charts
+ </p>
+<pre><code class="javascript">
+
+function createViews(w){
+	createPriceView('priceView',w,300);
+	createVolumeView('volumeView',w,200);
+	var synchronizer = new JenScript.TranslateSynchronizer({
+		translates : [ translate1, translate2 ]
+	});
+	translate1.select();
+
+	var __loader = new StockLoader(projPrice,[2013,2014,2015],function(year,stocks){
+		stockPlugin1.setStocks(stocks);
+		stockPlugin2.setStocks(stocks);
+	});
+}
+
+</code></pre>
+
+ </div>
+ 
+ <footer class="footer">
+   <div class="container">
+     <small><a href="http://jenscript.io">JenScript JS</a> - <span class="footer-title">JavaScript HTML5/SVG Chart Data Visualization Library</span></small>
+   </div>
+ </footer>
+</body>
+  
+
+<script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#priceView").width();
+		createViews(w);
+	}
+	init();
+</script>
+</html>

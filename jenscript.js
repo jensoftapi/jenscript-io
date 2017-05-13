@@ -1,11 +1,10 @@
 // JenScript -  JavaScript HTML5/SVG Library
-// Product of JenSoftAPI - Visualization Java & JS Libraries
-// version : 1.1.8
+// version : 1.1.9
 // Author : Sebastien Janaud 
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
-// Copyright (C) 2008 - 2015 JenScript, product by JenSoftAPI company, France.
-// build: 2016-06-03
+// Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
+// build: 2017-05-13
 // All Rights reserved
 
 /**
@@ -18,7 +17,7 @@ var JenScript = {};
 	
 		JenScript = {
 				
-				version : '1.1.8',
+				version : '1.1.9',
 				views : [],
 				sequenceId: 0,
 				SVG_NS : 'http://www.w3.org/2000/svg',
@@ -1880,7 +1879,7 @@ function stringInputToObject(color) {
 	};
 	JenScript.Model.addMethods(JenScript.GeneralMetricsPath,{
 		init : function(config){
-			console.log('create general metrics path');
+			//console.log('create general metrics path');
 			config = config || {};
 			this.Id = 'generalmetricspath'+JenScript.sequenceId++;
 			/** default nature is the user space */
@@ -2573,6 +2572,10 @@ function stringInputToObject(color) {
 		 */
 	    setView : function(view) {
 	        this.view=view;
+	        var that = this;
+			view.addViewListener('projectionActive',function(){
+				that.repaintPlugin();
+			},'Projection active listener, create for internal selector plugin');
 	    },
 	    
 	    /**
@@ -2606,26 +2609,31 @@ function stringInputToObject(color) {
 			var that = this;
 			this.openingSelector = true;
 			var projection = selector.projection;
-			var run = function(i,callback){
-				setTimeout(function(){
-					that.processOpeningSelector(selector,i);
-					callback(i);
-				},i*30);
-				
-			};
-			for(var i=1;i<=10;i++){
-				run(i,function callback(rank){
-					if(rank === 10){
-						that.getView().setActiveProjection(projection);
-						that.openingSelector = false;
-				    	document.getElementById(selector.Id).setAttribute('x',selector.x);
-				    	document.getElementById(selector.Id).setAttribute('y',selector.y);
-				    	document.getElementById(selector.Id).setAttribute('width','10%');
-				    	document.getElementById(selector.Id).setAttribute('height','10%');
-				    	that.checkSelectorSelectedOutline();
-					}
-				});
-			}
+			
+			
+			that.getView().setActiveProjection(projection);
+			that.openingSelector = false;
+			
+//			var run = function(i,callback){
+//				setTimeout(function(){
+//					that.processOpeningSelector(selector,i);
+//					callback(i);
+//				},i*30);
+//				
+//			};
+//			for(var i=1;i<=10;i++){
+//				run(i,function callback(rank){
+//					if(rank === 10){
+//						that.getView().setActiveProjection(projection);
+//						that.openingSelector = false;
+//				    	document.getElementById(selector.Id).setAttribute('x',selector.x);
+//				    	document.getElementById(selector.Id).setAttribute('y',selector.y);
+//				    	document.getElementById(selector.Id).setAttribute('width','10%');
+//				    	document.getElementById(selector.Id).setAttribute('height','10%');
+//				    	that.checkSelectorSelectedOutline();
+//					}
+//				});
+//			}
 		 },
 		 
 		/**
@@ -2666,7 +2674,53 @@ function stringInputToObject(color) {
 	    		var startY = view.north+10;
 	    		for(var i = 0;i<projections.length;i++){
 	    			var proj = projections[i];
-	    			var svg = proj.svgRootElement.cloneNode(true);
+	    			var svg = document.createElementNS(JenScript.SVG_NS,"use");
+    	    		if(svg !== undefined){
+    	    			var selectorId = 'selector_'+view.Id+'_'+proj.Id;
+    	    			svg.setAttribute('id',selectorId);
+    	    			svg.setAttribute('x',startX);
+    	    			svg.setAttribute('opacity',1);
+    	    			svg.setAttribute('y',startY);
+    	    			svg.setAttribute('width','10%');
+    	    			svg.setAttribute('height','10%');
+    	    			//svg.setAttribute('preserveAspectRatio','xMinYMin slice');
+    	    			//svg.setAttribute('preserveAspectRatio','xMinYMin');
+    	    			svg.setAttributeNS(JenScript.XLINK_NS, 'xlink:href','#'+proj.Id);
+    	    			g2d.insertSVG(svg);
+    	    			
+    	    			var projRect = new JenScript.SVGRect().origin(startX,startY).size(view.width*0.1,view.height*0.1);
+	    	    						
+	    	    		//if(proj.isActive()){
+    	    			projRect.fillNone().strokeWidth(0.6);
+    	    			var outline = projRect.toSVG();
+    	    			g2d.insertSVG(outline);
+    	    			
+    	    			//}
+    	    			this.selectors[this.selectors.length] = {Id :selectorId, x:startX,y:startY,projection : proj,svg:svg, outlineElement : outline,sensible :projRect};
+    	    			startX = startX + view.width*0.1 + 10;
+    	    		}
+    			}
+	    		this.checkSelectorSelectedOutline();
+		},
+		
+		/**
+		 * paint static projection selector
+		 *  @param {Object} graphics context
+		 *  @param {Object} view part
+		 */
+		paintSelectorsOLD : function(g2d,viewPart) {
+			if(this.isLockPassive()) return;
+			if (viewPart !== JenScript.ViewPart.Device) return;
+	    		
+				this.selectors=[];
+	    		var view = this.getView();
+	    		var projections = view.getProjections();
+	    		var startX = view.west+10;
+	    		var startY = view.north+10;
+	    		for(var i = 0;i<projections.length;i++){
+	    			var proj = projections[i];
+	    			//var svg = proj.svgRootElement.cloneNode(true);
+	    			var svg = document.createElement('use');
     	    		if(svg !== undefined){
     	    			var selectorId = 'selector_'+view.Id+'_'+proj.Id;
     	    			svg.removeAttribute('xmlns');
@@ -3342,25 +3396,38 @@ function stringInputToObject(color) {
 				//					evt.preventDefault();	
 				//				}
 				
-				//console.log('action event : '+actionEvent);
+				//console.log('action event : '+actionEvent+", x,y : "+x+','+y);
 				var widgetHandler   = this.view.getWidgetPlugin()['on'+actionEvent];
 				var selectorHandler = this.view.getSelectorPlugin()['on'+actionEvent];
 				
 				widgetHandler.call(this.view.getWidgetPlugin(),evt,this.part,x,y);
 				selectorHandler.call(this.view.getSelectorPlugin(),evt,this.part,x,y);
 
-				if(this.view === undefined || this.view.getActiveProjection() === undefined) return;
-				var projection = this.view.getActiveProjection();
-				var plugins = projection.getPlugins();
-				for (var p = 0; p < plugins.length; p++) {
-					var pluginHandler   = plugins[p]['on'+actionEvent];
+				if(this.view === undefined) return;
+				var projs = this.view.getProjections();
+				for (var p = 0; p < projs.length; p++) {
+		    		var proj = projs[p];
+		    		
+		    		var plugins = proj.getPlugins();
+					for (var p = 0; p < plugins.length; p++) {
+						var pluginHandler   = plugins[p]['on'+actionEvent];
+						pluginHandler.call(plugins[p],evt,this.part,x, y);
+					}
 					
-					//TODO?
-					//call if plugin is not selectable
-					//if selectable, call only if plugin is lock selected
-					
-					pluginHandler.call(plugins[p],evt,this.part,x, y);
 				}
+				
+//				if(this.view === undefined || this.view.getActiveProjection() === undefined) return;
+//				var projection = this.view.getActiveProjection();
+//				var plugins = projection.getPlugins();
+//				for (var p = 0; p < plugins.length; p++) {
+//					var pluginHandler   = plugins[p]['on'+actionEvent];
+//					
+//					//TODO?
+//					//call if plugin is not selectable
+//					//if selectable, call only if plugin is lock selected
+//					
+//					pluginHandler.call(plugins[p],evt,this.part,x, y);
+//				}
 			},
 	});
 })();
@@ -4329,10 +4396,15 @@ function stringInputToObject(color) {
 			this.contextualizeGraphics();
 			
 			//DO NOT REMOVE THIS LINE
-			var copyright = new JenScript.TextViewForeground({/*textColor:'rgb(255,255,50)',*/fontSize:6,x:this.west,y:this.north-2,text:'JenScript '+JenScript.version+' - www.jensoftapi.com'});
+			var copyright = new JenScript.TextViewForeground({/*textColor:'rgb(255,255,50)',*/fontSize:6,x:this.west,y:this.north-2,text:'JenScript '+JenScript.version+' - www.jenscript.io'});
 			this.addViewForeground(copyright);
 		},
 		
+		find : function(element){
+			if(element.Id !== undefined)
+				return document.getElementById(element.Id);
+			return null;
+		},
 		
 		/**
 		 * get the background clip for the given background
@@ -4639,6 +4711,7 @@ function stringInputToObject(color) {
 			if (this.activeProjection.Id !== activeProjection.Id) {
 				this.activeProjection = activeProjection;
 				this.activeProjection.setActive(true);
+				//this.selectorPlugin.repaintPlugin();
 				this.fireViewEvent('projectionActive');
 			}
 		},
@@ -4829,6 +4902,11 @@ function stringInputToObject(color) {
 			this.attachProjectionActiveListener(projection);
 			this.attachProjectionSelectorListener(projection);
 			
+			projection.svgRootGroup = document.createElementNS(this.SVG_NS,"g");
+			projection.svgRootGroup.setAttribute("xmlns",this.SVG_NS);
+			projection.svgRootGroup.setAttribute("id",projection.Id+'_group');
+			
+			
 			projection.svgRootElement = document.createElementNS(this.SVG_NS,"svg");
 			projection.svgRootElement.setAttribute("id",projection.Id);
 			projection.svgRootElement.setAttribute("xmlns",JenScript.SVG_NS);
@@ -4846,7 +4924,10 @@ function stringInputToObject(color) {
 			projection.svgPartsGroup.setAttribute("id",projection.Id+'_parts');
 			projection.svgRootElement.appendChild(projection.svgPartsGroup);
 			
-			this.svgProjections.appendChild(projection.svgRootElement);
+			
+			projection.svgRootGroup.appendChild(projection.svgRootElement);
+			
+			this.svgProjections.appendChild(projection.svgRootGroup);
 			
 			projection.svgPartPlugins ={};
 			this.contextualizeProjectionPartGraphics(projection,this.southPart,new JenScript.Point2D(0,(this.height - this.south)));
@@ -4878,13 +4959,16 @@ function stringInputToObject(color) {
 		 */
 		attachProjectionActiveListener : function(projection){
 			projection.addProjectionListener('lockActive',function(proj){
-				proj.svgRootElement.setAttribute('opacity',1);
+				//proj.svgRootElement.setAttribute('opacity',1);
+				proj.svgRootGroup.setAttribute('opacity',1);
 			},'view projection active listener to change projection opacity');
 			projection.addProjectionListener('unlockActive',function(proj){
 				if(proj.paintMode === 'ACTIVE')
-					proj.svgRootElement.setAttribute('opacity',0);
+					//proj.svgRootElement.setAttribute('opacity',0);
+					proj.svgRootGroup.setAttribute('opacity',0);
 				if(proj.paintMode === 'ALWAYS')
-					proj.svgRootElement.setAttribute('opacity',1);
+					//proj.svgRootElement.setAttribute('opacity',1);
+					proj.svgRootGroup.setAttribute('opacity',1);
 			},'view projection unactive listener to change projection opacity');
 		},
 		
@@ -5031,7 +5115,6 @@ function stringInputToObject(color) {
 			
 			var dispatchMouse = function(evt,action) {
 				var loc = getLocation(evt);
-				//console.log(action+" ",loc.x, loc.y+' in part '+component.part);
 				that.getComponent(component.part).on(action,evt, loc.x, loc.y);
 			};
 			
@@ -5104,7 +5187,6 @@ function stringInputToObject(color) {
 			         };
 			         
 			         event.deltaY = delta;
-			         
 			         dispatchMouse(event,'Wheel');
 				}
 				if (s.addEventListener) {
@@ -5295,7 +5377,7 @@ function stringInputToObject(color) {
 		init : function(config){
 			config = config || {};
 			this.Id = 'proj_'+JenScript.sequenceId++;
-			this.name = config.name;
+			this.name = (config.name !== undefined)?config.name : 'projection undefined name';
 			this.initial = true;
 			this.themeColor = (config.themeColor !== undefined)?config.themeColor:JenScript.createColor();
 			this.listeners =[];
@@ -6533,6 +6615,9 @@ function stringInputToObject(color) {
 		
 		applyTransform : function(){
 			this.svgRoot['Device'].setAttribute("transform","translate("+this.tx+","+this.ty+") scale("+this.sx+","+this.sy+")");
+			this.svgRoot['West'].setAttribute("transform","translate("+this.tx+","+this.ty+") scale("+this.sx+","+this.sy+")");
+			this.svgRoot['East'].setAttribute("transform","translate("+this.tx+","+this.ty+") scale("+this.sx+","+this.sy+")");
+			this.svgRoot['South'].setAttribute("transform","translate("+this.tx+","+this.ty+") scale("+this.sx+","+this.sy+")");
 		},
 		
 		translate : function(tx,ty,fire){
@@ -6543,7 +6628,6 @@ function stringInputToObject(color) {
 				if(fire === undefined || fire !== false)
 				this.firePluginEvent('translate');
 			}
-			
 		},
 		
 		scale : function(sx,sy,fire){
@@ -6578,7 +6662,6 @@ function stringInputToObject(color) {
 		getProjection : function() {
 			return this.projection;
 		},
-		
 		
 		
 		/**
@@ -6952,35 +7035,50 @@ function stringInputToObject(color) {
 		        }
 		        return false;
 		    };
-	    	var proj = this.getActiveProjection();
+	    	//var proj = this.getActiveProjection();
 	    	//console.log('moveWidgetOperationCheckPress for proj '+this.getActiveProjection().name);
-	        for (var i = 0; i < proj.plugins.length; i++) {
-	        	var plugin = proj.plugins[i];
-	            if (plugin.isSelectable() && !plugin.isLockSelected()) {
-	                continue;
-	            }
-	            
-	            for (var j = 0; j < plugin.widgets.length; j++) {
-	            	var widget = plugin.widgets[j];
-	                //console.log('process moveWidgetOperationCheckPress widget : '+widget.Id);
-	                var widgetFolder = widget.getWidgetFolder();
-	                if (widgetFolder === undefined) {
-	                    continue;
-	                }
-	                if (contains(widgetFolder,x, y) && !widget.isNoMoveOperation()) {
-	                    widgetFolder.currentDragX = x;
-	                    widgetFolder.currentDragY = y;
-	                    widgetFolder.startPress();
-	                    widget.create();
-						widget.createGhost();
-						this.passivePlugins();
-	                }
-	                else {
-	                    widgetFolder.interruptPress();
-	                    this.activePlugins();
-	                }
-	            }
-			}
+		    var projs = this.getView().getProjections();
+	    	for (var p = 0; p < projs.length; p++) {
+	    		var proj = projs[p];
+	    		
+	    		
+		    	for (var i = 0; i < proj.plugins.length; i++) {
+		        	var plugin = proj.plugins[i];
+//		            if (plugin.isSelectable() && !plugin.isLockSelected()) {
+//		                continue;
+//		            }
+		            
+		            for (var j = 0; j < plugin.widgets.length; j++) {
+		            	var widget = plugin.widgets[j];
+		            	
+		            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+		            		
+		            		//console.log('process moveWidgetOperationCheckPress widget : name : '+widget.name);
+			                var widgetFolder = widget.getWidgetFolder();
+			                if (widgetFolder === undefined) {
+			                    continue;
+			                }
+			                
+			                //console.log('process move flags : contains (x,y) :'+contains(widgetFolder,x, y)+", widget NoMoveOperation :"+widget.isNoMoveOperation());
+			                if (contains(widgetFolder,x, y) && !widget.isNoMoveOperation()) {
+			                    widgetFolder.currentDragX = x;
+			                    widgetFolder.currentDragY = y;
+			                    widgetFolder.startPress();
+			                    widget.create();
+								widget.createGhost();
+								this.passivePlugins();
+			                }
+//			                else {
+//			                    widgetFolder.interruptPress();
+//			                    this.activePlugins();
+//			                }
+		            		
+		            	}else{
+		            		//console.log('incompatible mode process moveWidgetOperationCheckPress widget'+widget.name);
+		            	}
+		            }
+				}	
+	    	}
 	    },
 
 	    /**
@@ -6992,22 +7090,31 @@ function stringInputToObject(color) {
 	     * @param {Number} y  the mouse y coordinate
 	     */
 	    moveWidgetOperationCheckDrag : function(event,part,x,y) {
-	        var proj = this.getActiveProjection();
-	        for (var i = 0; i < proj.plugins.length; i++) {
-	        	var plugin = proj.plugins[i];
-	            for (var j = 0; j < plugin.widgets.length; j++) {
-	            	var widget = plugin.widgets[j];
-	                var widgetFolder = widget.getWidgetFolder();
-	                if (widgetFolder !== undefined) {
-	                    if (widgetFolder.lockPress) {
-	                        widgetFolder.currentDragX = x;
-	                        widgetFolder.currentDragY = y;
-	                        widget.create();
-							widget.createGhost();
-	                    }
-	                }
-	            }
-	        }
+	        //var proj = this.getActiveProjection();
+	    	
+	    	var projs = this.getView().getProjections();
+	    	for (var p = 0; p < projs.length; p++) {
+	    		var proj = projs[p];
+	    		
+		        for (var i = 0; i < proj.plugins.length; i++) {
+		        	var plugin = proj.plugins[i];
+		            for (var j = 0; j < plugin.widgets.length; j++) {
+		            	var widget = plugin.widgets[j];
+		            	
+		            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+		            		var widgetFolder = widget.getWidgetFolder();
+			                if (widgetFolder !== undefined) {
+			                    if (widgetFolder.lockPress) {
+			                        widgetFolder.currentDragX = x;
+			                        widgetFolder.currentDragY = y;
+			                        widget.create();
+									widget.createGhost();
+			                    }
+			                }
+		            	}
+		            }
+		        }
+	    	}
 	    },
 
 	    /**
@@ -7019,28 +7126,36 @@ function stringInputToObject(color) {
 	     * @param {Number} y  the mouse y coordinate
 	     */
 	    moveWidgetOperationCheckRelease : function(evt,part,x,y) {
-	    	var proj = this.getActiveProjection();
-	        for (var i = 0; i < proj.plugins.length; i++) {
-	        	var plugin = proj.plugins[i];
-	        	for (var j = 0; j < plugin.widgets.length; j++) {
-	            	var widget = plugin.widgets[j];
-	                var widgetFolder = widget.getWidgetFolder();
-	                if (widgetFolder === undefined) {
-	                    continue;
-	                }
-	                if (widgetFolder.lockPress) {
-	                    if (widgetFolder.targetFolder !== undefined) {
-	                    	widget.postWidget();
-	                        this.activePlugins();
-	                        widget.create();
-							widget.destroyGhost();
-							 
-	                    }
-	                    widgetFolder.interruptPress();
-	                }
-	               
-	            }
-	        }
+	    	//var proj = this.getActiveProjection();
+	    	var projs = this.getView().getProjections();
+	    	for (var p = 0; p < projs.length; p++) {
+	    		var proj = projs[p];
+	    		
+	    		for (var i = 0; i < proj.plugins.length; i++) {
+		        	var plugin = proj.plugins[i];
+		        	for (var j = 0; j < plugin.widgets.length; j++) {
+		            	var widget = plugin.widgets[j];
+		            	
+		            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+		            		
+			                var widgetFolder = widget.getWidgetFolder();
+			                if (widgetFolder === undefined) {
+			                    continue;
+			                }
+			                if (widgetFolder.lockPress) {
+			                    if (widgetFolder.targetFolder !== undefined) {
+			                    	widget.postWidget();
+			                        this.activePlugins();
+			                        widget.create();
+									widget.destroyGhost();
+									 
+			                    }
+			                    widgetFolder.interruptPress();
+			                }
+		            	}
+		            }
+		        }
+	    	}
 	    },
 	    
 	    /**
@@ -7063,31 +7178,30 @@ function stringInputToObject(color) {
 	    },
 
 	    /**
-	     * on move dispath
-	     * @param {Object} event  the mouse pressed event
+	     * on move dispatch
+	     * @param {Object} event  the mouse move event
 	     * @param {String} part component where event occurs
 	     * @param {Number} x  the mouse x coordinate
 	     * @param {Number} y  the mouse y coordinate
 	     */
 	    dispatchMove : function(event,part,x,y) {
 	    	if(part !== JenScript.ViewPart.Device) return;
-	    	var proj = this.getActiveProjection();
-	        for (var i = 0; i < proj.plugins.length; i++) {
-	        	var plugin = proj.plugins[i];
-	            if (plugin.isSelectable() && plugin.isLockSelected()) {
-	            	  for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-		                    widget.interceptMove(x, y);
-	            	  }
-	            }
-	            else {
-	            	  for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-		                    widget.interceptMove(x, y);
-	                }
-	            }
-	        }
-
+	    	
+	    	//var proj = this.getActiveProjection();
+	    	var projs = this.getView().getProjections();
+	    	for (var p = 0; p < projs.length; p++) {
+	    		var proj = projs[p];
+	    		
+		        for (var i = 0; i < proj.plugins.length; i++) {
+		        	var plugin = proj.plugins[i];
+		        	for (var j = 0; j < plugin.widgets.length; j++) {
+		            	var widget = plugin.widgets[j];
+		            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+		            		widget.interceptMove(x, y);
+		            	}
+		        	}
+		        }
+	    	}
 	    },
 
 	    /**
@@ -7112,6 +7226,8 @@ function stringInputToObject(color) {
 	    	var proj = this.getActiveProjection();
 	        for (var i = 0; i < proj.plugins.length; i++) {
 	        	var plugin = proj.plugins[i];
+	        	
+	        	
 	            if (plugin.isSelectable() && plugin.isLockSelected()) {
 	            	 for (var j = 0; j < plugin.widgets.length; j++) {
 			            //var widget = plugin.widgets[j];
@@ -7138,19 +7254,27 @@ function stringInputToObject(color) {
 	    	var proj = this.getActiveProjection();
 	        for (var i = 0; i < proj.plugins.length; i++) {
 	        	var plugin = proj.plugins[i];
-	            if (plugin.isSelectable() && plugin.isLockSelected()) {
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-		                    widget.interceptDrag(x,y);
-	                }
-	            }
-	            else {
-	            	 //duplicate, keep if change in future for non selectable widget
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-			            	widget.interceptDrag(x,y);
-	                }
-	            }
+	        	
+	        	for (var j = 0; j < plugin.widgets.length; j++) {
+	            	var widget = plugin.widgets[j];
+	            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+	            		widget.interceptDrag(x, y);
+	            	}
+	        	}
+	        	
+//	            if (plugin.isSelectable() && plugin.isLockSelected()) {
+//	            	 for (var j = 0; j < plugin.widgets.length; j++) {
+//			            	var widget = plugin.widgets[j];
+//		                    widget.interceptDrag(x,y);
+//	                }
+//	            }
+//	            else {
+//	            	 //duplicate, keep if change in future for non selectable widget
+//	            	 for (var j = 0; j < plugin.widgets.length; j++) {
+//			            	var widget = plugin.widgets[j];
+//			            	widget.interceptDrag(x,y);
+//	                }
+//	            }
 	        }
 	    },
 
@@ -7162,7 +7286,7 @@ function stringInputToObject(color) {
 	     * @param {Number} y  the mouse y coordinate
 	     */
 	   onPress : function(event,part,x, y) {
-		   this.press = true;
+		    this.press = true;
 	        // handle widget press for move operation
 	        this.moveWidgetOperationCheckPress(event,part,x,y);
 
@@ -7180,23 +7304,20 @@ function stringInputToObject(color) {
 	     */
 	    dispatchPress : function(event,part,x,y) {
 	    	
-	    	var proj = this.getActiveProjection();
-	        for (var i = 0; i < proj.plugins.length; i++) {
-	        	var plugin = proj.plugins[i];
-
-	            if (plugin.isSelectable() && plugin.isLockSelected()) {
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-			                widget.interceptPress(x, y);
-	                }
-	            }
-	            else {
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            	var widget = plugin.widgets[j];
-		                    widget.interceptPress(x,y);
-	                }
-	            }
-	        }
+	    	var projs = this.getView().getProjections();
+	    	for (var p = 0; p < projs.length; p++) {
+	    		var proj = projs[p];
+		        for (var i = 0; i < proj.plugins.length; i++) {
+		        	var plugin = proj.plugins[i];
+		        	for (var j = 0; j < plugin.widgets.length; j++) {
+		            	var widget = plugin.widgets[j];
+		            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+		            		//console.log('widget plugin intercept press for widget : '+widget.name+' part '+part);
+		            		widget.interceptPress(x, y);
+		            	}
+		        	}
+		        }
+	    	}
 	    },
 
 	    
@@ -7227,18 +7348,26 @@ function stringInputToObject(color) {
 	    	var proj = this.getActiveProjection();
 	        for (var i = 0; i < proj.plugins.length; i++) {
 	        	var plugin = proj.plugins[i];
-	            if (plugin.isSelectable() && plugin.isLockSelected()) {
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            var widget = plugin.widgets[j];
-	                    widget.interceptReleased(x,y);
-	                }
-	            }
-	            else {
-	            	 for (var j = 0; j < plugin.widgets.length; j++) {
-			            var widget = plugin.widgets[j];
-	                    widget.interceptReleased(x, y);
-	                }
-	            }
+	        	
+	        	for (var j = 0; j < plugin.widgets.length; j++) {
+	            	var widget = plugin.widgets[j];
+	            	if(widget.isProjModeCondition('event') && widget.isPluginModeCondition('event')){
+	            		widget.interceptReleased(x,y);
+	            	}
+	        	}
+	        	
+//	            if (plugin.isSelectable() && plugin.isLockSelected()) {
+//	            	 for (var j = 0; j < plugin.widgets.length; j++) {
+//			            var widget = plugin.widgets[j];
+//	                    widget.interceptReleased(x,y);
+//	                }
+//	            }
+//	            else {
+//	            	 for (var j = 0; j < plugin.widgets.length; j++) {
+//			            var widget = plugin.widgets[j];
+//	                    widget.interceptReleased(x, y);
+//	                }
+//	            }
 	        }
 
 	    },
@@ -7276,8 +7405,7 @@ function stringInputToObject(color) {
 	});
 })();
 (function(){
-	
-	
+		
 	/**
 	 * Widget
 	 */
@@ -7319,8 +7447,18 @@ function stringInputToObject(color) {
 		    this.noMoveOperation = false;
 		    /** movable widget flag */
 		    this.isMovable = true;
+		    
 		    this.orphanLock = false;
+		    
+		    
+		    //mode defines the painting and event conditions according to projection status and plugin selection status
+		    //for projection parameter : active|passive|always
+		    //for event parameter 	   : selected|unselected|always
+		    /** defines the widget mode */
+		    this.mode = (config.mode !== undefined)?config.mode : {paint : {proj : 'active', plugin : 'selected'},event: {proj : 'active', plugin : 'selected'}};
+		    
 		},
+		
 		
 		/**
 	     * callback method call on widget plugin host registering.
@@ -7508,7 +7646,7 @@ function stringInputToObject(color) {
 	     * @param {Object} widgetFolder
 	     */
 	    setWidgetFolder : function(widgetFolder) {
-	    	//console.log('widget folder : '+widgetFolder);
+	    	//console.log("set widget folder : "+this.name+" folder : "+widgetFolder);
 	        this.widgetFolder = widgetFolder;
 	    },
 
@@ -7656,8 +7794,8 @@ function stringInputToObject(color) {
 	           
 	            for (var j = 0; j < plugin.widgets.length; j++) {
 	            	var pluginWidget = plugin.widgets[j];
-	            	 
-	                var widgetFolder = pluginWidget.getWidgetFolder();
+
+	            	var widgetFolder = pluginWidget.getWidgetFolder();
 	               // console.log('control potential with plugin widget : '+pluginWidget.name+" with folder :"+widgetFolder.getBounds2D());
 //	                if (widgetFolder.getId() === potentialFolder.getId()) {
 //	                    continue;
@@ -7678,6 +7816,12 @@ function stringInputToObject(color) {
 	     */
 	    paintWidget : function(g2d){},
 
+	    
+	    assignFolder : function(){
+	    	var view = this.getHost().getProjection().getView();
+	    	this.setWidgetFolder(view.newWidgetFolderIntance(this.getId(), this.getWidth(), this.getHeight(), this.getxIndex(), this.getyIndex()));
+	    },
+	    
 	    /**
 	     * lay out widget folder
 	     * @param {Object} view
@@ -7687,7 +7831,8 @@ function stringInputToObject(color) {
 	    	var view = this.getHost().getProjection().getView();
 	        if (this.getWidgetFolder() === undefined) {
 	        	//console.log('layout set folder 1: '+this.getId());
-	            this.setWidgetFolder(view.newWidgetFolderIntance(this.getId(), this.getWidth(), this.getHeight(), this.getxIndex(), this.getyIndex()));
+	            //this.setWidgetFolder(view.newWidgetFolderIntance(this.getId(), this.getWidth(), this.getHeight(), this.getxIndex(), this.getyIndex()));
+	        	this.assignFolder();
 	        }
 	        else {
 	        	//console.log('layout set folder 2: '+this.getId());
@@ -7697,25 +7842,24 @@ function stringInputToObject(color) {
 	    },
 
 	    /**
-	     * final paint widget
+	     * final paint widget according to mode.paint(proj,plugin)
 	     * @param {Object} view
 	     * @param {Object} graphics context
 	     */
 	    paint : function(g2d) {
-	    	//console.log('paint widget plugin');
-	        if (!this.getHost().isLockSelected() && this.isOrphanLock()) {
-	        	//console.log('paint widget plugin RETURN, NO PAINT');
-	            return;
-	        }
-	        
-	        //widget can be active, but not in the current active projection, no need to paint
-	        if(!this.getHost().getProjection().isActive()){
-	        	//alert('no paint selected widget, cause, proj not active : '+this.Id+' for proj '+this.getHost().getProjection().name);
-	        	return;
-	        }
-	        this.layoutFolder();
-	        this.paintWidget(g2d);
+	    	if(this.isProjModeCondition('paint') && this.isPluginModeCondition('paint')){
+	    		this.layoutFolder();
+		        this.paintWidget(g2d);
+	    	}
 	    },
+	    
+	    isProjModeCondition : function(oper){
+	    	return (this.mode[oper].proj == 'always' || (this.mode[oper].proj == 'active' && this.getHost().getProjection().isActive()) || (this.mode[oper].proj == 'passive' && !this.getHost().getProjection().isActive()));
+	    },
+	    
+	    isPluginModeCondition : function(oper){
+    		return (this.mode[oper].plugin == 'always' || (this.mode[oper].plugin == 'selected' && this.getHost().isLockSelected()) || (this.mode[oper].plugin == 'unselected' && !this.getHost().isLockSelected()));
+    	},
 
 	    /**
 	     * prevent move operation if sensible shape are intercept
@@ -7723,19 +7867,23 @@ function stringInputToObject(color) {
 	     * @param {number} the y coordinate           
 	     */
 	    checkMoveOperation : function(x,y) {
-	        if (!this.getHost().isLockSelected() && this.isOrphanLock()){
-	            return;
-	        }
-	        if (!this.isMovable) {
-	            this.setNoMoveOperation(true);
-	            return;
-	        }
-	        if (this.isSensible(x,y)) {
-	            this.setNoMoveOperation(true);
-	        }
-	        else {
-	            this.setNoMoveOperation(false);
-	        }
+//	        if (!this.getHost().isLockSelected() && this.isOrphanLock()){
+//	            return;
+//	        }
+	    	
+	    	//if(this.isProjModeCondition('paint') && this.isPluginModeCondition('paint')){
+	    		if (!this.isMovable) {
+		            this.setNoMoveOperation(true);
+		            return;
+		        }
+		        if (this.isSensible(x,y)) {
+		            this.setNoMoveOperation(true);
+		        }
+		        else {
+		            this.setNoMoveOperation(false);
+		        }
+	    	//}
+	        
 	    },
 
 	    /**
@@ -7787,12 +7935,10 @@ function stringInputToObject(color) {
 	    	var that = this;
 			this.getHost().addPluginListener('lock',function (plugin){
 				that.create();
-				
 			},'Plugin lock listener, create for reason : '+reason);
 			
 			this.getHost().addPluginListener('unlock',function (plugin){
 				that.destroy();
-				
 			},'Plugin lock listener, destroy for reason : '+reason);
 			
 			this.getHost().addPluginListener('projectionRegister',function (plugin){
@@ -7826,10 +7972,26 @@ function stringInputToObject(color) {
 			}
 			
 	    },
+	    
+	    attachLayoutFolderFactory : function(reason){
+	    	//console.log("attachLayoutFolderFactory for reason : "+reason);
+	    	var that = this;
+	    	var proj = this.getHost().getProjection();
+	    	if(proj !== undefined){
+	    		var view = proj.getView();
+	    		if(view !== undefined){
+	    			//console.log("view is already register, assignFolder OK");
+					that.assignFolder();
+				}else{
+					//console.log("view is NOT register, wait for assignFolder");
+					proj.addProjectionListener('viewRegister',function(proj){
+		    			that.assignFolder();
+					},'Attach Widget Layout / Wait for projection view registering for reason : '+reason);
+				}
+	    	}
+	    },
 
 	});
-	
-
 
 })();
 (function(){
@@ -7987,8 +8149,8 @@ function stringInputToObject(color) {
 	//
 	// 	Bar Widget defines mini bar with two buttons
 	//
-	//		-plus minus
-	//		-backward forward
+	//		-vertical/horizontal plus minus (-  +) 
+	//		-vertical/horizontal backward forward (<  >)
 	//
 	
 	
@@ -8489,9 +8651,9 @@ function stringInputToObject(color) {
 	     * @param {Number} y coordinate
 	     */
 	    interceptPress : function(x,y) {
-	        if (!this.getHost().isLockSelected() && this.isOrphanLock()) {
-	            return;
-	        }
+//	        if (!this.getHost().isLockSelected() && this.isOrphanLock()) {
+//	            return;
+//	        }
 
 	        if (this.geometry.rect1 !== undefined && this.geometry.rect1.contains(x, y)) {
 	            this.onButton1Press();
@@ -8566,7 +8728,6 @@ function stringInputToObject(color) {
 	            }
 	            var gradientId = 'gradient'+JenScript.sequenceId++;
 	            var gradient= new JenScript.SVGLinearGradient().Id(gradientId).from(start.x,start.y).to(end.x,end.y).shade(this.shader.percents,this.shader.colors,this.shader.opacity).toSVG();
-				console.log('shade bar');
 	            g2d.definesSVG(gradient);
 				this.geometry.outlineShape.fill('url(#'+gradientId+')');
 	        }
@@ -8908,9 +9069,9 @@ function stringInputToObject(color) {
 	    },
 
 	    paintWidget : function(g2d) {
-	        if (!this.getHost().isLockSelected()) {
-	            return;
-	        }
+//	        if (!this.getHost().isLockSelected()) {
+//	            return;
+//	        }
 
 	        if (this.getWidgetFolder() == undefined || this.padGeometry == undefined) {
 	            return;
@@ -9911,6 +10072,7 @@ function stringInputToObject(color) {
 			config = config || {};
 			this.color = (config.color !== undefined)?config.color : 'darkgray';
 			this.strokeWidth = (config.strokeWidth !== undefined)?config.strokeWidth : 1;
+			this.strokeOpacity = (config.strokeOpacity !== undefined)?config.strokeOpacity : 1;
 			config.priority = 1000;
 			config.name ='DeviceOutlinePlugin';
 			JenScript.Plugin.call(this, config);
@@ -9931,6 +10093,7 @@ function stringInputToObject(color) {
 										.origin(this.strokeWidth/2,this.strokeWidth/2)
 										.size(dp.width-this.strokeWidth,dp.height-this.strokeWidth)
 										.stroke(this.color)
+										.strokeOpacity(this.strokeOpacity)
 										.strokeWidth(this.strokeWidth)
 									    .fillNone();
 			
@@ -10197,8 +10360,8 @@ function stringInputToObject(color) {
 })();
 (function(){
 	/**
-	 * Object Donut2DAbstractLabel()
-	 * Defines Donut2D Abstract Label
+	 * Object TextLabel()
+	 * Defines TextLabel Abstract Label
 	 * @param {Object} config
 	 * @param {String} [config.name] the label type name
 	 * @param {String} [config.text] the label text
@@ -10356,6 +10519,7 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 			config.priority = 100;
+			config.name="TitleLegendPlugin";
 			this.text = config.text;
 			this.fontSize = (config.fontSize !== undefined)?config.fontSize:12;
 			this.textColor = (config.textColor !== undefined)?config.textColor:'red';
@@ -12156,11 +12320,9 @@ function stringInputToObject(color) {
 					}
 				}
 				else if(action === 'press'){
-					//slice.lockPress = true;
 					that.fireDonutEvent('press',{slice : slice, x:deviceX,y:deviceY, device :{x:deviceX,y:deviceY}});
 				}
 				else if(action === 'release' ){
-					//slice.lockPress = false;
 					that.fireDonutEvent('release',{slice : slice, x:deviceX,y:deviceY, device :{x:deviceX,y:deviceY}});
 				}
 				else{
@@ -12168,7 +12330,6 @@ function stringInputToObject(color) {
 				}
 			};
 			var fire2 = function(slice){
-				//console.log('fire 2 for slice : '+slice.name);
 				if(action === 'move' && slice.lockRollover){
 					slice.lockRollover = false;
 					that.fireDonutEvent('exit',{slice : slice, x:deviceX,y:deviceY, device :{x:deviceX,y:deviceY}});
@@ -12309,10 +12470,9 @@ function stringInputToObject(color) {
 					
 					for (var j = 0; j < donut.slices.length; j++) {
 						var slice = donut.slices[j];
-						var labels = slice.getSliceLabels();
-						for (var l = 0; l < labels.length; l++) {
-							labels[l].paintDonut2DSliceLabel(g2d,slice);
-						}
+						var label = slice.getSliceLabel();
+						if(label !== undefined)
+						label.paintDonut2DSliceLabel(g2d,slice);
 					}
 				}
 			}
@@ -12360,9 +12520,9 @@ function stringInputToObject(color) {
 		    /** donut2D nature */
 		    this.nature = (config.nature !== undefined)?config.nature : 'User';
 		    /** donut2D center x */
-		    this.centerX = (config.centerX !== undefined)?config.centerX : 0;
+		    this.centerX = (config.x !== undefined)?config.x : 0;
 		    /** donut2D center y */
-		    this.centerY = (config.centerY !== undefined)?config.centerY : 0;
+		    this.centerY = (config.y !== undefined)?config.y : 0;
 		    /** donut2D external radius */
 		    this.outerRadius = (config.outerRadius !== undefined)?config.outerRadius : 100;
 		    /** donut2D internal radius */
@@ -12394,6 +12554,23 @@ function stringInputToObject(color) {
 		},
 		
 		/**
+		 * repaint donut
+		 */
+		repaint : function(){
+			if(this.plugin !== undefined)
+			this.plugin.repaintPlugin();
+		},
+		
+		/**
+		 * set start angle degree
+		 * @param {Number} start angle degrees
+		 */
+		setStartAngleDegree : function(startAngleDegree){
+			this.startAngleDegree=startAngleDegree;
+			this.repaint();
+		},
+		
+		/**
 		 * get inner radius
 		 * @returns {Number} inner radius
 		 */
@@ -12402,11 +12579,29 @@ function stringInputToObject(color) {
 		},
 		
 		/**
+		 * set inner radius
+		 * @param {Number} inner radius
+		 */
+		setInnerRadius : function(innerRadius){
+			this.innerRadius=innerRadius;
+			this.repaint();
+		},
+		
+		/**
 		 * get outer radius
 		 * @returns {Number} outer radius
 		 */
 		getOuterRadius : function(){
 			return this.outerRadius;
+		},
+		
+		/**
+		 * set outer radius
+		 * @param {Number} outer radius
+		 */
+		setOuterRadius : function(outerRadius){
+			this.outerRadius=outerRadius;
+			this.repaint();
 		},
 		
 		/**
@@ -12432,7 +12627,7 @@ function stringInputToObject(color) {
 		 */
 		setStroke : function(stroke){
 			this.stroke  = stroke;
-			this.plugin.repaintPlugin();
+			this.repaint();
 		},
 		
 		/**
@@ -12441,7 +12636,7 @@ function stringInputToObject(color) {
 		 */
 		setFill : function(fill){
 			this.fill  = fill;
-			this.plugin.repaintPlugin();
+			this.repaint();
 		},
 		
 		/**
@@ -12450,7 +12645,7 @@ function stringInputToObject(color) {
 		 */
 		addEffect : function(effect){
 			this.effects[this.effects.length]  = effect;
-			this.plugin.repaintPlugin();
+			this.repaint();
 		},
 		
 		/**
@@ -12461,7 +12656,7 @@ function stringInputToObject(color) {
 	    addSlice : function(slice) {
 	        slice.donut = this;
 	        this.slices[this.slices.length]=slice;
-	        this.plugin.repaintPlugin();
+	        this.repaint();
 	        return this;
 	    },
 	    
@@ -12637,6 +12832,22 @@ function stringInputToObject(color) {
 	        }
 	        return false;
 	    },
+	    
+	    /**
+		 * shift pie
+		 */
+		shift : function(){
+			var that = this;
+			for (var i = 0; i < 10; i++) {
+				shiftAngle(i);
+			}
+			function shiftAngle(i){
+				setTimeout(function(){
+					that.startAngleDegree=that.startAngleDegree+36;
+					that.repaint();
+				},i*100);
+			}
+		},
 	});
 	
 })();
@@ -12698,14 +12909,19 @@ function stringInputToObject(color) {
 		    this.stroke;
 		    /** slice fill */
 		    this.fill;
-		    /** slice labels */
-		    this.sliceLabels = [];
+		    /** slice label */
+		    this.sliceLabel;
 		    /** host donut2D of this slice */
 		    this.donut;
 		    
 		    if(this.value <= 0 )
 		    	throw new Error('Slice value should be greater than 0');
 		   
+		},
+		
+		repaint : function(){
+			if(this.donut !== undefined)
+			this.donut.repaint();
 		},
 		
 
@@ -12715,6 +12931,7 @@ function stringInputToObject(color) {
 		 */
 		setThemeColor : function(color){
 			this.color=color;
+			this.repaint();
 		},
 		
 		/**
@@ -12730,22 +12947,7 @@ function stringInputToObject(color) {
 		 */
 		setDivergence : function(divergence){
 			this.divergence=divergence;
-		},
-		
-		/**
-		 * get slice divergence
-		 * @return {Number} slice divergence
-		 */
-		getDivergence : function(){
-			return this.divergence;
-		},
-		
-		/**
-		 * set slice divergence
-		 * @param {Number} slice divergence
-		 */
-		setDivergence : function(divergence){
-			this.divergence=divergence;
+			this.repaint();
 		},
 		
 		/**
@@ -12762,6 +12964,7 @@ function stringInputToObject(color) {
 		 */
 		setFillOpacity : function(opacity){
 			this.fillOpacity=opacity;
+			this.repaint();
 		},
 		
 		/**
@@ -12778,6 +12981,7 @@ function stringInputToObject(color) {
 		 */
 		setStrokeOpacity : function(opacity){
 			this.strokeOpacity=opacity;
+			this.repaint();
 		},
 		
 		/**
@@ -12788,26 +12992,17 @@ function stringInputToObject(color) {
 			return this.strokeOpacity;
 		},
 		
-		/**
-		 * set slice label
-		 * @param {Object} label
-		 */
-		addSliceLabel : function(label){
-			if(label.textColor === undefined)
-				label.textColor = this.themeColor;
-			this.sliceLabels[this.sliceLabels.length] = label;
-			if(this.donut !== undefined && this.donut.plugin !== undefined){
-		        	this.donut.plugin.repaintDonuts();	
-		    }
+		setSliceLabel : function(sliceLabel) {
+			if(sliceLabel !== undefined)
+				sliceLabel.slice = this;
+			this.sliceLabel = sliceLabel;
+			this.repaint();
+		},
+
+		getSliceLabel : function() {
+			return this.sliceLabel;
 		},
 		
-		/**
-		 * get slice labels
-		 * @returns {Array} slice label array
-		 */
-		getSliceLabels : function(){
-			return this.sliceLabels;
-		},
 		
 		/**
 		 * get ratio of this slice
@@ -12823,6 +13018,7 @@ function stringInputToObject(color) {
 		 */
 		setStroke : function(stroke){
 			this.stroke = stroke;
+			this.repaint();
 		},
 		
 		/**
@@ -12831,6 +13027,7 @@ function stringInputToObject(color) {
 		 */
 		setFill : function(fill){
 			this.fill = fill;
+			this.repaint();
 		},
 		
 		/**
@@ -13748,7 +13945,7 @@ function stringInputToObject(color) {
 				l = new JenScript.Donut2DRadialLabel(config);
 			if('border' === type)
 				l = new JenScript.Donut2DBorderLabel(config);
-			lastSlice.addSliceLabel(l);
+			lastSlice.setSliceLabel(l);
 			labels.push(l);
 			return this;
 		}
@@ -15924,10 +16121,10 @@ function stringInputToObject(color) {
 	JenScript.Model.addMethods(JenScript.TranslatePlugin, {
 		_init : function(config){
 			config = config ||{};
-			config.name =  'TranslatePlugin';
+			config.name = (config.name !== undefined)?config.name:'TranslatePlugin';
 			config.selectable = true;
 			config.priority = 1000;
-			
+			this.slaves = (config.slaves !== undefined)? config.slaves : [];
 			this.translateListeners = [];
 			
 			this.lockTranslate = false;
@@ -15940,10 +16137,14 @@ function stringInputToObject(color) {
 			this.translateDx=0;
 			this.translateDy=0;
 			
-			this.mode = (config.mode !== undefined)? new JenScript.TranslateMode(config.mode) : new JenScript.TranslateMode('xy');//'TranslateXY', 'TranslateX', 'TranslateY'
+			this.mode = (config.mode !== undefined)? new JenScript.TranslateMode(config.mode) : new JenScript.TranslateMode('xy');
 			
 			
 			JenScript.Plugin.call(this, config);
+			
+			this.semanticX = 0;
+			this.semanticY = 0;
+			this.shifting = false;
 			
 		},
 		
@@ -15987,6 +16188,7 @@ function stringInputToObject(color) {
 		 * location x,y is not sensible shape
 		 */
 		isTranslateAuthorized : function(evt,part,x,y){
+			//console.log("Translate authorized "+this.name+" flags : "+ " select "+this.isLockSelected()+", sensible : "+this.isWidgetSensible(x,y) +", passive :"+this.isLockPassive())
 			return ((part === JenScript.ViewPart.Device) && this.isLockSelected() && !this.isLockPassive() && !this.isWidgetSensible(x,y));
 		},
 		
@@ -15997,9 +16199,10 @@ function stringInputToObject(color) {
 			}
 					
 			if(this.isTranslateAuthorized(evt,part,x,y)){
+				//console.log('Translate authorize to start : '+this.Id+" proj "+this.getProjection().name);
 				this.startTranslate(new JenScript.Point2D(x,y));
 			}else{
-				//console.log('press translate not authorize to start : '+this.Id);
+				//console.log('Translate NOT authorize to start : '+this.Id);
 			}
 		},
 		
@@ -16050,7 +16253,7 @@ function stringInputToObject(color) {
 	     *            the start point of device translate
 	     */
 	    startTranslate  :function(startDevice) {
-	    	//console.log('start translate : '+this.Id);
+	    	//console.log('translate start '+this.name+", device start point : "+startDevice);
 	    	this.lockTranslate = true;
 			this.translateStartX = startDevice.x;
 			this.translateStartY = startDevice.y;
@@ -16058,16 +16261,39 @@ function stringInputToObject(color) {
 	    },
 	    
 	    /**
-	     * stop translate operation at the specified device point and release lock translate
+	     * stop geometric translate operation at the specified device point and release lock translate
 	     * @param {Object} endDevice
 	     *            the end point of device translate
 	     */
 	    stopTranslate : function(endDevice) {
-			//console.log('stop translate : '+this.Id);
-		    this.translateCurrentX = endDevice.x;
-		    this.translateCurrentY = endDevice.y;
-		    this.lockTranslate = false;
-	    	this.fireTranslateEvent('stop');
+	    	if(this.isLockTranslate()){
+	    		//console.log("stop translate"+this.sequenceBounds.length);
+
+			    var proj = this.getProjection();
+			    var w = proj.getPixelWidth();
+			    var h = proj.getPixelHeight();
+	
+			    var pMinXMinYDevice = {x:- this.semanticX, y: (h - this.semanticY)};
+			    var pMaxXMaxYDevice = {x: (w - this.semanticX),y: - this.semanticY};
+	
+			    var pMinXMinYUser = proj.pixelToUser(pMinXMinYDevice);
+			    var pMaxXMaxYUser = proj.pixelToUser(pMaxXMaxYDevice);
+			   
+			    proj.bound(pMinXMinYUser.x, pMaxXMaxYUser.x, pMinXMinYUser.y, pMaxXMaxYUser.y);
+	    		
+	    		for (var s = 0; s < this.slaves.length; s++) {
+	 				var plugin = this.slaves[s].plugin;
+	 				plugin.resetTransform();
+	 		    }
+	    		this.semanticX = 0;
+	 			this.semanticY = 0;
+	    		//console.log('translate stop '+this.name+", device stop point : "+endDevice);
+	    		
+	 			this.translateCurrentX = endDevice.x;
+			    this.translateCurrentY = endDevice.y;
+			    this.lockTranslate = false;
+		    	this.fireTranslateEvent('stop');
+	    	}
 		},
 		
 	    /**
@@ -16105,14 +16331,21 @@ function stringInputToObject(color) {
 		 * @param {String} direction, West, East, North, South
 		 */
 		shift : function(direction, sample) {
+			    if(this.shifting) return;
 				this.lockPassive = true;
+				this.shifting = true;
 		        var that = this;
 		        if(sample === undefined){
-		        	sample  = {step : 5,sleep : 5,fraction : 20};
+		        	sample  = {step : 5, sleep : 5 , fraction : 20};
 		        }
 		        var step = (sample.step !== undefined)?sample.step : 5;
                 var sleep = (sample.sleep !== undefined)?sample.sleep : 5;
                 var fraction = (sample.fraction !== undefined)?sample.fraction : 20;
+                
+                console.log("step "+step);
+                console.log("sleep "+sleep);
+                console.log("fraction "+fraction);
+                
                 var deltaY = this.getProjection().getPixelHeight() / fraction;
                 var deltaX = this.getProjection().getPixelWidth() / fraction;
                 var dx = 0;
@@ -16125,34 +16358,36 @@ function stringInputToObject(color) {
                 	dx = deltaX;
                 if (direction == 'East')
                 	dx = -deltaX;
-                
+                var ox = 0;
+                var oy = 0;
                 var execute  = function(i,success){
                 	setTimeout(function(){
-                		that.boundTranslate(new JenScript.Point2D(dx*i,dy*i),false);
+                		ox = ox + dx/step;
+                        oy = oy + dy/step;
+                		that.boundTranslate(new JenScript.Point2D(ox,oy));
                 		success(i);
                 	},i*sleep);
                 	
                 };
-                this.startTranslate(new JenScript.Point2D(0,0));
+                this.startTranslate(new JenScript.Point2D(ox,oy));
                 
                 for (var i =0 ; i <= step ; i++) {
                 	execute(i,function success(rank){
                 				if(rank === step){
                 					that.lockPassive = false;
-                					that.stopTranslate(new JenScript.Point2D(0,0));
+                					that.shifting = false;
+                					that.stopTranslate(new JenScript.Point2D(ox,oy));
                 				}
                 			});
                 }
 	    },
-	    
-	   
 		
 		/**
 		 * bound translate points with given device point
 		 * @param {Object} device point
 		 */
 		boundTranslate : function(currentDevice) {
-			
+			//console.log('translate bound '+this.name+", device point : "+currentDevice);
 			this.translateCurrentX = currentDevice.x;
 			this.translateCurrentY = currentDevice.y;
 		    
@@ -16166,21 +16401,42 @@ function stringInputToObject(color) {
 				deltaDeviceX = 0;
 			}
 			
-			this.processTranslate(deltaDeviceX, deltaDeviceY);
+			this.processSemanticTranslate(deltaDeviceX, deltaDeviceY);
 			this.translateStartX = this.translateCurrentX;
 			this.translateStartY = this.translateCurrentY;
 			this.fireTranslateEvent('bound');
 		},
-		
-		
-		
 
 		/**
-		 * process translate with given delta pixel dx and dy
+		 * process semantic translate with given delta pixel dx and dy
 		 * @param {Number} dx
 		 * @param {Number} dy
 		 */
-		processTranslate : function(dx,dy) {
+		processSemanticTranslate : function(dx,dy) {
+			this.translateDx = dx;
+		    this.translateDy = dy;
+			
+			this.semanticX = this.semanticX+dx;
+			this.semanticY = this.semanticY+dy;
+		    for (var s = 0; s < this.slaves.length; s++) {
+				var plugin = this.slaves[s].plugin;
+				var direction = this.slaves[s].direction;
+
+				if(direction === 'x')
+					plugin.translate(plugin.tx+dx,plugin.ty);
+				if(direction === 'y')
+					plugin.translate(plugin.tx,plugin.ty+dy);
+				if(direction === 'xy')
+					plugin.translate(plugin.tx+dx,plugin.ty+dy);
+		    }
+		},
+		
+		/**
+		 * process geometric translate with given delta pixel dx and dy
+		 * @param {Number} dx
+		 * @param {Number} dy
+		 */
+		processGeometricTranslate : function(dx,dy) {
 			
 			this.translateDx = dx;
 		    this.translateDy = dy;
@@ -16202,10 +16458,8 @@ function stringInputToObject(color) {
 		
 		onProjectionRegister : function(){
 		},
+		
 	});
-	
-	
-	
 	
 })();
 (function(){
@@ -16290,6 +16544,7 @@ function stringInputToObject(color) {
 	JenScript.Model.addMethods(JenScript.TranslateX,{
 		___init: function(config){
 			config = config || {};
+			config.name = 'TranslateWidgetX';
 			config.Id = 'translate_tx'+JenScript.sequenceId++;
 			config.width=(config.width !== undefined)?config.width:100;
 			config.height=(config.height !== undefined)?config.height:16;
@@ -16297,24 +16552,25 @@ function stringInputToObject(color) {
 			config.yIndex=(config.yIndex !== undefined)?config.yIndex:100;
 			config.barOrientation = 'Horizontal';
 			JenScript.AbstractBackwardForwardBarWidget.call(this,config);
-		    this.sample = (config.sample !== undefined)?config.sample : {step : 10,sleep: 5,fraction:10};
+		    this.sample = (config.sample !== undefined)?config.sample : {step : 2, sleep: 100,fraction:5};
 		    this.setOrphanLock(true);
 		},
 	    onButton1Press : function() {
-	        if (!this.getHost().isLockSelected()) {
-	            return;
-	        }
+//	        if (!this.getHost().isLockSelected()) {
+//	            return;
+//	        }
 	        this.getHost().shift('West', this.sample);
 	    },
 	    onButton2Press : function() {
-	    	if (!this.getHost().isLockSelected()) {
-	            return;
-	        }
+//	    	if (!this.getHost().isLockSelected()) {
+//	            return;
+//	        }
 	        this.getHost().shift('East', this.sample);
 	    },
 	    
 	    onRegister : function(){
 	    	this.attachPluginLockUnlockFactory('TranlateX widget factory');
+	    	this.attachViewActivePassiveFactory('TranlateX widget factory');
 	    }
 	});
 })();
@@ -16326,6 +16582,7 @@ function stringInputToObject(color) {
 	JenScript.Model.addMethods(JenScript.TranslateY,{
 		___init: function(config){
 			config = config || {};
+			config.name = 'TranslateWidgetY';
 			config.Id = 'translate_ty'+JenScript.sequenceId++;
 			config.width=(config.width !== undefined)?config.width:16;
 			config.height=(config.height !== undefined)?config.height:100;
@@ -16333,27 +16590,28 @@ function stringInputToObject(color) {
 			config.yIndex=(config.yIndex !== undefined)?config.yIndex:1;
 			config.barOrientation = 'Vertical';
 			JenScript.AbstractBackwardForwardBarWidget.call(this,config);
-		    this.sample = (config.sample !== undefined)?config.sample : {step : 10,sleep: 5,fraction:10};
+		    this.sample = (config.sample !== undefined)?config.sample : {step : 2, sleep: 100,fraction:5};
 		    this.setOrphanLock(true);
 		},
 		
 		
 	    onButton1Press : function() {
-	        if (!this.getHost().isLockSelected()) {
-	            return;
-	        }
+//	        if (!this.getHost().isLockSelected()) {
+//	            return;
+//	        }
 	        this.getHost().shift('North', this.sample);
 
 	    },
 	    onButton2Press : function() {
-	        if (!this.getHost().isLockSelected()) {
-	            return;
-	        }
+//	        if (!this.getHost().isLockSelected()) {
+//	            return;
+//	        }
 	        this.getHost().shift('South', this.sample);
 	    },
 	    
 	    onRegister : function(){
 	    	this.attachPluginLockUnlockFactory('TranlateY widget factory');
+	    	this.attachViewActivePassiveFactory('TranlateY widget factory');
 	    }
 		
 	});
@@ -16367,6 +16625,7 @@ function stringInputToObject(color) {
 	JenScript.Model.addMethods(JenScript.TranslateCompassWidget, {
 		_init : function(config){
 			config = config || {};
+			config.name = 'TranslateCompass';
 		    this.translateCompassWidgetID = 'translate_compass'+JenScript.sequenceId++;
 		    this.compassSquareSize = (config.compassSquareSize !== undefined)?config.compassSquareSize:64;
 		    this.compassWidget;
@@ -16391,8 +16650,8 @@ function stringInputToObject(color) {
 	        config.Id =  this.translateCompassWidgetID;
 	        config.width = this.compassSquareSize;
 	        config.height = this.compassSquareSize;
-	        config.xIndex = 100;
-	        config.yIndex = 0;
+	        config.xIndex = (config.xIndex !== undefined)?config.xIndex: 100;
+	        config.yIndex =  (config.yIndex !== undefined)?config.yIndex: 0;
 			JenScript.Widget.call(this,config);
 		},
 		
@@ -16467,12 +16726,12 @@ function stringInputToObject(color) {
 			
 			this.getHost().addTranslateListener('stop',
 		            function (pluginEvent) {
-						//console.log('finish translate from widget '+that.getHost().Id);
-						//console.log('compass widget finish listener is being to destroy compass widget');
 						that.destroy();
-						//console.log('compass destroy');
 		            },'translate compass widget translate stop listener, destroy'
 			);
+			
+			
+			this.attachLayoutFolderFactory('Compass Layout Folder');
 		},
 		
 		  /**
@@ -16530,7 +16789,7 @@ function stringInputToObject(color) {
 	    paintTranslateCompass : function(g2d) {
 	    	var currentFolder = this.getWidgetFolder();
 	    	if(currentFolder === undefined){
-	    		console.log("compass widget folder is undefined");
+	    		//console.log("compass widget folder is undefined");
 	    		return;
 	    	}
 	    	
@@ -16654,6 +16913,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.translateList.length; i++) {
 					var plugin = this.translateList[i];
 	                if (plugin.Id !== source.Id) {
+	                	//console.log('sync translate started : '+plugin.name+" for proj "+plugin.projection.name);
 	                    plugin.startTranslate(new JenScript.Point2D(source.translateStartX,source.translateStartY));
 	                }
 	            }
@@ -16667,7 +16927,9 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.translateList.length; i++) {
 					var plugin = this.translateList[i];
 					 if (plugin.Id !== source.Id) {
-						 plugin.boundTranslate({x:source.translateCurrentX, y:source.translateCurrentY});
+						 //console.log('sync translate bound : '+plugin.name+" for proj "+plugin.projection.name);
+						 plugin.boundTranslate(new JenScript.Point2D(source.translateCurrentX,source.translateCurrentY));
+						
 	                 }
 	            }
 	            this.dispathingEvent = false;
@@ -16681,6 +16943,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.translateList.length; i++) {
 					var plugin = this.translateList[i];
 					 if (plugin.Id !== source.Id) {
+							//console.log('sync translate stop : '+plugin.name+" for proj "+plugin.projection.name);
 	                    plugin.stopTranslate(new JenScript.Point2D(source.translateCurrentX,source.translateCurrentY));
 	                 }
 	            }
@@ -16715,14 +16978,13 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 			
-			config.name =  'ZoomBox';
-			config.selectable = true;
+			config.name = (config.name !== undefined)?config.name:'ZoomBoxPlugin';
+			//config.selectable = true;
 			config.priority = 1000;
-			
+			this.slaves = (config.slaves !== undefined)? config.slaves : [];
 			this.zoomBoxDrawColor = config.zoomBoxDrawColor ;
 			this.zoomBoxFillColor = config.zoomBoxFillColor;
 			this.mode = (config.mode !== undefined) ? new JenScript.ZoomBoxMode(config.mode) : new JenScript.ZoomBoxMode('xy');
-			this.speed = (config.speed !== undefined) ? config.speed : 'default'; //slow, default, fast
 
 		    this.minimalDelatX = 16;
 		    this.minimalDeltaY = 16;
@@ -16741,6 +17003,9 @@ function stringInputToObject(color) {
 			this.maxHistory = 8;
 			this.zoomBack = [];
 			this.boxListeners = [];
+			
+			this.factor = (config.factor !== undefined)? config.factor : 1.1;
+			this.historyIndex = 0;
 			JenScript.Plugin.call(this,config);
 		},
 		
@@ -16754,7 +17019,6 @@ function stringInputToObject(color) {
 			this.getProjection().addProjectionListener('boundChanged', function(){
 				that.repaintPlugin();
 			},that.toString());
-			
 		},
 		
 		
@@ -16801,13 +17065,15 @@ function stringInputToObject(color) {
 			this.processZoomStart(new JenScript.Point2D(x,y));
 		},
 		
+		
 		/**
 	     * start parameters for a start bound zoom box
 	     * 
 	     * @param startBox
-	     *            box start point coordinate in the current transaction type
+	     *            box start device point coordinate
 	     */
 	    processZoomStart : function(startBox) {
+	    	//console.log("zoom box start : "+this.name);
             this.zoomBoxStartX = startBox.getX();
             this.zoomBoxStartY = startBox.getY();
             this.zoomBoxCurrentX = this.zoomBoxStartX;
@@ -16847,7 +17113,6 @@ function stringInputToObject(color) {
 			if(part !== JenScript.ViewPart.Device) return;
 			if (this.drag) {
 				this.processZoomBound(new JenScript.Point2D(deviceX,deviceY));
-				//this.getProjection().getView().repaint();
 				this.repaintPlugin();
 			}
 		},
@@ -16904,31 +17169,16 @@ function stringInputToObject(color) {
 		
 		processZoomOut : function() {
 			var proj = this.getProjection();
-			var that = this;
-			that.zoomBack.reverse();
-			for (var i = 0; i < this.zoomBack.length; i++) {
-				__p(i, function callback(rank) {
-					if (rank === that.zoomBack.length-1) {
-						setTimeout(function() {
-							that.fireEvent('boxFinish');
-							that.repaintPlugin();
-						}, 10);
-					}
-				});
-			}
+			var bound = this.boxHistory[this.boxHistory.length-1];
+			proj.bound(bound.minx,bound.maxx,bound.miny,bound.maxy);
 			this.fireEvent('boxOut');
-			function __p(i, callback) {
-				setTimeout(function() {
-					var bound = that.zoomBack[i];
-					//console.log("rank ",i," bounds : ",bound);
-					proj.bound(bound.minX,bound.maxX,bound.minY,bound.maxY);	
-					callback(i);
-				}, 20 * i);
-			}
+			
 		},
 		
 		processZoomIn : function() {
+			//console.log("process zoom in "+this.name);
 			this.lockEffect=true;
+			
 			var deviceStart = {
 				x : this.zoomBoxStartX,
 				y : this.zoomBoxStartY
@@ -16937,31 +17187,26 @@ function stringInputToObject(color) {
 				x : this.zoomBoxCurrentX,
 				y : this.zoomBoxCurrentY
 			};
-
-			var userWindowStartPoint = this.getProjection().pixelToUser(deviceStart);
-			var userWindowCurrentPoint = this.getProjection().pixelToUser(deviceCurrent);
 			var proj = this.getProjection();
-
+			
+			this.zoomFxBoxStartX = this.zoomBoxStartX;
+			this.zoomFxBoxStartY = this.zoomBoxStartY;
+			this.zoomFxBoxCurrentX = this.zoomBoxCurrentX;
+			this.zoomFxBoxCurrentY = this.zoomBoxCurrentY;
+			
+			var userStartPoint = proj.pixelToUser(deviceStart);
+			var userCurrentPoint = proj.pixelToUser(deviceCurrent);
+			
 			var iMinx = proj.minX;
 			var iMaxx = proj.maxX;
 			var iMiny = proj.minY;
 			var iMaxy = proj.maxY;
-
-			this.boxHistory[this.boxHistory.length] = {
-				minx : iMinx,
-				maxx : iMaxx,
-				miny : iMiny,
-				maxy : iMaxy
-			};
-			var deltaMinx = Math.abs(proj.minX - userWindowStartPoint.x) / 10;
-			var deltaMaxx = Math.abs(proj.maxX - userWindowCurrentPoint.x) / 10;
-			var deltaMiny = Math.abs(proj.minY - userWindowCurrentPoint.y) / 10;
-			var deltaMaxy = Math.abs(proj.maxY - userWindowStartPoint.y) / 10;
-
-			// boxHistory[boxHistory.length] = {minx:userWindowStartPoint.x,
-			// maxx:userWindowCurrentPoint.x,
-			// miny:userWindowCurrentPoint.y,
-			// maxy:userWindowStartPoint.y};
+			
+			var stepCount =  10;
+			var deltaMinx = Math.abs(proj.minX - userStartPoint.x) / stepCount;
+			var deltaMaxx = Math.abs(proj.maxX - userCurrentPoint.x) / stepCount;
+			var deltaMiny = Math.abs(proj.minY - userCurrentPoint.y) / stepCount;
+			var deltaMaxy = Math.abs(proj.maxY - userStartPoint.y) / stepCount;
 
 			var fxDeltaPixelMinx = Math.abs(proj.userToPixelX(deltaMinx)
 					- proj.userToPixelX(0));
@@ -16972,48 +17217,49 @@ function stringInputToObject(color) {
 			var fxDeltaPixelMaxy = Math.abs(proj.userToPixelY(deltaMaxy)
 					- proj.userToPixelY(0));
 
-			var speedMillis = 200;
+			var speedMillis = 5;
 			
-			if(this.speed === 'slow')
-				speedMillis = 60;
-			if(this.speed === 'default')
-				speedMillis = 30;
-			if(this.speed === 'fast')
-				speedMillis = 10;
-			//console.log("speed millis :"+speedMillis);
+			var scaleFactorX =   Math.abs((proj.maxX-proj.minX)/(userCurrentPoint.x-userStartPoint.x));
+			var scaleFactorY =   Math.abs((proj.maxY-proj.minY)/(userCurrentPoint.y-userStartPoint.y));
 			
 			var that = this;
 			that.zoomBack = [];
 			var count=0;
-			for (var i = 1; i <= 10; i++) {
-				_p(i, function callback(rank) {
-					that.zoomBack[count++] = proj.getBounds(); 
-					if (rank === 10) {
+			for (var i = 1; i <= stepCount; i++) {
+				_p(i, function callback(rank,bound) {
+					that.repaintPlugin();
+					if (rank === stepCount) {
+						that.repaintPlugin();
 						that.lockEffect=false;
 						that.lockZoomingTransaction = false;
-						setTimeout(function() {
+						
+						setTimeout(function(){
+							that.getProjection().bound(bound[0],bound[1],bound[2],bound[3]);
+							that.createHistory();
+							//finally geometric transform
+							for (var s = 0; s < that.slaves.length; s++) {
+								var plugin = that.slaves[s];
+								//reset semantic transform
+								plugin.resetTransform();
+								plugin.repaintPlugin();
+						    }
 							that.fireEvent('boxFinish');
-							that.repaintPlugin();
-						}, 10);
+						},30);
 					}
 				});
 			}
 			this.fireEvent('boxIn');
 			
-			
-			
-			
 			function _p(i, callback) {
-				var millis = speedMillis * i;
-				console.log(" millis :"+millis);
+				var millis = speedMillis * (i-1);
 				setTimeout(function() {
-					that.lockZoomingTransaction = true;
 					
+					that.lockZoomingTransaction = true;
 					var m1=0,m2=0,m3=0,m4=0;
 					if(that.mode.isBxy()){
 						m1 = iMinx + deltaMinx * i;
 						m2 = iMaxx - deltaMaxx * i;
-						m3 = iMiny+ deltaMiny * i;
+						m3 = iMiny + deltaMiny * i;
 						m4 = iMaxy - deltaMaxy * i;
 						that.zoomFxBoxStartX = that.zoomBoxStartX - fxDeltaPixelMinx * i;
 						that.zoomFxBoxStartY = that.zoomBoxStartY - fxDeltaPixelMaxy * i;
@@ -17033,22 +17279,87 @@ function stringInputToObject(color) {
 					else if(that.mode.isBy()){
 						m1 = proj.getMinX();
 						m2 = proj.getMaxX();
-						m3 = iMiny+ deltaMiny * i;
+						m3 = iMiny + deltaMiny * i;
 						m4 = iMaxy - deltaMaxy * i;
 						that.zoomFxBoxStartX = 0;
 						that.zoomFxBoxStartY = that.zoomBoxStartY - fxDeltaPixelMaxy * i;
 						that.zoomFxBoxCurrentX = that.getProjection().getPixelWidth();
 						that.zoomFxBoxCurrentY = that.zoomBoxCurrentY + fxDeltaPixelMiny* i;
 					}
-					proj.bound(m1, m2, m3, m4);
 					
-					that.zoomBack[count++] = proj.getBounds();
-					callback(i);
+					var initcenterX = deviceStart.x + (deviceCurrent.x-deviceStart.x)/2;
+					var initcenterY = deviceStart.y + (deviceCurrent.y-deviceStart.y)/2;
+					
+					var deltaX = (initcenterX - proj.getPixelWidth()/2)/stepCount;
+					var deltaY = (initcenterY - proj.getPixelHeight()/2)/stepCount;
+					
+					
+					var deltaSx = (scaleFactorX-1)/stepCount;
+					var deltaSy = (scaleFactorY-1)/stepCount;
+					
+					for (var s = 0; s < that.slaves.length; s++) {
+							var plugin = that.slaves[s];
+							
+							if(that.mode.isBx()){
+								deltaSy = 0;
+							}
+							else if(that.mode.isBy()){
+								deltaSx = 0;
+							}
+							plugin.translate(-(initcenterX)*(plugin.sx+deltaSx-1), -(initcenterY)*(plugin.sy+deltaSy-1));
+							plugin.scale(plugin.sx+deltaSx,plugin.sy+deltaSy);
+							plugin.translate(plugin.tx-deltaX*i,plugin.ty-deltaY*i);
+					 }
+					
+					that.zoomBack[that.zoomBack.length] = {i : i, x : initcenterX, y:initcenterY, deltaSx:deltaSx,deltaSy:deltaSy,deltaX:deltaX,deltaY:deltaY};
+					callback(i,[m1,m2,m3,m4]);
 				}, millis);
 			}
 		},
 		
-		paintBox : function(g2d, part) {
+		createHistory : function(){
+			var proj = this.getProjection();
+			this.boxHistory[this.boxHistory.length] = {
+					minx : proj.minX,
+					maxx : proj.maxX,
+					miny : proj.minY,
+					maxy : proj.maxY
+				};
+		},
+		
+		
+		backHistory : function() {
+			//console.log("back history, current index "+this.historyIndex);
+			if(this.boxHistory.length > 0){
+				if(this.historyIndex-1 < 0)
+					this.historyIndex = this.boxHistory.length;
+				this.processHistory('backHistory',(this.historyIndex-1));
+			}
+		},
+		
+		nextHistory : function() {
+			//console.log("next history, current index "+this.historyIndex);
+			if(this.boxHistory.length > 0){
+				if(this.historyIndex+1 >= this.boxHistory.length)
+					this.historyIndex = -1;
+				this.processHistory('nextHistory',(this.historyIndex+1));
+			}
+		},
+		
+		processHistory : function(nature,index) {
+			//console.log("process history "+index);
+			var b = this.boxHistory[index];
+			this.getProjection().bound(b.minx,b.maxx,b.miny,b.maxy);
+			this.historyIndex = index;
+			this.fireEvent(nature);
+		},
+		
+		
+		paintMarker : function(g2d, part) {
+			//todo paint markers near axis
+		},
+		
+		paintTarget : function(g2d, part) {
 			var zoomBoxWidth = this.zoomBoxCurrentX - this.zoomBoxStartX;
 			var zoomBoxHeight = this.zoomBoxCurrentY - this.zoomBoxStartY;
 			var bx=0,by=0,bw=0,bh=0;
@@ -17083,7 +17394,7 @@ function stringInputToObject(color) {
 			g2d.insertSVG(box);
 		 },
 		 
-		 paintBoxEffect : function(g2d, part) {
+		 paintZoomIn : function(g2d, part) {
 			var zoomFxBoxWidth = this.zoomFxBoxCurrentX - this.zoomFxBoxStartX;
 			var zoomFxBoxHeight = this.zoomFxBoxCurrentY - this.zoomFxBoxStartY;
 			var fillColor = (this.zoomBoxFillColor !== undefined) ?this.zoomBoxFillColor: this.getProjection().getThemeColor();
@@ -17101,16 +17412,16 @@ function stringInputToObject(color) {
 		 },
 		 
 		 paintPlugin : function(g2d, part) {
-				if (part !== JenScript.ViewPart.Device) {
-					return;
-				}
-				if(this.lockZoomingTransaction) {
+				
+				if(part === JenScript.ViewPart.Device && this.lockZoomingTransaction) {
 					 if (!this.lockEffect && this.isValidateBound()) {
-						this.paintBox(g2d, part); 
+						this.paintTarget(g2d, part); 
 					 }
 					 else{
-						 this.paintBoxEffect(g2d);
+						 this.paintZoomIn(g2d);
 					 }
+				}else if(part !== JenScript.ViewPart.Device && this.lockZoomingTransaction) {
+					this.paintMarker(g2d, part); 
 				}
 		},
 		
@@ -17175,7 +17486,8 @@ function stringInputToObject(color) {
 	            	boxes[i].addBoxListener('boxIn',function (plugin){that.boxIn(plugin);});
 	            	boxes[i].addBoxListener('boxOut',function (plugin){that.boxOut(plugin);});
 	            	boxes[i].addBoxListener('boxFinish',function (plugin){that.boxFinish(plugin);});
-//	            	boxes[i].addBoxListener('boxHistory',function (plugin){that.translateB2TChanged(plugin);});
+	            	boxes[i].addBoxListener('nextHistory',function (plugin){that.nextHistory(plugin);});
+	            	boxes[i].addBoxListener('backHistory',function (plugin){that.backHistory(plugin);});
 //	            	boxes[i].addBoxListener('boxClearHistory',function (plugin){that.translateB2TChanged(plugin);});
 	            	boxes[i].addPluginListener('lock',function (plugin){that.pluginSelected(plugin);},'ZoomBox Synchronizer plugin lock listener');
 	            	boxes[i].addPluginListener('unlock',function (plugin){that.pluginSelected(plugin);},'ZoomBox Synchronizer plugin unlock listener');
@@ -17191,7 +17503,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						console.log("lock other box");
+						//console.log('sync lock box'+plugin.name);
 	                    plugin.select();
 	                }
 				}
@@ -17206,6 +17518,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
+						//console.log('sync unlock box'+plugin.name);
 	                    plugin.unselect();
 	                }
 				}
@@ -17219,7 +17532,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('start other box');
+						//console.log('sync start box'+plugin.name);
 						var deviceBoxStartSource = source.getBoxStartDevicePoint();
 	                    plugin.processZoomStart(deviceBoxStartSource);
 	                    plugin.repaintPlugin();
@@ -17235,7 +17548,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('bound other box');
+						//console.log('sync bound box'+plugin.name);
 	                    var deviceBoxCurrentSource = source.getBoxCurrentDevicePoint();
 	                    plugin.processZoomBound(deviceBoxCurrentSource);
 	                    plugin.repaintPlugin();
@@ -17251,7 +17564,7 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('box in other box');
+						//console.log('sync in box'+plugin.name);
 	                    plugin.processZoomIn();
 	                }
 				}
@@ -17276,6 +17589,82 @@ function stringInputToObject(color) {
 	        
 	    },
 	    
+	    nextHistory : function(source) {
+	    	if (!this.dispathingEvent) {
+	            this.dispathingEvent = true;
+	            for (var i = 0; i < this.boxesList.length; i++) {
+					var plugin = this.boxesList[i];
+					if (plugin.Id !== source.Id) {
+	                    plugin.nextHistory();
+	                }
+				}
+	            this.dispathingEvent = false;
+	        }
+	    },
+	    
+	    backHistory : function(source) {
+	    	if (!this.dispathingEvent) {
+	            this.dispathingEvent = true;
+	            for (var i = 0; i < this.boxesList.length; i++) {
+					var plugin = this.boxesList[i];
+					if (plugin.Id !== source.Id) {
+	                    plugin.backHistory();
+	                }
+				}
+	            this.dispathingEvent = false;
+	        }
+	    },
+	    
+	});
+})();
+(function(){
+	JenScript.ZoomBoxWidget = function(config) {
+		this.___init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.ZoomBoxWidget, JenScript.AbstractBackwardForwardBarWidget);
+	JenScript.Model.addMethods(JenScript.ZoomBoxWidget,{
+		___init: function(config){
+			config = config || {};
+			config.name = 'ZoomBoxHistory';
+			config.Id = 'boxhistory'+JenScript.sequenceId++;
+			config.width=(config.width !== undefined)?config.width:100;
+			config.height=(config.height !== undefined)?config.height:16;
+			config.xIndex=(config.xIndex !== undefined)?config.xIndex:2;
+			config.yIndex=(config.yIndex !== undefined)?config.yIndex:100;
+			config.barOrientation = 'Horizontal';
+			JenScript.AbstractBackwardForwardBarWidget.call(this,config);
+		    this.sample = (config.sample !== undefined)?config.sample : {step : 2, sleep: 100,fraction:5};
+		    this.setOrphanLock(true);
+		},
+	    onButton1Press : function() {
+	        this.getHost().backHistory();
+	    },
+	    onButton2Press : function() {
+	    	 this.getHost().nextHistory();
+	    },
+	    
+	    onRegister : function(){
+	    	var that = this;
+	    	var proj = this.getHost().getProjection();
+	    	if(proj !== undefined){
+	    		var view = proj.getView();
+	    		if(view !== undefined){
+	    			this.create();
+				}
+	    	}else{
+	    		this.getHost().addPluginListener('projectionRegister',function (plugin){
+	    			console.log("attach projection listener");
+					if(plugin.getProjection().getView() !== undefined){
+						that.create();
+					}else{
+						//wait view registering
+						plugin.getProjection().addProjectionListener('viewRegister',function(proj){
+							that.create();
+						},'Wait for projection view registering for box widget ');
+					}
+				},'Plugin listener for projection register for box widget');
+	    	}
+	    }
 	});
 })();
 (function(){
@@ -17302,10 +17691,6 @@ function stringInputToObject(color) {
 			this.lensListeners = [];
 			this.lensType = (config.lensType !== undefined) ? config.lensType : 'LensXY';
 			JenScript.Plugin.call(this,config);
-			
-			//this.registerWidget(new JenScript.LensX());
-			//this.registerWidget(new JenScript.LensY());
-			//this.registerWidget(new JenScript.LensPad());
 		},
 		
 		
@@ -17411,8 +17796,6 @@ function stringInputToObject(color) {
 			}
 			var pMinXMinYUser = proj.pixelToUser(pMinXMinYDevice);
 			var pMaxXMaxYUser = proj.pixelToUser(pMaxXMaxYDevice);
-			//if (w2d instanceof Window2D.Linear) {
-				//Window2D.Linear wl = (Window2D.Linear) w2d;
 				if(this.lensType == 'LensXY'){
 					proj.bound(pMinXMinYUser.x, pMaxXMaxYUser.x, pMinXMinYUser.y, pMaxXMaxYUser.y);
 				}
@@ -17422,8 +17805,6 @@ function stringInputToObject(color) {
 				else if(this.lensType === 'LensY'){
 					proj.bound(proj.getMinX(), proj.getMaxX(), pMinXMinYUser.y, pMaxXMaxYUser.y);
 				}
-			//}
-				
 			this.fireLensEvent('zoomIn');
 		},
 
@@ -17457,8 +17838,6 @@ function stringInputToObject(color) {
 			var pMinXMinYUser = proj.pixelToUser(pMinXMinYDevice);
 			var pMaxXMaxYUser = proj.pixelToUser(pMaxXMaxYDevice);
 
-			//if (getWindow2D() instanceof Window2D.Linear) {
-				//Window2D.Linear wl = (Window2D.Linear) getWindow2D();
 				if(this.lensType === 'LensXY'){
 					proj.bound(pMinXMinYUser.x, pMaxXMaxYUser.x, pMinXMinYUser.y, pMaxXMaxYUser.y);
 				}
@@ -17468,9 +17847,7 @@ function stringInputToObject(color) {
 				else if(this.lensType === 'LensY'){
 					proj.bound(proj.getMinX(), proj.getMaxX(), pMinXMinYUser.y, pMaxXMaxYUser.y);
 				}
-			//}
 			this.fireLensEvent('zoomOut');
-
 		}
 	});
 
@@ -20260,6 +20637,7 @@ function stringInputToObject(color) {
 	        var end=undefined;
 	        var prefix=undefined;
 	        var position = metric.getMarkerLocation();
+	       // console.log("position "+position.x+"/"+position.y);
             if (metric.getMarkerPosition() === 'S') {
             	prefix = 'southtick';
             	start = {x:position.x,y:position.y + 2};
@@ -20578,10 +20956,12 @@ function stringInputToObject(color) {
 	            if (!metric.visible) {
 	                continue;
 	            }
-	            this.paintMetricsTickMarker(g2d, part,metric);
-	            this.paintMetricsTickLabel(g2d,part, metric);
+	            var loc = metric.getMarkerLocation();
+	            if(!isNaN(loc.x) && !isNaN(loc.y)){
+	            	this.paintMetricsTickMarker(g2d, part,metric);
+	 	            this.paintMetricsTickLabel(g2d,part, metric);
+	            }
 	        }
-	        
 	    }
 	});
 })();
@@ -28724,8 +29104,6 @@ function stringInputToObject(color) {
 
 	
 })();
-
-
 (function(){
 	JenScript.ProgressPlugin = function(config) {
 		this._init(config);
@@ -28900,7 +29278,7 @@ function stringInputToObject(color) {
 			this.stocks = [];
 			this.stockLayers=[];
 			config.priority = 10000;
-			config.name='StockPlugin';
+			config.name = (config.name !== undefined)?config.name:'StockPlugin';
 			JenScript.Plugin.call(this,config);
 			this.bearishColor = (config.bearishColor !== undefined)?config.bearishColor:'red';
 			this.bullishColor = (config.bullishColor !== undefined)?config.bullishColor:'green';
@@ -30267,13 +30645,16 @@ function stringInputToObject(color) {
 			var proj = this.getLayer().getHost().getProjection();
 			var minMillis = proj.minX;
 			var maxMillis = proj.maxX;
+			//console.log("macd get signal min/max miilis:"+minMillis+"/"+maxMillis);
 			var stocks = this.getLayer().getHost().getStocks();
+			//console.log("macd getsignal : "+stocks.length);
 			for (var i = 0; i < stocks.length; i++) {
 				var root = stocks[i];
 				var rootMillis = root.getFixing().getTime();
 				var fm = this.getFixing(root); 
-				if(rootMillis>=minMillis && rootMillis<=maxMillis)
+				if(rootMillis>=minMillis && rootMillis<=maxMillis){
 					points[points.length] = new JenScript.Point2D(root.getFixing().getTime(), fm.signal);
+				}
 			}
 			return points;
 		},
@@ -30330,6 +30711,7 @@ function stringInputToObject(color) {
 		paintCurve : function(svgLayer,g2d,part,points,id,color,width,opacity) {
 			var proj = this.plugin.getProjection();
 			var curve = new JenScript.SVGPath().Id(id);
+			//console.log("create macd curve, points.length:"+points.length);
 			for (var p = 0; p < points.length; p++) {
 				var point = points[p];
 				if(p == 0)
@@ -30337,6 +30719,8 @@ function stringInputToObject(color) {
 				else
 					curve.lineTo(proj.userToPixelX(point.x),proj.userToPixelY(point.y));
 			}
+			
+			//console.log("create macd curve : ");
 			//g2d.deleteGraphicsElement(id);
 			//g2d.insertSVG(curve.stroke(color).strokeWidth(width).strokeOpacity(opacity).fillNone().toSVG());
 			svgLayer.child(curve.stroke(color).strokeWidth(width).strokeOpacity(opacity).fillNone().toSVG());
@@ -34417,8 +34801,8 @@ function stringInputToObject(color) {
 			this.themeColor=(config.themeColor !== undefined)? config.themeColor:'red';
 			this.strokeWidth=(config.strokeWidth !== undefined)? config.strokeWidth:1;
 		    /** source function */
-		    this.source=config.source;
-		    this.source.hostFunction = this;
+		    this.source= config.source;
+		    //this.source.hostFunction = this;
 			this.hostPlugin;
 			this.Id = 'pathfunction'+JenScript.sequenceId++;
 			/** the geometry path */
@@ -35055,6 +35439,7 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 			config.name = 'ScatterPathFunction';
+			this.radius = (config.radius !== undefined)? config.radius : 4;
 		    JenScript.AbstractPathFunction.call(this,config);
 		},
 		
@@ -35069,7 +35454,7 @@ function stringInputToObject(color) {
 			var proj = this.getProjection();
 			for (var i = 0; i < userPointsFunction.length; i++) {
 				var p = userPointsFunction[i];
-				var scatter = new JenScript.SVGRect().origin(proj.userToPixelX(p.x),proj.userToPixelY(p.y)).size(3,3).fill(this.getThemeColor());
+				var scatter = new JenScript.SVGRect().origin(proj.userToPixelX(p.x)-this.radius/2,proj.userToPixelY(p.y)-this.radius/2).size(this.radius,this.radius).fill(this.getThemeColor());
 				g2d.insertSVG(scatter.toSVG());
 			}
 		}
@@ -35139,6 +35524,7 @@ function stringInputToObject(color) {
 		     }
 	    	 for (var c = 0; c < this.getFunctions().length; c++) {
             	var pathFunction = this.getFunctions()[c];
+            	pathFunction.source.hostFunction = pathFunction;//required for share source between function
             	pathFunction.paintFunction(g2d);
 	         }
 	    },
@@ -35157,6 +35543,7 @@ function stringInputToObject(color) {
 	        for (var c = 0; c < this.getFunctions().length; c++) {
             	var pathFunction = this.getFunctions()[c];
             	pathFunction.graphicsContext = g2d;
+            	pathFunction.source.hostFunction = pathFunction;//required for share source between function
 	            var metrics = pathFunction.getMetrics();
 //	            for (GlyphMetric glyphMetric : metrics) {
 //	                if (glyphMetric.getGlyphMetricMarkerPainter() != null) {

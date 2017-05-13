@@ -1,162 +1,155 @@
 <!DOCTYPE html>
-<html lang="en" class="jensoft-org">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="javascript charts">
-<meta name="author" content="Sébastien Janaud">
-<!-- <link rel="icon" type="image/png" href="assets/creep-001.png" /> -->
-<link rel="icon" type="image/svg+xml" href="../../svg/donut2d.svg" />
+<html lang="en">
 
-<title>JavaScript Chart library - JenScript JS</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="jenscript.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="assets/style.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<script src="/jenscript.min.js"></script>
+    <title>JenScript - Javascript Chart Library</title>
+
+    <link href="/favicon.png" rel="icon" type="image/png" />
+
+    <meta name="description" content="welcome page javascript chart library, jenscript is a javascript SVG framework to make chart component in web modern browser">
+
+
+
+    <!-- CSS -->
+    <link href="assets/css/preload.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="assets/font-mfizz/font-mfizz.css">
+    
+
+    <link href="assets/css/vendors.css" rel="stylesheet">
+    <link href="assets/css/syntaxhighlighter/shCore.css" rel="stylesheet" >
+
+    <link href="/assets/css/style-green5.css" rel="stylesheet" title="default">
+    <link href="/assets/css/width-full.css" rel="stylesheet" title="default">
+
+	
+   
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
 </head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+
 <body>
 
+<div class="sb-site-container">
+<div class="boxed">
 
-<div class="container">
-<h1>JenScript <span style="color : rgb(22, 125, 218);">&nbsp;JavaScript Charts Library</span></h1>
-<h1><span style="color : black;font-size: 0.6em;">JavaScript HTML5 for visualization and charting.</span></h1>
-<small><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>&nbsp;&nbsp;<span style="color : rgb(100,100,100)">Sébastien Janaud - 2015 JavaScript HTML5 SVG JenScript library documentation, articles, tutorials and resources.</span></small><br>
-
-<small><strong>
-<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;&nbsp;
-<a href="https://github.com/sjanaud" target="_blank"><span style="color : #FF8000;">GitHub</span></a>&nbsp;&nbsp;
-<a href="http://www.jensoftapi.com" target="_blank"><span style="color : #FF8000;">Frameworks</span></a>&nbsp;&nbsp;
-<a href="https://twitter.com/jensoftapi" target="_blank"><span style="color : #FF8000;">Twitter</span></a>&nbsp;&nbsp;
-<a href="http://jensoft.io" target="_blank"><span style="color : #FF8000;">JenSoft</span></a>
-</strong></small>
+<div id="contentNav"></div>
 
 
-<div style="padding-top: 20px;float : left; width : 100%;">
-<div style="padding-top: 20px;float : left; width : 40%;">
-<!-- <h3><span style="color: rgb(180,180,180)">JenScript Articles</span></h3>  -->
-<p style="font-size: 0.9em;">
-	<a href="pie/1">Pie Chart Part 1 - Let's Make a Pie</a><br>
-	<a href="pie/2">Pie Chart Part 2 - Pie Builder</a><br>
-	<a href="pie/3">Pie Chart Part 3 - Pie Listener</a><br>
-	<a href="donut2d/1">Donut2D Part 1 - Let's Make a Donut2D</a><br>
-	<a href="donut2d/2">Donut2D Part 2 - Donut2D Builder</a><br>
-	<a href="donut2d/3">Donut2D Part 3 - Donut2D Listener</a><br>
-	<a href="donut3d/1">Donut3D Part 1 - Let's Make a Donut3D</a><br>
-	<a href="donut3d/2">Donut3D Part 2 - Chart with Builder</a><br>
-	<a href="donut3d/3">Donut3D Part 3 - Donut3D Animation</a><br>
-	<a href="stock/1">Stock Chart Part 1 - Case of Silver</a><br>
-	<a href="stock/2">Stock Chart Part 2 - OHLC Indicators</a><br>
-	<a href="stock/3">Stock Chart Part 3 - CandleStick Indicators</a><br>
-	<a href="stock/4">Stock Chart Part 4 - Fixing Line, long-term trend</a><br>
-	<a href="stock/5">Stock Chart Part 5 - Moving Average: SMA, WMA, EMA</a><br>
-	<a href="stock/6">Stock Chart Part 6 - moving average convergence/divergence (MACD)</a><br>
-	<a href="stock/7">Stock Chart Part 7 - Bollinger Bands</a><br>
-	<a href="stock/8">Stock Chart Part 8 - Time Picker</a><br>
-	<a href="metrics/1">Metrics Part 1 - Modeling Chart Metrics</a><br>
-	<a href="metrics/2">Metrics Part 2 - Exponential Modeling</a><br>
-	<a href="metrics/3">Metrics Part 3 - Timing is everything</a><br>
-	<a href="metrics/4">Metrics Part 4 - Manual Metrics</a><br>
-	<a href="metrics/5">Metrics Part 5 - Static Metrics</a><br>
-	<a href="metrics/6">Metrics Part 6 - Flow Metrics</a><br>
-	<a href="realtime/1">Realtime Chart Part 1 - Case of RealTime - Line Curve</a><br>
-	<a href="realtime/2">RealTime Chart Part 2 - Cloud Points</a><br>
-	<a href="realtime/3">RealTime Chart Part 3 - Make a Scan</a><br>
-	<a href="symbol/1">Symbol Part 1 - Let's Make a Bar Chart</a><br>
-	<a href="symbol/2">Symbol Part 2 - Stacked Bar Chart</a><br>
-	<a href="symbol/3">Symbol Part 3 - Point &amp; Curve</a><br>
-	<a href="symbol/4">Symbol Part 4 - Symbol Listener</a><br>
-	<a href="symbol/5">Symbol Part 5 - Population Pyramid</a><br>
-	<a href="translate/1">Translate Plugin</a><br>
-	<a href="translate/2">Translate Tx Widget - Translate Part 2</a><br>
-	<a href="translate/3">Translate Ty Widget - Translate Part 3</a><br>
-	<a href="translate/4">Translate Pad Widget - Translate Part 4</a><br>
-	<a href="translate/5">Translate Synchronization - Translate Part 5</a><br>
-	<a href="zoombox/1">Zoom Box Plugin</a><br>
-	<a href="zoombox/2">Zoom Box X - Zoom Box Part 2</a><br>
-	<a href="zoombox/3">Zoom Box Y - Zoom Box Part 3</a><br>
-	<a href="zoombox/4">Zoom Box Synchronization - Zoom Box Part 4</a><br>
-	<a href="zoomlens/1">Zoom Lens Plugin</a><br>
-	<a href="zoomlens/2">Zoom Lens Pad - Zoom Lens Part 2</a><br>
-	<a href="zoomlens/3">Zoom Lens Synchronization - Zoom Lens Part 3</a><br>
-	<a href="monitor/1">Progress Task Monitors</a><br>
-	<a href="background/1">Chart Background and Foreground</a><br>
-	<a href="ray/1">Ray Chart Part 1 - Let's Make a Ray Chart</a><br>
-	<a href="ray/2">Ray Chart Part 2 - Ray Thickness in user coordinate</a><br>
-	<a href="ray/3">Ray Chart Part 3 - Stacked Ray Chart</a><br>
-	<a href="ray/4">Ray Chart Part 4 - Listener</a><br>
-	<a href="function/line/1">Line Chart Part 1 - Line X</a><br>
-	<a href="function/line/2">Line Chart Part 2 - Spline X</a><br>
-	<a href="function/line/3">Line Chart Part 3 - Line Y</a><br>
-	<a href="function/line/4">Line Chart Part 4 - Spline Y</a><br>
-	<a href="function/area/1">Area Chart Part 1 - Area Line X </a><br>
-	<a href="function/area/2">Area Chart part 2 - Area Spline X</a><br>
-	<a href="function/area/3">Area Chart Part 3 - Multiple Area</a><br>
-	<a href="function/area/4">Area Chart Part 4 - Multiple Area Spline</a><br>
-	<a href="function/area/5">Area Chart Part 5 - Stacked Spline Area</a><br>
-	<a href="function/scatter/1">Scatter Chart Part 1 - Scatter X</a><br>
-	<a href="function/scatter/2">Scatter Chart Part 2 - Scatter Spline X</a><br>
-	<a href="grid/1">Grid Decorator Part 1 - Line Grid</a><br>
-	<a href="legend/1">Legend Decorator Part 1 - Absolute Legend</a><br>
-	<a href="legend/2">Legend Decorator Part 2 - Relative Legend</a><br>
-	<a href="label/1">Label Decorator Part 1 - Label Device System</a><br>
-	<a href="label/2">Label Decorator Part 2 - Label User System</a><br>
-	<a href="micro/1">Micro javascript chart analytics like</a><br>
-	<a href="require/1">JenScript with Require JS</a><br>
-	<a href="require/2">Require - Part 2</a><br>
-	<a href="builder/1">Pattern Builder with wrapper function</a><br>
-</p>
-</div>
-<div style="padding-top: 20px; width : 60%; float:left;">
-<div id="view"></div>
-</div>
+<header id="header-full" class="header-full">
+<!-- <header id="header-full"> -->
+    <div class="wrap-primary">
+        <div class="container">
+             <h1 class="head-title animated bounceInDown animation-delay-8">Jenscript JS</h1> 
+            
+           <div class="row" style="padding-top: 20px;">
+				<div  id="price" class="col-md-6"></div>
+				<div  id="macd" class="col-md-6"></div>
+			</div>
+            
+            
+            <h2 class="secondary-color text-center head-subtitle animated fadeInUp animation-delay-14">Javascript SVG library for visualization and charting</h2>
+            <p class="lead text-center animated fadeInUp animation-delay-14">Sleek and intuitive dataviz JS library, our principles are experience, knowledge and creativity. Discover JenScript JS.</p>
+            <div class="row header-full-icons text-center">
+                <div class="col-sm-3 animated fadeInDown animation-delay-19">
+                    <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-html5"></i></span>
+                    <h3>JS/HTML5</h3>
+<!--                     <p class="text-center">Visualize data in web modern browser</p> -->
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-21">
+                    <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-github" ></i></span>
+                    <h3>Open Source</h3>
+<!--                     <p class="text-center">Jenscript source on github</p> -->
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-22">
+                    <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="icon-svg" ></i></span>
+                    <h3>SVG</h3>
+<!--                     <p class="text-center">Bring Data to life with SVG</p> -->
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-20">
+                    <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cubes" ></i></span>
+                    <h3>Plugins</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="wrap-dark-color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 feature-container">
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/build/plugins">
+                        <i class="fa fa-cubes"></i>
+                        <h4>Plugins</h4>
+                    </a>
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/archive/monkey-1.1.8.tar.gz">
+                        <i class="fa fa-download"></i>
+                        <h4>Downloads</h4>
+                    </a>
+                    <a class="feature-icon" href="/jenscript/charts/samples">
+                        <i class="fa fa-file-code-o"></i>
+                        <h4>Samples</h4>
+                    </a>
+                    <a class="feature-icon" href="http://github.com/sjanaud/jenscript">
+                        <i class="fa fa-github"></i>
+                        <h4>Source</h4>
+                    </a>
+                </div>
+                <div class="col-md-5 hidden-sm hidden-xs">
+                    <p class="lead text-center">JenScript HTML5 SVG Javascript Chart Library. New Release! Monkey 1.1.8 is now available. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div> <!-- boxed -->
+</div> <!-- sb-site -->
+<script src="assets/js/vendors.js"></script>
+<script src="assets/js/syntaxhighlighter/shCore.js"></script>
+<script src="assets/js/syntaxhighlighter/shBrushXml.js"></script>
+<script src="assets/js/syntaxhighlighter/shBrushJScript.js"></script>
+<script src="assets/js/DropdownHover.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/holder.js"></script>
+<script src="assets/js/home_full.js"></script> 
+<script type="text/javascript">
+$.get("/assets/nav-content.html", function(data){
+    $("#contentNav").replaceWith(data);
+    $("#header-full-top").addClass("hidden-sm hidden-md hidden-lg");
 
+	$("#header").removeClass('navbar-header-full');
+	$("#ar-brand").removeClass("hidden-lg hidden-md hidden-sm");
+	$("#bs-example-navbar-collapse-1").addClass("navbar-right");
 
-</div>
-<!-- <div style="padding-top: 20px;"> -->
-<!-- <strong>Articles to be published</strong><br> -->
-<!-- <p style="font-size: 0.9em;"> -->
-<!-- 		Bidimensional vs Unidimensional Symbol<br> -->
-<!-- 		Zoom Wheel - Tooling Part 5<br> -->
-<!-- 		Transform - Tooling Part 6<br> -->
-<!-- 		Semantic vs Geometric Transform<br> -->
-<!-- 		Case of Donut : Transform Part 2<br> -->
-<!-- 		Case of Map - Transform Part 3<br> -->
-<!-- 		Case of Stock - Transform Part 4<br> -->
-<!-- 		Plot Line, Bezier Curve, Cubic Curve and other parametric curves<br> -->
-<!-- 		Bubbles<br> -->
-<!-- 		View Logical Anatomy - View Part 2<br> -->
-<!-- 		View Physical Anatomy - View Part 3<br> -->
-<!-- 		View SVG Anatomy - View Part 4<br> -->
-<!-- 		View  Projection Plugin Model<br> -->
-<!-- 		Learn Projection<br> -->
-<!-- 		Create my own Plugin<br> -->
-<!-- 		Learn Painting<br> -->
-<!-- 		Projection Selector<br> -->
-<!-- 		Projection User/Pixel coordinate system<br> -->
-<!-- 		Widget API<br> -->
-<!-- 		Working with css<br> -->
-<!-- 	<p> -->
-<!-- </div> -->
-</div>
-<footer class="footer">
-   <div class="container">
-     <small><a href="http://jenscript.io">JenScript JS</a> - <span class="footer-title">JavaScript HTML5/SVG Chart Data Visualization Library</span></small>
-   </div>
- </footer>
- </body>
- <script src="index.js"></script>
- <script type="text/javascript">
-$(window).resize(function() {
-	init();
+	$("#header").addClass('navbar-light');
+	$("#header").removeClass('navbar-dark navbar-inverse');
+	$('[data-hover="dropdown"]').dropdownHover();
 });
 
-function init(){
-	var w = $("#view").width();
-	draw('view',w,450);
-}
-init();
-</script> 
+</script>
+<script src="blog/stock/StockLoader.js"></script>
+<script src="/index.js"></script>
+   <script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#macd").width();
+		createViewStockMACD('price','macd',w,400);
+	}
+	init();
+</script>
+</body>
 </html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" class="jensoft-org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="javascript charts">
+    <meta name="author" content="Sébastien Janaud">
+	<link rel="icon" type="image/svg+xml" href="../../svg/donut2d.svg" />
+    <title>JavaScript Donut2D Listener - JenScript JS</title>
+   
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/docs.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/styles/color-brewer.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script> 
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+   
+   <link rel="stylesheet" href="/assets/style.css">
+   <script src="/jenscript.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>JavaScript Donut2D Chart <span style="color : rgb(22, 125, 218);">Listener</span> </h1> 
+
+<small>Sébastien Janaud - June 3, 2015 / <a href="../../">JenScript</a>
+</small>
+
+
+
+<div class="bs-callout bs-callout-info" >
+    <h4 >Donut2D Chart Listener</h4>
+   	<p>
+		JenScript provides a pie listener of commons interactions with donut2d such as move, enter, exit, press and release.
+	</p>
+	<p>
+    	<small><strong>Resource : </strong><a href="donut2d-listener.js" download>chart source code</a></small>
+    </p>
+    <p>
+     <small><strong>Learn : </strong><a href="https://github.com/sjanaud/jenscript/blob/master/src/plugins/donut2d" target="_blank">javascript donut2d source.</a></small>
+  	</p>
+  	 <p>
+    	<small><strong>Parts : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp; Part 3</small>
+    </p>
+  </div>
+  
+ 
+<div  id="view"></div>
+
+
+<pre><code class="javascript">
+
+/**
+ * Create donut2d with listener
+ * 
+ * @param container
+ * @param width
+ * @param height
+ */
+function createView(container, width, height) {
+
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 20,
+		
+	});
+
+
+	var proj = new JenScript.LinearProjection({
+		name : "proj1",
+		minX : -1000,
+		maxX : 1000,
+		minY : -1000,
+		maxY : 1000
+	});
+	view.registerProjection(proj);
+
+
+	var donutPlugin = new JenScript.Donut2DPlugin();
+	proj.registerPlugin(donutPlugin);
+
+	var donut = new JenScript.Donut2D({innerRadius : 80, outerRadius : 120, startAngleDegree : 45});
+	donutPlugin.addDonut(donut);
+	
+	donut.setFill(new JenScript.Donut2DRadialFill());
+	donut.addEffect(new JenScript.Donut2DLinearEffect());
+	donut.addEffect(new JenScript.Donut2DReflectionEffect());
+
+	var s1 = new JenScript.Donut2DSlice({
+		name : "s1",
+		value : 45,
+		themeColor : 'rgba(240, 240, 240, 0.9)'
+	});
+	var s2 = new JenScript.Donut2DSlice({
+		name : "s2",
+		value : 5,
+		themeColor : 'rgba(37,38,41,1)'
+	});
+	var s3 = new JenScript.Donut2DSlice({
+		name : "s3",
+		value : 30,
+		themeColor : 'rgba(78,148,44,1)'
+	});
+	var s4 = new JenScript.Donut2DSlice({
+		name : "s4",
+		value : 5,
+		themeColor : 'rgba(22,125,218, 1)'
+	});
+	var s5 = new JenScript.Donut2DSlice({
+		name : "s5",
+		value : 5,
+		themeColor : 'rgba(61,44,105,1)'
+	});
+
+	donut.addSlice(s1);
+	donut.addSlice(s2);
+	donut.addSlice(s3);
+	donut.addSlice(s4);
+	donut.addSlice(s5);
+	
+	
+	//label for listener
+	var labelPlugin = new JenScript.TextLabelPlugin();
+	proj.registerPlugin(labelPlugin);
+	
+	var label = new JenScript.TextLabel({
+		fillColor : 'black',
+		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		cornerRadius : 10,
+		outlineWidth : 2,
+		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		fontSize : 16
+	});
+	labelPlugin.addLabel(label);
+
+	var updateText = function(action, point) {
+		label.setText(action);
+		label.setX(point.device.x);
+		label.setY(point.device.y);
+		labelPlugin.repaintPlugin();
+	};
+	
+	var lock = false;
+	//listener
+	//event is something like, refer to source
+	//event : {slice : slice, x:x,y:y, device :{x:x,y:y}}
+	
+
+	/**
+	 * add Donut listener such as press, release, move, enter, exit
+	 */
+	donutPlugin.addDonutListener('enter', function(event) {
+		updateText('enter',event);
+		lock = true;
+		setTimeout(function(){lock=false;},200);
+	});
+	donutPlugin.addDonutListener('exit', function(event) {
+		updateText('exit',event);
+		setTimeout(function(){updateText(undefined,event);},200);
+	});
+	donutPlugin.addDonutListener('press', function(event) {
+		updateText('press',event);
+	});
+	donutPlugin.addDonutListener('release', function(event) {
+		updateText('release',event);
+	});
+	donutPlugin.addDonutListener('move', function(event) {
+		if(!lock)
+			updateText('move',event);
+	});
+
+}
+</code></pre>
+
+</div>
+<footer class="footer">
+   <div class="container">
+     <small><a href="http://jenscript.io">JenScript JS</a> - <span class="footer-title">JavaScript HTML5/SVG Chart Data Visualization Library</span></small>
+   </div>
+ </footer>
+</body>
+  
+<script src="donut2d-listener.js"></script> 
+<script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#view").width();
+		createView('view',w,400);
+	}
+	init();
+</script>
+ 
+</html>
