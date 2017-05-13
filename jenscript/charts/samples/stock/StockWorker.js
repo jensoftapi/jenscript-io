@@ -6,7 +6,7 @@ this.onmessage = function(event) {
 	oReq.addEventListener("load", transferComplete, false);
 	oReq.addEventListener("error", transferFailed, false);
 	oReq.addEventListener("abort", transferCanceled, false);
-	oReq.open("get", "/blog/stock/assets/"+asset, true);
+	oReq.open("get", "/jenscript/charts/samples/stock/assets/"+asset, true);
 	oReq.send();
 };
 function transferComplete(evt) {
@@ -27,11 +27,11 @@ function transferComplete(evt) {
  	 
 }
 function transferFailed(evt) {
-	console.log('transfer fail');
+	//console.log('transfer fail');
 }
 
 function transferCanceled(evt) {
-	console.log('transfer cancel');
+	//console.log('transfer cancel');
 }
 
 function loadStock(dataLine) {

@@ -50,7 +50,7 @@ var StockLoader = function(proj,args,callback,config){
 		year.monitor = m;
 		
 		var stockCount = 0;
-		var dataWorker = new Worker('/blog/stock/StockWorker.js');
+		var dataWorker = new Worker('/jenscript/charts/samples/stock/StockWorker.js');
 		dataWorker.addEventListener("message", function(event) {
 			if (event.data.startsWith !== undefined && event.data.startsWith('finish')) {
 				var yearFromWorker = event.data.split(':')[1];
