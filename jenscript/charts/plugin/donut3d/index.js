@@ -12,7 +12,6 @@ var s1Label,s2Label,s3Label,s4Label;
 function sleep(ref,millis){
 	
 	if(ref > index){
-		console.log("sleep index : "+index);
 		setTimeout(function(){
 			index = index+1;
 			//console.log("call next index : "+(index))
