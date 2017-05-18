@@ -53,6 +53,29 @@ function createView(container, width, height) {
 		maxY : 3600
 	});
 	view.registerProjection(proj);
+	
+	var gridPlugin = new JenScript.GridModeledPlugin({
+		gridOrientation : 'Vertical',
+		gridColor : 'rgba(149,250,127,0.6)',
+		gridWidth : 1,
+		onGridPress : function(grid){
+			console.log("on press grid "+grid.userValue);
+			grid.element.setAttribute('stroke','yellow');
+		},
+		onGridRelease : function(grid){
+			console.log("on release grid "+grid.userValue);
+		},
+		onGridEnter : function(grid){
+			console.log("on enter grid "+grid.userValue);
+			grid.element.setAttribute('stroke','rgba(149,250,127,1)');
+		},
+		onGridExit : function(grid){
+			console.log("on exit grid "+grid.userValue);
+			grid.element.setAttribute('stroke','rgba(149,250,127,0.6)');
+		},
+	});
+	
+	proj.registerPlugin(gridPlugin);
 
 	var outline = new JenScript.DeviceOutlinePlugin({color:'rgba(0,255,0,0.3)'});
 	proj.registerPlugin(outline);
@@ -79,6 +102,7 @@ function createView(container, width, height) {
 	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
+		          	{plugin :  gridPlugin, direction : 'x'},
 		          	{plugin :  southMetrics, direction : 'x'},
 		          	{plugin :  westMetrics,  direction : 'y'},
 		          ]
@@ -108,7 +132,7 @@ function createView(container, width, height) {
 	
 	
 	
-	translate1.select();
+	//translate1.select();
 
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',

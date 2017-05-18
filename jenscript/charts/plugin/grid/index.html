@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<script src="/jenscript.min.js"></script>
-    <title>Javascript Chart Library | JenScript Zoom Box Chart</title>
+    <title>Javascript Chart Library | JenScript Modeled Metrics Chart</title>
 
      <link href="/favicon.png" rel="icon" type="image/png" />
-    <meta name="description" content="zoom box javascript chart with jenscript chart zoomm box plugin">
+    <meta name="description" content="javascript axis metrics chart with jenscript javascript chart library">
 
     <!-- CSS -->
     <link href="/assets/css/preload.css" rel="stylesheet">
@@ -50,36 +50,32 @@
 <header id="header-full">
     <div class="wrap-primary">
         <div class="container">
-<!--             <h1 class="head-title animated bounceInDown animation-delay-8">Jenscript v 1.8.0</h1> -->
-            
-<!--             <img src="/assets/img/logo_raw_white.png" alt="" class="aligncenter head-full-logo animated bounceIn animation-delay-5"> -->
             
           <div class="row" style="padding-top: 20px;">
-				<div  id="price" class="col-md-6"></div>
-				<div  id="macd" class="col-md-6"></div>
+				<div  id="view" class="col-md-12"></div>
 			</div>
             
             
             <div class="row header-full-icons text-center">
                 <div class="col-sm-3 animated fadeInDown animation-delay-19">
                     <span class="icon-ar icon-ar-circle icon-ar-turquoise icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cube"></i></span>
-                    <h3>ZoomBox</h3>
-                    <p class="text-center">Zoom Box of projection</p>
+                    <h3>Chart Grid</h3>
+                    <p class="text-center">Grid lines decorator</p>
                 </div>
                 <div class="col-sm-3 animated fadeInDown animation-delay-21">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-play-circle" ></i></span>
-                    <h3>Widgets</h3>
-                    <p class="text-center">UI Bar, History and Target Widgets</p>
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-info-circle" ></i></span>
+                    <h3>Info</h3>
+                    <p class="text-center">Lay out h/v grid on chart</p>
                 </div>
                 <div class="col-sm-3 animated fadeInDown animation-delay-22">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-exchange" ></i></span>
-                    <h3>Synchronization</h3>
-                    <p class="text-center">Components synchronization</p>
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-tag" ></i></span>
+                    <h3>Label</h3>
+                    <p class="text-center">Label marker label</p>
                 </div>
                 <div class="col-sm-3 animated fadeInDown animation-delay-20">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-wrench" ></i></span>
-                    <h3>Tool</h3>
-                    <p class="text-center">Interaction tool </p>
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-pencil" ></i></span>
+                    <h3>Paint</h3>
+                    <p class="text-center">Grid of interest</p>
                 </div>
             </div>
         </div>
@@ -90,15 +86,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7 feature-container">
-                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-zoom.min.js">
+                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-metrics.min.js">
                         <i class="fa fa-download"></i>
                         <h4>Downloads</h4>
                     </a>
-                    <a class="feature-icon" href="/jenscript/charts/samples/zoombox/1">
+                    <a class="feature-icon" href="/jenscript/charts/samples/metrics/2">
                         <i class="fa fa-file-code-o"></i>
                         <h4>Samples</h4>
                     </a>
-                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/zoom/box">
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/metrics">
                         <i class="fa fa-github"></i>
                         <h4>Source</h4>
                     </a>
@@ -111,18 +107,13 @@
     </section>
 
     
-
-
 </div> <!-- boxed -->
 </div> <!-- sb-site -->
 
-
-<div id="back-top">
-    <a href="home_full.html#header"><i class="fa fa-chevron-up"></i></a>
-</div>
-
-
 <script src="/assets/js/vendors.js"></script>
+
+<!--<script type="text/javascript" src="/assets/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+<script type="text/javascript" src="/assets/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>-->
 
 
 <!-- Syntaxhighlighter -->
@@ -134,6 +125,7 @@
 <script src="/assets/js/app.js"></script>
 <script src="/assets/js/holder.js"></script>
 <script src="/assets/js/home_full.js"></script>
+
 
 <script type="text/javascript">
 $.get("/assets/nav-content.html", function(data){
@@ -151,17 +143,14 @@ $.get("/assets/nav-content.html", function(data){
 
 </script>
 
-<script src="/jenscript/charts/samples/stock/StockLoader.js"></script>
-
-<script src="zoom-box-historypanel-widget.js"></script>
 <script src="index.js"></script>
    <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w = $("#macd").width();
-		createViewStockMACD('price','macd',w,400);
+		var w = $("#view").width();
+		createView('view',w,400);
 	}
 	init();
 </script>

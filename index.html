@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<script src="/jenscript.min.js"></script>
+	<script src="/jenscript.js"></script>
     <title>JenScript - Javascript Chart Library</title>
 
     <link href="/favicon.png" rel="icon" type="image/png" />
 
     <meta name="description" content="welcome page javascript chart library, jenscript is a javascript SVG framework to make chart component in web modern browser">
 
+<!-- 	<script src="https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js"></script> -->
 
+	
 
     <!-- CSS -->
     <link href="assets/css/preload.css" rel="stylesheet">
@@ -53,7 +55,6 @@
 <!-- <header id="header-full"> -->
     <div class="wrap-primary">
         <div class="container">
-            
            <div class="row" style="padding-top: 20px;">
 				<div  id="price" class="col-md-6"></div>
 				<div  id="macd" class="col-md-6"></div>
@@ -94,7 +95,7 @@
                         <i class="fa fa-cubes"></i>
                         <h4>Plugins</h4>
                     </a>
-                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/archive/monkey-1.1.8.tar.gz">
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/archive/rooster-1.1.9.tar.gz">
                         <i class="fa fa-download"></i>
                         <h4>Downloads</h4>
                     </a>
@@ -139,6 +140,8 @@ $.get("/assets/nav-content.html", function(data){
 
 </script>
 <script src="/jenscript/charts/samples/stock/StockLoader.js"></script>
+<script src="widget-toolbar.js"></script>
+
 <script src="/index.js"></script>
    <script type="text/javascript">
 	$(window).resize(function() {
@@ -146,7 +149,7 @@ $.get("/assets/nav-content.html", function(data){
 	});
 	function init(){
 		var w = $("#macd").width();
-		createViewStockMACD('price','macd',w,400);
+		create('price','macd',w,400);
 	}
 	init();
 </script>

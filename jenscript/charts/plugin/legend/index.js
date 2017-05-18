@@ -53,6 +53,9 @@ function createView(container, width, height) {
 		maxY : 3600
 	});
 	view.registerProjection(proj);
+	
+	var gridPlugin = new JenScript.GridModeledPlugin({gridOrientation : 'Vertical',gridColor : 'green'});
+	proj.registerPlugin(gridPlugin);
 
 	var outline = new JenScript.DeviceOutlinePlugin({color:'rgba(0,255,0,0.3)'});
 	proj.registerPlugin(outline);
@@ -110,16 +113,48 @@ function createView(container, width, height) {
 	
 	translate1.select();
 
+
 	var title = new JenScript.TitleLegendPlugin({
-		layout : 'relative',
+		layout : 'absolute',
 		part   : JenScript.ViewPart.Device,
-		text   : 'Metrics',
-		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
-		xAlign : 'right',
-		yAlign : 'top',
+		text   : 'JenSoft APIs',
+		fontSize : 12,
+		textColor : 'pink',
+		x : 200,
+		y : 20,
+		textAnchor : 'middle',
+		rotate : false,
+		rotateAngle : 90
 	});
 	proj.registerPlugin(title);
+	
+	var title2 = new JenScript.TitleLegendPlugin({
+		layout : 'absolute',
+		part   : JenScript.ViewPart.Device,
+		text   : 'JenScript',
+		fontSize : 12,
+		textColor : 'orange',
+		x : 200,
+		y : 200,
+		textAnchor : 'middle',
+		rotate : false,
+		rotateAngle : 90
+	});
+	proj.registerPlugin(title2);
+	
+	var title3 = new JenScript.TitleLegendPlugin({
+		layout : 'absolute',
+		part   : JenScript.ViewPart.Device,
+		text   : 'JenScript',
+		fontSize : 10,
+		textColor : 'yellow',
+		x : 100,
+		y : 100,
+		textAnchor : 'middle',
+		rotate : true,
+		rotateAngle : -60
+	});
+	proj.registerPlugin(title3);
 	
 }
 

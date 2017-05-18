@@ -1,11 +1,12 @@
 (function(){
-	JenScript.ZoomBoxWidget = function(config) {
+	JenScript.ZoomBoxWidget2 = function(config) {
 		this._init(config);
 	};
-	JenScript.Model.inheritPrototype(JenScript.ZoomBoxWidget, JenScript.Widget);
+	JenScript.Model.inheritPrototype(JenScript.ZoomBoxWidget2, JenScript.Widget);
 	
-	JenScript.Model.addMethods(JenScript.ZoomBoxWidget, {
+	JenScript.Model.addMethods(JenScript.ZoomBoxWidget2, {
 		_init : function(config){
+			console.log("init history panel");
 			config = config || {};
 			config.name = 'ZoomBoxWidget';
 	        config.Id =  'zoomBoxWidget'+JenScript.sequenceId++;

@@ -315,7 +315,6 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 	
 	
-	
 	var boxView1Proj1 = new JenScript.ZoomBoxPlugin({
 		name : 'mainBox',
 		slaves : [stockPluginView1Proj1]
@@ -336,6 +335,9 @@ function createViewStockMACD(container1,container2, width, height) {
 		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
 		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
 	}));
+	
+	boxView1Proj1.registerWidget(new JenScript.ZoomBoxWidget2());
+	
 	proj1.registerPlugin(boxView1Proj1);
 	
 
