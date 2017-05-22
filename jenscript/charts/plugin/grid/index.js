@@ -59,18 +59,14 @@ function createView(container, width, height) {
 		gridColor : 'rgba(149,250,127,0.6)',
 		gridWidth : 1,
 		onGridPress : function(grid){
-			console.log("on press grid "+grid.userValue);
 			grid.element.setAttribute('stroke','yellow');
 		},
 		onGridRelease : function(grid){
-			console.log("on release grid "+grid.userValue);
 		},
 		onGridEnter : function(grid){
-			console.log("on enter grid "+grid.userValue);
 			grid.element.setAttribute('stroke','rgba(149,250,127,1)');
 		},
 		onGridExit : function(grid){
-			console.log("on exit grid "+grid.userValue);
 			grid.element.setAttribute('stroke','rgba(149,250,127,0.6)');
 		},
 	});

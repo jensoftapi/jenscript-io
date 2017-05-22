@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<script src="/jenscript.min.js"></script>
-    <title>Javascript Chart Library | JenScript Modeled Metrics Chart</title>
+    <title>Javascript Chart Library | JenScript Free Metrics Chart</title>
 
      <link href="/favicon.png" rel="icon" type="image/png" />
     <meta name="description" content="javascript axis metrics chart with jenscript javascript chart library">
@@ -52,32 +52,31 @@
         <div class="container">
             
           <div class="row" style="padding-top: 20px;">
-				<div  id="view1" class="col-md-6"></div>
-				<div  id="view2" class="col-md-6"></div>
+				<div  id="view" class="col-md-12"></div>
 			</div>
             
             
             <div class="row header-full-icons text-center">
                 <div class="col-sm-3 animated fadeInDown animation-delay-19">
                     <span class="icon-ar icon-ar-circle icon-ar-turquoise icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cube"></i></span>
-                    <h3>Legend</h3>
-                    <p class="text-center">Relative or Absolute</p>
+                    <h3>Outline</h3>
+                    <p class="text-center">View outline</p>
                 </div>
                 <div class="col-sm-3 animated fadeInDown animation-delay-21">
                     <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-info-circle" ></i></span>
                     <h3>Info</h3>
-                    <p class="text-center">Add legend to chart view</p>
+                    <p class="text-center">Display device outline</p>
                 </div>
-                <div class="col-sm-3 animated fadeInDown animation-delay-22">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-tag" ></i></span>
-                    <h3>Label</h3>
-                    <p class="text-center">Chart Labels</p>
-                </div>
-                <div class="col-sm-3 animated fadeInDown animation-delay-20">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-pencil" ></i></span>
-                    <h3>Paint</h3>
-                    <p class="text-center">Chart Decorator</p>
-                </div>
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-22"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-tag" ></i></span> -->
+<!--                     <h3>Label</h3> -->
+<!--                     <p class="text-center">Tick and Label marker label</p> -->
+<!--                 </div> -->
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-20"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-pencil" ></i></span> -->
+<!--                     <h3>Paint</h3> -->
+<!--                     <p class="text-center">Metrics of interest</p> -->
+<!--                 </div> -->
             </div>
         </div>
     </div>
@@ -87,15 +86,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7 feature-container">
-                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-legend.min.js">
+                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-outline.min.js">
                         <i class="fa fa-download"></i>
                         <h4>Downloads</h4>
                     </a>
-                    <a class="feature-icon" href="/jenscript/charts/samples/legend/1">
-                        <i class="fa fa-file-code-o"></i>
-                        <h4>Samples</h4>
-                    </a>
-                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/legend">
+<!--                     <a class="feature-icon" href="/jenscript/charts/samples/metrics/1"> -->
+<!--                         <i class="fa fa-file-code-o"></i> -->
+<!--                         <h4>Samples</h4> -->
+<!--                     </a> -->
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/outline">
                         <i class="fa fa-github"></i>
                         <h4>Source</h4>
                     </a>
@@ -144,17 +143,14 @@ $.get("/assets/nav-content.html", function(data){
 
 </script>
 
-<script src="title-legend1.js"></script>
-<script src="title-legend2.js"></script>
+<script src="index.js"></script>
    <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w1 = $("#view1").width();
-		createViewTitleAbsoluteLegend('view1',w1,400);
-		var w2 = $("#view2").width();
-		createViewTitleRelativeLegend('view2',w2,400);
+		var w = $("#view").width();
+		createView('view',w,400);
 	}
 	init();
 </script>

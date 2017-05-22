@@ -7,7 +7,7 @@
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
 	<link href="/favicon.png" rel="icon" type="image/png" />
-    <title>JavaScript Population Pyramid Charts - JenScript JS</title>
+    <title>JavaScript Stacked Bar Charts - JenScript JS</title>
    
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -32,51 +32,56 @@
 
 <div class="container">
 
-<h1>Population Pyramid Chart</h1> 
+<h1>Bar Chart<span style="color : rgb(22, 125, 218);"> Labels</span></h1> 
 
-<small>Sébastien Janaud - June 14, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 22, 2017 / <a href="../../">JenScript</a>
 </small>
 
 
 
 <div class="bs-callout bs-callout-info" >
-    <h4 >Population Pyramid Bar Chart</h4>
-   
-   <p>
-   	A population pyramid, also called an age pyramid or age picture diagram, is a graphical illustration that shows the distribution of various age groups in a population (typically that of a country or region of the world), which forms the shape of a pyramid when the population is growing. It is also used in ecology to determine the overall age distribution of a population; an indication of the reproductive capabilities and likelihood of the continuation of a species.
-	It typically consists of two back-to-back bar graphs, with the population plotted on the X-axis and age on the Y-axis, one showing the number of males and one showing females in a particular population in five-year age groups (also called cohorts). Males are conventionally shown on the left and females on the right, and they may be measured by raw number or as a percentage of the total population.
-	Population pyramids are often viewed as the most effective way to graphically depict the age and sex distribution of a population, partly because of the very clear image these pyramids present.
-   </p>
+    <h4 >Stacked Bar Charts</h4>
+    <p>
+    A bar chart or bar graph is a chart that presents Grouped data with rectangular bars with lengths proportional to the values that they represent. The bars can be plotted vertically or horizontally. A vertical bar chart is sometimes called a column bar chart.
+	A bar graph is a chart that uses either horizontal or vertical bars to show comparisons among categories. One axis of the chart shows the specific categories being compared, and the other axis represents a discrete value. Some bar graphs present bars clustered in groups of more than one (grouped bar graphs), and others show the bars divided into subparts to show cumulative effect (stacked bar graphs).
+	</p>
+	
 	<p>
-    	<small><strong>Resource :</strong><a href="population-pyramid.js" download> sample source code</a></small>
+    	<small><strong>Resource :</strong><a href="vbar-chart.js" download> sample source code 1</a> - <a href="hbar-chart.js" download> sample source code 2</a></small>
     </p>
     <p>
     	<small><strong>Learn  :</strong> <a href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/symbol" target="_blank">javascript symbol plugin sources</a></small>
   	<p>
   	<p>
-    	<small><strong>Part : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;Part 5&nbsp;-&nbsp;<a href="../6">Part 6</a></small>
+    	<small><strong>Part : </strong><a href="../1">Part 1</a>&nbsp;-&nbsp;<a href="../2">Part 2</a>&nbsp;-&nbsp;<a href="../3">Part 3</a>&nbsp;-&nbsp;<a href="../4">Part 4</a>&nbsp;-&nbsp;<a href="../5">Part 5</a>&nbsp;-&nbsp;Part 6</small>
     </p>
   </div>
-	
-	<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="view"></div>
+  
+  
+<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="vbarchart"></div>
+<div style="padding-top : 40 px;float:left; width: 100%; height: 300 px;" id="hbarchart"></div>
+
+
 
  </div>
-
-<footer class="footer">
+ 
+ <footer class="footer">
    <div class="container">
      <small><a href="http://jenscript.io">JenScript JS</a> - <span class="footer-title">JavaScript HTML5/SVG Chart Data Visualization Library</span></small>
    </div>
  </footer>
 </body>
-<script src="population-pyramid.js"></script> 
+<script src="vbar-chart.js"></script>
+<script src="hbar-chart.js"></script>
+<script src="symbol-painter-label.js"></script>
 <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
-		var w = $("#view").width();
-		createView('view',w,400);
-		
+		var w = $("#vbarchart").width();
+		createVSymbolBarView('vbarchart',w,400);
+		createHSymbolBarView('hbarchart',w,500);
 	}
 	init();
 </script>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<script src="/jenscript.js"></script>
+    <title>JenScript - Javascript Chart Library</title>
+
+    <link href="/favicon.png" rel="icon" type="image/png" />
+
+    <meta name="description" content="welcome page javascript chart library, jenscript is a javascript SVG framework to make chart component in web modern browser">
+
+
+    <!-- CSS -->
+    <link href="/assets/css/preload.css" rel="stylesheet">
+
+	<link rel="stylesheet" href="/assets/font-mfizz/font-mfizz.css">
+    
+
+    <link href="/assets/css/vendors.css" rel="stylesheet">
+    <link href="/assets/css/syntaxhighlighter/shCore.css" rel="stylesheet" >
+
+    <link href="/assets/css/style-green5.css" rel="stylesheet" title="default">
+    <link href="/assets/css/width-full.css" rel="stylesheet" title="default">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+
+<body>
+<!-- <object type="image/svg+xml" data="svgdefs.svg"></object> -->
+<div class="sb-site-container">
+<div class="boxed">
+
+<div id="contentNav"></div>
+
+
+<header id="header-full" class="header-full">
+<!-- <header id="header-full"> -->
+    <div class="wrap-primary">
+        <div class="container">
+           <div class="row" style="padding-top: 20px;">
+           		<div class="col-md-6">
+					<div  id="price"></div>
+					<div  id="macd" ></div>
+				</div>
+				<div class="col-md-6" >
+					<div class="row">
+						<div class="col-md-4">
+							<div id="donut2d1"></div>
+						</div>
+						<div class="col-md-4">
+							<div id="donut2d2"></div>
+						</div>
+						<div class="col-md-4">
+							<div id="donut2d3"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div id="bar1"></div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+<!-- 			<h2 class="secondary-color text-center head-subtitle animated fadeInUp animation-delay-14">Javascript SVG library for visualization and charting</h2> -->
+<!--             <p class="lead text-center animated fadeInUp animation-delay-14">Sleek, intuitive and fast dataviz JS library. Discover JenScript JS.</p> -->
+            
+            <div class="row header-full-icons text-center">
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-19"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-html5"></i></span> -->
+<!--                     <h3>JS/HTML5</h3> -->
+<!--                 </div> -->
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-21"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-github" ></i></span> -->
+<!--                     <h3>Open Source</h3> -->
+<!--                 </div> -->
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-22"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="icon-svg" ></i></span> -->
+<!--                     <h3>SVG</h3> -->
+<!--                 </div> -->
+<!--                 <div class="col-sm-3 animated fadeInDown animation-delay-20"> -->
+<!--                     <span class="icon-ar icon-ar-circle icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cubes" ></i></span> -->
+<!--                     <h3>Plugins</h3> -->
+<!--                 </div> -->
+            </div>
+            
+
+        </div>
+    </div>
+</header>
+<section class="wrap-dark-color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 feature-container">
+<!--                     <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/build/plugins"> -->
+<!--                         <i class="fa fa-cubes"></i> -->
+<!--                         <h4>Plugins</h4> -->
+<!--                     </a> -->
+<!--                     <a class="feature-icon" href="https://github.com/sjanaud/jenscript/archive/rooster-1.1.9.tar.gz"> -->
+<!--                         <i class="fa fa-download"></i> -->
+<!--                         <h4>Downloads</h4> -->
+<!--                     </a> -->
+<!--                     <a class="feature-icon" href="/jenscript/charts/samples"> -->
+<!--                         <i class="fa fa-file-code-o"></i> -->
+<!--                         <h4>Samples</h4> -->
+<!--                     </a> -->
+<!--                     <a class="feature-icon" href="http://github.com/sjanaud/jenscript"> -->
+<!--                         <i class="fa fa-github"></i> -->
+<!--                         <h4>Source</h4> -->
+<!--                     </a> -->
+                </div>
+                <div class="col-md-5 hidden-sm hidden-xs">
+                    <p class="lead text-center">JenScript HTML5 SVG Javascript Chart Library. New Release! Rooster 1.1.9 is now available. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div> <!-- boxed -->
+</div> <!-- sb-site -->
+<script src="/assets/js/vendors.js"></script>
+<script src="/assets/js/syntaxhighlighter/shCore.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushXml.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushJScript.js"></script>
+<script src="/assets/js/DropdownHover.js"></script>
+<script src="/assets/js/app.js"></script>
+<script src="/assets/js/holder.js"></script>
+<script src="/assets/js/home_full.js"></script> 
+<script type="text/javascript">
+$.get("/assets/nav-content.html", function(data){
+    $("#contentNav").replaceWith(data);
+    $("#header-full-top").addClass("hidden-sm hidden-md hidden-lg");
+
+	$("#header").removeClass('navbar-header-full');
+	$("#ar-brand").removeClass("hidden-lg hidden-md hidden-sm");
+	$("#bs-example-navbar-collapse-1").addClass("navbar-right");
+
+	$("#header").addClass('navbar-light');
+	$("#header").removeClass('navbar-dark navbar-inverse');
+	$('[data-hover="dropdown"]').dropdownHover();
+});
+
+</script>
+<script src="/jenscript/charts/samples/stock/StockLoader.js"></script>
+<script src="index.js"></script>
+<script src="symbol-painter-label.js"></script>
+
+   <script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	
+	function init(){
+		var w = $("#macd").width();
+		create('price','macd',w,300);
+		
+		var w2 = $("#donut2d1").width();
+		console.log("width donut2d "+w2);
+		createDonut2d('donut2d1',w2,300);
+		
+		var w22 = $("#donut2d2").width();
+		createDonut2d('donut2d2',w22,300);
+		
+		var w22 = $("#donut2d3").width();
+		createDonut2d('donut2d3',w22,300);
+		
+		
+		var b1 = $("#bar1").width();
+		//var b2 = $("#bar2").width();
+		console.log("width bar "+b1);
+		createSymbolBarView('bar1',b1,300);
+		//createSymbolBarView('bar2',b2,300);
+		
+	}
+	
+	setTimeout(function(){
+		init();
+		wrapResize();
+	}, 200);
+	
+</script>
+</body>
+</html>

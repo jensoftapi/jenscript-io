@@ -4,7 +4,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-05-18
+// build: 2017-05-22
 // All Rights reserved
 
 /**
@@ -6705,6 +6705,19 @@ function stringInputToObject(color) {
 			}
 		},
 		
+		getSouth : function(h){
+			return this.getProjection().getView().south;
+		},
+		getWest : function(h){
+			return this.getProjection().getView().west;
+		},
+		getNorth : function(h){
+			return this.getProjection().getView().north;
+		},
+		getEast : function(h){
+			return this.getProjection().getView().east;
+		},
+		
 		
 		/**
 		 * get convenient way to get Device
@@ -8917,6 +8930,370 @@ function stringInputToObject(color) {
 	
 })();
 (function(){
+
+	
+	
+	//
+	// 	ToolBar Widget defines image buttons set
+	//
+	
+	
+	/**
+	 * IconToolBargeometry Bar Geometry
+	 */
+	JenScript.IconToolBargeometry  = function(config){
+		this._init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.IconToolBargeometry, JenScript.AbstractWidgetGeometry);
+	JenScript.Model.addMethods(JenScript.IconToolBargeometry,{
+		_init : function(config){
+			 /** margin */
+		    this.iconDefs = config.iconDefs;
+			/** widget bounding frame */
+		    this.bound2D;
+		    /** bar outline shape */
+		    this.outlineShape;
+		    
+		    this.buttons = [];
+		    
+		    /** true make a solving geometry request */
+		    this.solveRequest = true;
+		    /** margin */
+		    this.margin = 4;
+		    /** round radius */
+		    this.radius = 3;
+		    /** widget orientation */
+		    this.barOrientation = config.barOrientation;
+		    JenScript.AbstractWidgetGeometry.call(this,config);
+		   
+		    this.iconSize = (config.iconSize !== undefined)?config.iconSize: 20;
+		},
+		
+	    addButton : function(button){
+	    	this.buttons.push(button);
+	    },
+		
+		/**
+	     * solve bar geometry outline
+	     */
+	    solveBarGeometry : function() {
+	    	var bound2D = this.bound2D;
+	    	var margin = this.margin;
+	    	var radius = this.radius;
+	    	this.clearSensibleShape();
+	        if (this.barOrientation == 'Horizontal') {
+	        	this.outlineShape = new JenScript.SVGRect().origin(bound2D.getX(),bound2D.getY())
+						.size(bound2D.getWidth(), bound2D.getHeight()).radius(radius, radius);
+	        	
+	        	var x = bound2D.getX()+margin;
+	        	var y = bound2D.getY();
+	        	 for (var i = 0; i < this.buttons.length; i++) {
+		            	this.buttons[i].bound = new JenScript.Bound2D(x, y+2, this.iconSize,this.iconSize);
+		            	x = x + this.iconSize + margin;
+		            	this.addSensibleShape(this.buttons[i].bound);
+		            	
+				 }
+	        }
+	        else if (this.barOrientation == 'Vertical') {
+	        	this.outlineShape = new JenScript.SVGRect().origin(bound2D.getX(),bound2D.getY())
+					.size(bound2D.getWidth(), bound2D.getHeight());
+					
+	        }
+	        
+	    },
+
+	   
+	    solveButtonGeometry : function(button){
+	    	  var buttonSVG = new JenScript.SVGUse()
+	    	  		.xlinkHref(this.iconDefs+'#'+button.icon)
+	    	  		.attr('x',button.bound.x)
+	    	  		.attr('y',button.bound.y)
+	    	  		.attr('width',this.iconSize)
+	    	  		.attr('height',this.iconSize);
+	    	  button.svg = buttonSVG;
+	    },
+
+
+    	 solveGeometry : function(bound2D) {
+	        if (this.solveRequest) {
+	            this.bound2D = bound2D;
+
+	            if (this.barOrientation == undefined) {
+	                return;
+	            }
+	            this.solveBarGeometry();
+	            for (var i = 0; i < this.buttons.length; i++) {
+	            	this.solveButtonGeometry(this.buttons[i]);
+				}
+	           
+	            this.solveRequest = false;
+	        }
+	    },
+	});
+	
+	
+	
+	/**
+	 * IconToolBarWidget widget that is suppose to use icon tool bar geometry.
+	 */
+	JenScript.IconToolBarWidget  = function(config){
+		this._init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.IconToolBarWidget, JenScript.Widget);
+	JenScript.Model.addMethods(JenScript.IconToolBarWidget,{
+		
+		/**
+		 * create abstract bar widget
+		 * @param {Object} config
+		 * @param {String} [config.Id] widget Id
+		 * @param {Number} [config.width] widget width
+		 * @param {Number} [config.height] widget height
+		 * @param {Number} [config.xIndex] widget x index
+		 * @param {Number} [config.yIndex] widget y index
+		 * @param {String} [config.barOrientation] widget bar orientation
+		 */
+		_init : function(config){
+			
+		    /** widget geometry */
+		    this.geometry = new JenScript.IconToolBargeometry(config);
+
+		    /** theme color to fill bar */
+		    this.outlineFillColor = config.outlineFillColor;
+		    /** shader*/
+		    this.shader = config.shader;
+		    /** outline color */
+		    this.outlineStrokeColor = config.outlineStrokeColor;
+		    /** outline bar widget stroke */
+		    this.outlineStrokeWidth = (config.outlineStrokeWidth !== undefined) ? config.outlineStrokeWidth: 1;
+		    
+		    /** button fill color */
+		    this.buttonFillColor = config.buttonFillColor;
+		    
+		    /** button roll over fill color */
+		    this.buttonRolloverFillColor = config.buttonRolloverFillColor;
+		    
+		    /** button press fill color */
+		    this.buttonPressFillColor = config.buttonPressFillColor;
+		    
+		    config.Id =  'IconToolBar'+JenScript.sequenceId++;
+			config.name = 'WidgetIconToolbar';
+	        config.xIndex = (config.xIndex !== undefined)?config.xIndex : 2;
+	        config.yIndex = (config.yIndex !== undefined)?config.yIndex : 100;
+	        config.barOrientation = (config.barOrientation !== undefined)?config.barOrientation : 'Horizontal';
+			JenScript.Widget.call(this,config);
+			
+		},
+		
+		addButton : function(button){
+			this.geometry.addButton(button);
+			this.width = (this.geometry.margin + this.geometry.buttons.length * (this.geometry.iconSize + this.geometry.margin ) + this.geometry.margin );
+			this.height = this.geometry.iconSize + 4;
+			button.setColor = function(color){
+				this.element.setAttribute('fill',color);
+			}
+		},
+	    
+	    /**
+	     * bar widget intercept move
+	     * @param {Number} x coordinate
+	     * @param {Number} y coordinate
+	     */
+	    interceptMove : function(x,y) {
+	        this.checkMoveOperation(x,y);
+	        this.trackRollover(x,y);
+	    },
+
+	    /**
+	     * track roll over on button 1 and button 2
+	     * @param {Number} x coordinate
+	     * @param {Number} y coordinate
+	     */
+	    trackRollover : function(x,y) {
+	        for (var i = 0; i < this.geometry.buttons.length; i++) {
+	        	var b = this.geometry.buttons[i];
+	    		if (b.bound != undefined && b.bound.contains(x, y)) {
+	 	            if (!b.rollover) {
+	 	            	b.rollover = true;
+	 	                this.onEnter(b);
+	 	            }
+	 	        }
+	 	        else {
+	 	            if (b.rollover) {
+	 	            	b.rollover=false;
+	 	                this.onExit(b);
+	 	            }
+	 	        }
+			}
+	    },
+
+	    onEnter : function(button) {
+	    	if(button.enter)
+	    		button.enter();
+	    	this.updateButtons();
+	    },
+	    
+	    onExit : function(button) {
+	    	if(button.exit)
+	    		button.exit();
+	    	this.updateButtons();
+	    },
+
+	    onPress : function(button) {
+	    	if(button.rollover)
+	    		button.pressed = true;
+	    	if(button.press)
+	    		button.press();
+	    	this.updateButtons();
+	    },
+
+	    onReleased : function(button) {
+	    	button.pressed = false;
+	    	if(button.release)
+	    		button.release();
+	    	this.updateButtons();
+	    },
+	    
+	    updateButton : function(button){
+	    	var c = this.buttonFillColor;
+	    	if(button.rollover){
+	    		c = this.buttonRolloverFillColor;
+	    	}
+	    	if(button.pressed){
+	    		c = this.buttonPressFillColor;
+	    		if(button.buttonPressFillColor !== undefined)
+	    			c = button.buttonPressFillColor;
+	    	}
+	    	if(button.toggle && button.isToggled()){
+	    		c = this.buttonPressFillColor;
+	    		if(button.buttonPressFillColor !== undefined)
+	    			c = button.buttonPressFillColor;
+	    	}
+	    	button.setColor(c);
+	    },
+	    
+	    updateButtons : function(){
+	    	  for (var i = 0; i < this.geometry.buttons.length; i++) {
+		        	var b = this.geometry.buttons[i];
+		        	this.updateButton(b);
+	    	  }
+	    },
+	  
+
+	    /**
+	     * intercept press
+	     * @param {Number} x coordinate
+	     * @param {Number} y coordinate
+	     */
+	    interceptPress : function(x,y) {
+	    	for (var i = 0; i < this.geometry.buttons.length; i++) {
+	    		if (this.geometry.buttons[i].bound !== undefined && this.geometry.buttons[i].bound.contains(x, y)) {
+		            this.onPress(this.geometry.buttons[i]);
+		        }
+			}
+	    },
+
+	    /**
+	     * intercept drag
+	     * @param {Number} x coordinate
+	     * @param {Number} y coordinate
+	     */
+	    interceptDrag : function( x,  y) {
+	    },
+
+	 
+	    /**
+	     * intercept release
+	     * @param {Number} x coordinate
+	     * @param {Number} y coordinate
+	     */
+	    interceptReleased : function(x,y) {
+	    	for (var i = 0; i < this.geometry.buttons.length; i++) {
+	    		if (this.geometry.buttons[i].bound !== undefined && this.geometry.buttons[i].bound.contains(x, y)) {
+	    			 this.onReleased(this.geometry.buttons[i]);
+		        }
+			}
+	       
+	    },
+
+	    /**
+	     * call before widget painting operation
+	     */
+	    onPaintStart : function() {
+	    },
+
+	    /**
+	     * call after widget painting operation
+	     */
+	    onPaintEnd : function() {
+	    },
+
+	    /**
+	     * pain this widget
+	     * @param {Object} graphics context
+	     */
+	    paintWidget : function(g2d) {
+	        if (this.getWidgetFolder() === undefined || this.geometry === undefined) {
+	            return;
+	        }
+	        this.onPaintStart();
+	        
+	        var currentFolder = this.getWidgetFolder();
+	        var boundFolder = currentFolder.getBounds2D();
+	        this.geometry.solveRequest=true;
+	        this.geometry.solveGeometry(boundFolder);
+	        this.setSensibleShapes(this.geometry.getSensibleShapes());
+
+	        g2d.deleteGraphicsElement(this.Id);
+	        var svgRoot = new JenScript.SVGGroup().Id(this.Id);
+	        
+	        var outline = undefined;
+	        this.geometry.outlineShape.fillNone().strokeNone();
+	        if (this.shader != undefined  && this.shader.percents != undefined && this.shader.colors != undefined) {
+	            var start = undefined;
+	            var end = undefined;
+	            if (this.barOrientation == 'Horizontal') {
+	                start = {x:boundFolder.getCenterX(),y: boundFolder.getY()};
+	                end = {x:boundFolder.getCenterX(), y : boundFolder.getY() + boundFolder.getHeight()};
+	            }
+	            else {
+	                start = {x:boundFolder.getX(),y: boundFolder.getCenterY()};
+	                end = { x: boundFolder.getX() + boundFolder.getWidth(),y: boundFolder.getCenterY()};
+	            }
+	            var gradientId = 'gradient'+JenScript.sequenceId++;
+	            var gradient= new JenScript.SVGLinearGradient().Id(gradientId).from(start.x,start.y).to(end.x,end.y).shade(this.shader.percents,this.shader.colors,this.shader.opacity).toSVG();
+	            g2d.definesSVG(gradient);
+				this.geometry.outlineShape.fill('url(#'+gradientId+')');
+	        }
+	        
+	        if (this.outlineFillColor !== undefined) {
+	        	this.geometry.outlineShape.fill(this.outlineFillColor);
+	        }
+        	if (this.outlineStrokeColor !== undefined) {
+	        	this.geometry.outlineShape.stroke(this.outlineStrokeColor).strokeWidth(this.outlineStrokeWidth);
+	        }
+        	outline= this.geometry.outlineShape.toSVG();
+        	svgRoot.child(outline);
+	        
+			for (var i = 0; i < this.geometry.buttons.length; i++) {
+				var b =this.geometry.buttons[i];
+				var fillColor = this.buttonFillColor;
+				if(b.rollover)
+					fillColor = this.buttonRolloverFillColor;
+				if(b.toggle && b.isToggled())
+					fillColor = this.buttonPressFillColor;
+	        	b.svg.fill(fillColor);
+	        	b.element = b.svg.toSVG();
+	        	svgRoot.child(b.element);
+			}
+			
+	        g2d.insertSVG(svgRoot.toSVG());
+	        
+	        this.onPaintEnd();
+	    }
+	});
+	
+})();
+(function(){
 	//
 	// 	Pad Widget defines mini bar with 4 buttons
 	//
@@ -10161,60 +10538,6 @@ function stringInputToObject(color) {
 	});
 })();
 (function(){
-	
-	/**
-	 * Object JenScript.DeviceOutlinePlugin()
-	 * Defines outline device stroke
-	 * @param {Object} config
-	 * @param {String} [config.color] outline color, default darkgray color
-	 * @param {Number} [config.strokeWidth] outline stroke width, default 1 pixel
-	 */
-	JenScript.DeviceOutlinePlugin = function(config) {
-		this._init(config);
-	};
-	JenScript.Model.inheritPrototype(JenScript.DeviceOutlinePlugin, JenScript.Plugin);
-	JenScript.Model.addMethods(JenScript.DeviceOutlinePlugin,{
-		/**
-		 * Initialize outline device
-		 * @param {Object} config
-		 * @param {String} [config.color] outline color, darkgray if not defined
-		 * @param {Number} [config.strokeWidth] outline stroke width, default 1 pixel
-		 */
-		_init : function(config){
-			config = config || {};
-			this.color = (config.color !== undefined)?config.color : 'darkgray';
-			this.strokeWidth = (config.strokeWidth !== undefined)?config.strokeWidth : 1;
-			this.strokeOpacity = (config.strokeOpacity !== undefined)?config.strokeOpacity : 1;
-			config.priority = 1000;
-			config.name ='DeviceOutlinePlugin';
-			JenScript.Plugin.call(this, config);
-		},
-		
-		/**
-		 * paint device outline plugin
-		 * @param {Object} graphics context
-		 * @param {String} view part
-		 */
-		paintPlugin : function(g2d, part) {
-			if (part !== JenScript.ViewPart.Device) {
-				return;
-			}
-			var v = this.getProjection().getView();
-			var dp = v.devicePart;
-			var outline = new JenScript.SVGRect()
-										.origin(this.strokeWidth/2,this.strokeWidth/2)
-										.size(dp.width-this.strokeWidth,dp.height-this.strokeWidth)
-										.stroke(this.color)
-										.strokeOpacity(this.strokeOpacity)
-										.strokeWidth(this.strokeWidth)
-									    .fillNone();
-			
-			//this.svgPluginPartsGraphics[part].appendChild(outline.toSVG());
-			g2d.insertSVG(outline.toSVG());
-		}
-	});
-})();
-(function(){
 	/**
 	 * Object AbstractLabel()
 	 * Defines Abstract Label
@@ -10223,7 +10546,7 @@ function stringInputToObject(color) {
 	 * @param {String} [config.text] the label text
 	 * @param {String} [config.textColor] the label text color
 	 * @param {Number} [config.fontSize] the label text font size
-	 * @param {String} [config.textAnchor] the label text anchor
+	 * @param {String} [config.textAnchor] the label text anchor, start , middle, end
 	 * @param {Object} [config.shader] the label fill shader
 	 * @param {Object} [config.shader.percents] the label fill shader percents
 	 * @param {Object} [config.shader.colors] the label fill shader colors
@@ -10275,6 +10598,12 @@ function stringInputToObject(color) {
 			this.outlineColor = config.outlineColor;
 			this.fillColor = config.fillColor;
 			this.fillOpacity =  (config.fillOpacity !== undefined)? config.fillOpacity : 1;
+			
+			
+			//this.rotate =  (config.rotate !== undefined)? config.rotate : false;
+			this.rotateAngle =  (config.rotateAngle !== undefined)? config.rotateAngle : 0;
+			this.tx =  (config.tx !== undefined)? config.tx : 0;
+			this.ty =  (config.ty !== undefined)? config.ty : 0;
 			
 			this.proj;
 			this.nature = (config.nature !== undefined)? config.nature : 'Device';
@@ -10428,15 +10757,17 @@ function stringInputToObject(color) {
 												.attr('font-size',this.getFontSize())
 												.attr('fill',c)
 												.attr('text-anchor',this.getTextAnchor())
-												.textContent(this.getText())
-												.buildHTML();
-			label.child(sl);
+												.attr('transform','translate('+this.tx+','+this.ty+') rotate('+this.rotateAngle+','+lx+','+ly+')')
+												.textContent(this.getText());
+			
+			var element = sl.buildHTML();									
+			label.child(element);
 			g2d.deleteGraphicsElement(this.Id);
 			var svgLabel = label.toSVG();
 			this.svg.label = svgLabel;
 			g2d.insertSVG(svgLabel);
 			if(this.paintType !== 'None'){
-				var svgRect = sl.getBBox();
+				var svgRect = element.getBBox();
 						
 				var tr = new JenScript.SVGRect().origin((svgRect.x-10),(svgRect.y-2))
 								.size((svgRect.width+20),(svgRect.height+4))
@@ -10464,11 +10795,259 @@ function stringInputToObject(color) {
 							tr.stroke(this.getOutlineColor()).strokeWidth(this.outlineWidth);
 						}
 					}
-					sl.parentNode.insertBefore(tr.toSVG(),sl);
+					element.parentNode.insertBefore(tr.toSVG(),element);
 				}			
 		},
 	});
 	
+})();
+(function(){
+	
+	
+	JenScript.ImagePlugin = function(config) {
+		this._init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.ImagePlugin, JenScript.Plugin);
+	JenScript.Model.addMethods(JenScript.ImagePlugin,{
+		
+		_init : function(config){
+			config=config||{};
+			this.images = [];
+			JenScript.Plugin.call(this, config);
+		},
+		
+		/**
+		 * on projection register add 'bound changed' projection listener that invoke repaint plugin
+		 * when projection bound changed event occurs.
+		 */
+		onProjectionRegister : function(){
+			var that = this;
+			this.getProjection().addProjectionListener('boundChanged', function(){
+				that.repaintPlugin();
+			},'ImagePlugin projection bound changed');
+		},
+		
+		/**
+		 * add given image in this plugin
+		 * @param {Object} image 
+		 */
+		addImage : function(image){
+			this.images[this.images.length] = image;
+			this.repaintPlugin();
+		},
+		
+		/**
+		 * remove all image
+		 */
+		removeAll : function(){
+			this.images= [];
+			this.repaintPlugin();
+		},
+		
+		
+		/**
+		 * paint image
+		 * @param {Object} graphics context 
+		 * @param {String} view part name
+		 */
+		paintPlugin : function(g2d, part) {
+			if (part !== JenScript.ViewPart.Device) {
+				return;
+			}
+			
+			for (var i = 0; i < this.images.length; i++) {
+				
+				var image = new JenScript.SVGImage().opacity(1).xlinkHref(this.images[i].url).origin(this.images[i].x,this.images[i].y);
+				if(this.images[i].width !== undefined && this.images[i].height !== undefined){
+					image.size(this.images[i].width,this.images[i].height);
+				}
+				
+				g2d.insertSVG(image.toSVG());
+				
+				//this.labels[i].setProjection(this.getProjection());
+				//this.labels[i].paint(g2d);
+			}
+		}
+		
+	});
+	
+	
+})();
+(function(){
+	
+	
+	JenScript.DumpCoordinatePlugin = function() {
+		this.dumpListeners = [];
+		JenScript.Plugin.call(this, {name : "DumpCoordinatePlugin"});
+	};
+	JenScript.Model.inheritPrototype(JenScript.DumpCoordinatePlugin, JenScript.Plugin);
+
+	/**
+	 * add listener maped with the given action event
+	 * @param actionEvent
+	 * @param listener
+	 */
+	JenScript.DumpCoordinatePlugin.prototype.addDumpListener = function(actionEvent,listener){
+		var l = {action : actionEvent,onEvent : listener};
+		this.dumpListeners[this.dumpListeners.length] = l;
+	};
+	
+	/**
+	 * add listener maped with the given action event
+	 * @param actionEvent
+	 * @param listener
+	 */
+	JenScript.DumpCoordinatePlugin.prototype.fireEvent = function(actionEvent,point,deviceX,deviceY){
+		for (var i = 0; i < this.dumpListeners.length; i++) {
+			if(actionEvent === this.dumpListeners[i].action)
+				this.dumpListeners[i].onEvent({user:point,device:new JenScript.Point2D(deviceX,deviceY)});
+		}
+	};
+	
+	
+	/**
+	 * assume that x,y come from device part
+	 */
+	JenScript.DumpCoordinatePlugin.prototype.getUserProjection = function (deviceX,deviceY){
+		return this.getProjection().pixelToUser({
+			x : deviceX,
+			y : deviceY
+		});
+	};
+	
+	JenScript.DumpCoordinatePlugin.prototype.onClick = function(evt,part,deviceX,deviceY) {
+		if(part === JenScript.ViewPart.Device){
+			var userPoint = this.getUserProjection(deviceX,deviceY);
+			this.fireEvent('click',userPoint,deviceX, deviceY);
+		}
+	};
+	
+	JenScript.DumpCoordinatePlugin.prototype.onMove = function(evt,part,deviceX, deviceY) {
+		if(part === JenScript.ViewPart.Device){
+			var userPoint = this.getUserProjection(deviceX,deviceY);
+			this.fireEvent('move',userPoint,deviceX,deviceY);
+		}
+	};
+	
+	JenScript.DumpCoordinatePlugin.prototype.onPress = function(evt,part,deviceX, deviceY) {
+		if(part === JenScript.ViewPart.Device){
+			var userPoint = this.getUserProjection(deviceX,deviceY);
+			this.fireEvent('press',userPoint,deviceX, deviceY);
+		}
+	};
+	
+	JenScript.DumpCoordinatePlugin.prototype.onRelease = function(evt,part,deviceX, deviceY) {
+		if(part === JenScript.ViewPart.Device){
+			var userPoint = this.getUserProjection(deviceX,deviceY);
+			this.fireEvent('release',userPoint,deviceX, deviceY);
+		}
+	};
+})();
+(function(){
+	JenScript.GeneralMetricsPathPlugin = function(config){
+		this._init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.GeneralMetricsPathPlugin,JenScript.Plugin);
+	JenScript.Model.addMethods(JenScript.GeneralMetricsPathPlugin,{
+		_init : function(config){
+			config = config||{};
+			config.name = 'JenScript.GeneralMetricsPathPlugin';
+			this.generalMetricsPath = config.path;
+			this.generalMetricsPath.plugin = this;
+			JenScript.Plugin.call(this,config);
+		},
+		
+		/**
+		 * on projection register add 'bound changed' projection listener that invoke repaint plugin
+		 * when projection bound changed event occurs.
+		 */
+		onProjectionRegister : function(){
+			var that = this;
+			this.getProjection().addProjectionListener('boundChanged', function(){
+				that.repaintPlugin();
+			},'GeneralMetricsPath projection bound changed');
+		},
+		
+		paintPlugin : function(g2d,part) {
+	        if (part != JenScript.ViewPart.Device) {
+	            return;
+	        }
+	        this.generalMetricsPath.projection = this.getProjection();
+	        
+	        this.generalMetricsPath.graphicsContext = g2d;
+	        this.generalMetricsPath.createPath();
+	        
+	        this.generalMetricsPath.svgPathElement.setAttribute('stroke','red');
+	        this.generalMetricsPath.svgPathElement.setAttribute('fill','none');
+	        g2d.insertSVG(this.generalMetricsPath.svgPathElement.cloneNode(true));
+	        
+	        var metrics = this.generalMetricsPath.getMetrics(g2d);
+	        for (var i = 0; i < metrics.length; i++) {
+				var m = metrics[i];
+				
+				
+				
+			}
+	        
+	    },
+
+	});
+
+	
+})();
+(function(){
+	
+	/**
+	 * Object JenScript.DeviceOutlinePlugin()
+	 * Defines outline device stroke
+	 * @param {Object} config
+	 * @param {String} [config.color] outline color, default darkgray color
+	 * @param {Number} [config.strokeWidth] outline stroke width, default 1 pixel
+	 */
+	JenScript.DeviceOutlinePlugin = function(config) {
+		this._init(config);
+	};
+	JenScript.Model.inheritPrototype(JenScript.DeviceOutlinePlugin, JenScript.Plugin);
+	JenScript.Model.addMethods(JenScript.DeviceOutlinePlugin,{
+		/**
+		 * Initialize outline device
+		 * @param {Object} config
+		 * @param {String} [config.color] outline color, darkgray if not defined
+		 * @param {Number} [config.strokeWidth] outline stroke width, default 1 pixel
+		 */
+		_init : function(config){
+			config = config || {};
+			this.color = (config.color !== undefined)?config.color : 'darkgray';
+			this.strokeWidth = (config.strokeWidth !== undefined)?config.strokeWidth : 1;
+			this.strokeOpacity = (config.strokeOpacity !== undefined)?config.strokeOpacity : 1;
+			config.priority = 1000;
+			config.name ='DeviceOutlinePlugin';
+			JenScript.Plugin.call(this, config);
+		},
+		
+		/**
+		 * paint device outline plugin
+		 * @param {Object} graphics context
+		 * @param {String} view part
+		 */
+		paintPlugin : function(g2d, part) {
+			if (part !== JenScript.ViewPart.Device) {
+				return;
+			}
+			var v = this.getProjection().getView();
+			var dp = v.devicePart;
+			var outline = new JenScript.SVGRect()
+										.origin(this.strokeWidth/2,this.strokeWidth/2)
+										.size(dp.width-this.strokeWidth,dp.height-this.strokeWidth)
+										.stroke(this.color)
+										.strokeOpacity(this.strokeOpacity)
+										.strokeWidth(this.strokeWidth)
+									    .fillNone();
+			
+			//this.svgPluginPartsGraphics[part].appendChild(outline.toSVG());
+			g2d.insertSVG(outline.toSVG());
+		}
+	});
 })();
 (function(){
 	/**
@@ -10535,17 +11114,6 @@ function stringInputToObject(color) {
 		
 		_init : function(config){
 			config=config||{};
-			
-			// labels commons
-//			this.text;
-//			this.textAnchor = 'start';
-//			this.textColor=(config.textColor !== undefined)? config.textColor:'black';
-//			this.outlineColor=config.outlineColor;
-//			this.outlineWidth=(config.outlineWidth !== undefined)? config.outlineWidth:1;
-//			this.shader = config.shader;
-//			this.fillColor = config.fillColor;
-//			this.fontSize = (config.fontSize !== undefined)? config.fontSize :12;
-//			this.nature = (config.nature !== undefined)? config.nature :'Device';
 			config.name ='TextLabelPlugin';
 			this.labels = [];
 			JenScript.Plugin.call(this, config);
@@ -10761,200 +11329,6 @@ function stringInputToObject(color) {
 		 } 
 		
 	});
-	
-})();
-(function(){
-	
-	
-	JenScript.ImagePlugin = function(config) {
-		this._init(config);
-	};
-	JenScript.Model.inheritPrototype(JenScript.ImagePlugin, JenScript.Plugin);
-	JenScript.Model.addMethods(JenScript.ImagePlugin,{
-		
-		_init : function(config){
-			config=config||{};
-			this.images = [];
-			JenScript.Plugin.call(this, config);
-		},
-		
-		/**
-		 * on projection register add 'bound changed' projection listener that invoke repaint plugin
-		 * when projection bound changed event occurs.
-		 */
-		onProjectionRegister : function(){
-			var that = this;
-			this.getProjection().addProjectionListener('boundChanged', function(){
-				that.repaintPlugin();
-			},'ImagePlugin projection bound changed');
-		},
-		
-		/**
-		 * add given image in this plugin
-		 * @param {Object} image 
-		 */
-		addImage : function(image){
-			this.images[this.images.length] = image;
-			this.repaintPlugin();
-		},
-		
-		/**
-		 * remove all image
-		 */
-		removeAll : function(){
-			this.images= [];
-			this.repaintPlugin();
-		},
-		
-		
-		/**
-		 * paint image
-		 * @param {Object} graphics context 
-		 * @param {String} view part name
-		 */
-		paintPlugin : function(g2d, part) {
-			if (part !== JenScript.ViewPart.Device) {
-				return;
-			}
-			
-			for (var i = 0; i < this.images.length; i++) {
-				
-				var image = new JenScript.SVGImage().opacity(1).xlinkHref(this.images[i].url).origin(this.images[i].x,this.images[i].y);
-				if(this.images[i].width !== undefined && this.images[i].height !== undefined){
-					image.size(this.images[i].width,this.images[i].height);
-				}
-				
-				g2d.insertSVG(image.toSVG());
-				
-				//this.labels[i].setProjection(this.getProjection());
-				//this.labels[i].paint(g2d);
-			}
-		}
-		
-	});
-	
-	
-})();
-(function(){
-	
-	
-	JenScript.DumpCoordinatePlugin = function() {
-		this.dumpListeners = [];
-		JenScript.Plugin.call(this, {name : "DumpCoordinatePlugin"});
-	};
-	JenScript.Model.inheritPrototype(JenScript.DumpCoordinatePlugin, JenScript.Plugin);
-
-	/**
-	 * add listener maped with the given action event
-	 * @param actionEvent
-	 * @param listener
-	 */
-	JenScript.DumpCoordinatePlugin.prototype.addDumpListener = function(actionEvent,listener){
-		var l = {action : actionEvent,onEvent : listener};
-		this.dumpListeners[this.dumpListeners.length] = l;
-	};
-	
-	/**
-	 * add listener maped with the given action event
-	 * @param actionEvent
-	 * @param listener
-	 */
-	JenScript.DumpCoordinatePlugin.prototype.fireEvent = function(actionEvent,point,deviceX,deviceY){
-		for (var i = 0; i < this.dumpListeners.length; i++) {
-			if(actionEvent === this.dumpListeners[i].action)
-				this.dumpListeners[i].onEvent({user:point,device:new JenScript.Point2D(deviceX,deviceY)});
-		}
-	};
-	
-	
-	/**
-	 * assume that x,y come from device part
-	 */
-	JenScript.DumpCoordinatePlugin.prototype.getUserProjection = function (deviceX,deviceY){
-		return this.getProjection().pixelToUser({
-			x : deviceX,
-			y : deviceY
-		});
-	};
-	
-	JenScript.DumpCoordinatePlugin.prototype.onClick = function(evt,part,deviceX,deviceY) {
-		if(part === JenScript.ViewPart.Device){
-			var userPoint = this.getUserProjection(deviceX,deviceY);
-			this.fireEvent('click',userPoint,deviceX, deviceY);
-		}
-	};
-	
-	JenScript.DumpCoordinatePlugin.prototype.onMove = function(evt,part,deviceX, deviceY) {
-		if(part === JenScript.ViewPart.Device){
-			var userPoint = this.getUserProjection(deviceX,deviceY);
-			this.fireEvent('move',userPoint,deviceX,deviceY);
-		}
-	};
-	
-	JenScript.DumpCoordinatePlugin.prototype.onPress = function(evt,part,deviceX, deviceY) {
-		if(part === JenScript.ViewPart.Device){
-			var userPoint = this.getUserProjection(deviceX,deviceY);
-			this.fireEvent('press',userPoint,deviceX, deviceY);
-		}
-	};
-	
-	JenScript.DumpCoordinatePlugin.prototype.onRelease = function(evt,part,deviceX, deviceY) {
-		if(part === JenScript.ViewPart.Device){
-			var userPoint = this.getUserProjection(deviceX,deviceY);
-			this.fireEvent('release',userPoint,deviceX, deviceY);
-		}
-	};
-})();
-(function(){
-	JenScript.GeneralMetricsPathPlugin = function(config){
-		this._init(config);
-	};
-	JenScript.Model.inheritPrototype(JenScript.GeneralMetricsPathPlugin,JenScript.Plugin);
-	JenScript.Model.addMethods(JenScript.GeneralMetricsPathPlugin,{
-		_init : function(config){
-			config = config||{};
-			config.name = 'JenScript.GeneralMetricsPathPlugin';
-			this.generalMetricsPath = config.path;
-			this.generalMetricsPath.plugin = this;
-			JenScript.Plugin.call(this,config);
-		},
-		
-		/**
-		 * on projection register add 'bound changed' projection listener that invoke repaint plugin
-		 * when projection bound changed event occurs.
-		 */
-		onProjectionRegister : function(){
-			var that = this;
-			this.getProjection().addProjectionListener('boundChanged', function(){
-				that.repaintPlugin();
-			},'GeneralMetricsPath projection bound changed');
-		},
-		
-		paintPlugin : function(g2d,part) {
-	        if (part != JenScript.ViewPart.Device) {
-	            return;
-	        }
-	        this.generalMetricsPath.projection = this.getProjection();
-	        
-	        this.generalMetricsPath.graphicsContext = g2d;
-	        this.generalMetricsPath.createPath();
-	        
-	        this.generalMetricsPath.svgPathElement.setAttribute('stroke','red');
-	        this.generalMetricsPath.svgPathElement.setAttribute('fill','none');
-	        g2d.insertSVG(this.generalMetricsPath.svgPathElement.cloneNode(true));
-	        
-	        var metrics = this.generalMetricsPath.getMetrics(g2d);
-	        for (var i = 0; i < metrics.length; i++) {
-				var m = metrics[i];
-				
-				
-				
-			}
-	        
-	    },
-
-	});
-
 	
 })();
 (function(){
@@ -13617,7 +13991,7 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 		    /** offset radius */
-		    this.offsetRadius = 3;
+		    this.offsetRadius = (config.offsetRadius !== undefined)?config.offsetRadius : 3;
 		    /** gradient incidence angle degree */
 		    this.incidence = (config.incidence !== undefined)?config.incidence : 120;
 		    /** default shader fractions */
@@ -23316,6 +23690,7 @@ function stringInputToObject(color) {
 			for (var i = 0; i < this.grids.length; i++) {
                 var g = this.grids[i];
                 if(g.enter){
+                    g.press = true;
                 	this.onGridPress(g);
                 	this.onGrid('press',g);
                 }
@@ -23323,10 +23698,8 @@ function stringInputToObject(color) {
 		},
 		
 		onRelease : function(evt,part,x,y){
-			console.log("release")
 			for (var i = 0; i < this.grids.length; i++) {
                 var g = this.grids[i];
-                console.log("release grid "+g.uservalue+" press "+g.press);
                 if(g.press){
                 	this.press = false;
                 	this.onGridRelease(g);
@@ -24023,7 +24396,7 @@ function stringInputToObject(color) {
 	        if (this.layer === undefined) {
 	            return 0;
 	        }
-	        if (nature == SymbolNature.Vertical) {
+	        if (this.nature == 'Vertical') {
 	            throw new Error("Vertical symbol has no location y");
 	        }
 	        return this.layer.getComponentYLocation(this);
@@ -24038,7 +24411,7 @@ function stringInputToObject(color) {
 	        if (this.layer === undefined) {
 	            return 0;
 	        }
-	        return this.getLocationY() - this.getThickness() / 2;
+	        return this.getLocationY() + this.getThickness() / 2;
 	    },
 
 	    /**
@@ -24107,13 +24480,7 @@ function stringInputToObject(color) {
 	        this.userObject = userObject;
 	    }
 	
-	
 	});
-	
-	
-
-   
-    
 })();
 (function(){
 	
@@ -25123,7 +25490,6 @@ function stringInputToObject(color) {
 	     	g2d.deleteGraphicsElement(this.Id+bar.Id);
 		   	var elem =  bar.getBarShape().Id(this.Id+bar.Id).fill(bar.themeColor).fillOpacity(bar.opacity).toSVG();
 		   	g2d.insertSVG(elem);
-		   	//set bar bound2D
 		   	var bbox = elem.getBBox();
 		   	bar.setBound2D(new JenScript.Bound2D(bbox.x,bbox.y,bbox.width,bbox.height));
 	    }
@@ -25232,12 +25598,12 @@ function stringInputToObject(color) {
 		},
 		
 		paintBarEffect : function(g2d,bar){
-			 if (bar.getNature() === 'Vertical') {
-		            this.v(g2d,bar);
-		        }
-		        if (bar.getNature() === 'Horizontal') {
-		            this.h(g2d,bar);
-		        }
+			if (bar.getNature() === 'Vertical') {
+		        this.v(g2d,bar);
+	        }
+	        if (bar.getNature() === 'Horizontal') {
+	            this.h(g2d,bar);
+	        }
 		},
 		
 		 v : function(g2d,bar) {
@@ -25327,96 +25693,88 @@ function stringInputToObject(color) {
 
 	    h : function(g2d, bar) {
 
-//	        Projection w2d = bar.getHost().getProjection();
-//
-//	        Point2D p2dUser = null;
-//	        if (bar.isAscent()) {
-//	            p2dUser = new JenScript.Point2D(bar.getBase() + bar.getValue(), 0);
-//	        }
-//	        if (bar.isDescent()) {
-//	            p2dUser = new JenScript.Point2D(bar.getBase() - bar.getValue(), 0);
-//	        }
-//
-//	        Point2D p2ddevice = w2d.userToPixel(p2dUser);
-//
-//	        Point2D p2dUserBase = new JenScript.Point2D(bar.getBase(), 0);
-//	        Point2D p2ddeviceBase = w2d.userToPixel(p2dUserBase);
-//
-//	        double y = bar.getLocationY();
-//	        double x = (int) p2ddeviceBase.getX();
-//	        if (bar.isAscent()) {
-//	            x = (int) p2ddeviceBase.getX();
-//	        }
-//	        if (bar.isDescent()) {
-//	            x = (int) p2ddevice.getX();
-//	        }
-//
-//	        double height = bar.getThickness();
-//	        double width = Math.abs(p2ddevice.getX() - p2ddeviceBase.getX());
-//
-//	        Shape shapeEffect = null;
-//
-//	        int inset = 2;
-//	        x = x + inset;
-//	        y = y + inset;
-//	        width = width - 2 * inset;
-//	        height = height - 2 * inset;
-//	        if (bar.getMorpheStyle() == MorpheStyle.Round) {
-//	            double round = bar.getRound();
-//	            GeneralPath barPath = new GeneralPath();
-//	            if (bar.isAscent()) {
-//	                barPath.moveTo(x, y);
-//	                barPath.lineTo(x + width - round, y);
-//	                barPath.quadTo(x + width, y, x + width, y + round);
-//	                barPath.lineTo(x + width, y + height / 2);
-//	                barPath.lineTo(x, y + height / 2);
-//	                barPath.closePath();
-//	            }
-//	            else if (bar.isDescent()) {
-//	                barPath.moveTo(x + round, y);
-//	                barPath.lineTo(x + width, y);
-//	                barPath.lineTo(x + width, y + height / 2);
-//	                barPath.lineTo(x, y + height / 2);
-//	                barPath.quadTo(x, y, x + round, y);
-//	                barPath.closePath();
-//	            }
-//	            shapeEffect = barPath;
-//	        }
-//	        else {
-//	            Rectangle2D barRec = new Rectangle2D.Double(x, y, width, height / 2);
-//	            shapeEffect = barRec;
-//	        }
-//
-//	        Rectangle2D boun2D2 = shapeEffect.getBounds2D();
-//
-//	        Point2D start = null;
-//	        Point2D end = null;
-//	        if (bar.isAscent()) {
-//	            start = new JenScript.Point2D(boun2D2.getX(), boun2D2.getCenterY());
-//	            end = new JenScript.Point2D(boun2D2.getX() + boun2D2.getWidth(),
-//	                                     boun2D2.getCenterY());
-//	        }
-//	        else if (bar.isDescent()) {
-//	            start = new JenScript.Point2D(boun2D2.getX() + boun2D2.getWidth(),
-//	                                       boun2D2.getCenterY());
-//	            end = new JenScript.Point2D(boun2D2.getX(), boun2D2.getCenterY());
-//	        }
-//	        float[] dist = { 0.0f, 1.0f };
-//	        Color[] colors = {'rgba(255, 255, 255, 120),
-//	               'rgba(255, 255, 255, 80) };
-//	        LinearGradientPaint p2 = new LinearGradientPaint(start, end, dist,
-//	                                                         colors);
-//
-//	        g2d.setPaint(p2);
-//
-//	        g2d.fill(shapeEffect);
+	        var proj = bar.getHost().getProjection();
+
+	        var p2dUser = null;
+	        if (bar.isAscent()) {
+	            p2dUser = new JenScript.Point2D(bar.getBase() + bar.getValue(), 0);
+	        }
+	        if (bar.isDescent()) {
+	            p2dUser = new JenScript.Point2D(bar.getBase() - bar.getValue(), 0);
+	        }
+
+	        var p2ddevice = proj.userToPixel(p2dUser);
+
+	        var p2dUserBase = new JenScript.Point2D(bar.getBase(), 0);
+	        var p2ddeviceBase = proj.userToPixel(p2dUserBase);
+
+	        var y = bar.getLocationY();
+	        var x = p2ddeviceBase.getX();
+	        if (bar.isDescent()) {
+	            x = p2ddevice.getX();
+	        }
+
+	        var height = bar.getThickness();
+	        var width = Math.abs(p2ddevice.getX() - p2ddeviceBase.getX());
+
+	        var shapeEffect = null;
+
+	        var inset = 2;
+	        x = x + inset;
+	        y = y + inset;
+	        width = width - 2 * inset;
+	        height = height - 2 * inset;
+	        if (bar.getMorpheStyle() == 'Round') {
+	            var round = bar.getRound();
+	            var barPath = new JenScript.SVGPath().Id(this.Id);
+	            if (bar.isAscent()) {
+	                barPath.moveTo(x, y);
+	                barPath.lineTo(x + width - round, y);
+	                barPath.quadTo(x + width, y, x + width, y + round);
+	                barPath.lineTo(x + width, y + height / 2);
+	                barPath.lineTo(x, y + height / 2);
+	                barPath.close();
+	            }
+	            else if (bar.isDescent()) {
+	                barPath.moveTo(x + round, y);
+	                barPath.lineTo(x + width, y);
+	                barPath.lineTo(x + width, y + height / 2);
+	                barPath.lineTo(x, y + height / 2);
+	                barPath.quadTo(x, y, x + round, y);
+	                barPath.close();
+	            }
+	            shapeEffect = barPath;
+	        }
+	        else {
+	            var barRec = new JenScript.SVGRect().Id(this.Id).origin(x, y).size(width, height/2);
+	            shapeEffect = barRec;
+	        }
+
+	        var boun2D2 = new JenScript.Bound2D(x, y,width, height);
+	        var start = null;
+	        var end = null;
+	        if (bar.isAscent()) {
+	            start = new JenScript.Point2D(boun2D2.getX(), boun2D2.getCenterY());
+	            end = new JenScript.Point2D(boun2D2.getX() + boun2D2.getWidth(),
+	                                     boun2D2.getCenterY());
+	        }
+	        else if (bar.isDescent()) {
+	            start = new JenScript.Point2D(boun2D2.getX() + boun2D2.getWidth(),
+	                                       boun2D2.getCenterY());
+	            end = new JenScript.Point2D(boun2D2.getX(), boun2D2.getCenterY());
+	        }
+	        var dist =  [ '0%', '100%' ];
+	        var colors = ['rgba(255, 255, 255, 0.3)','rgba(255, 255, 255, 0.5)'];
+	               
+	        var gradient1= new JenScript.SVGLinearGradient().Id(this.Id+'gradient').from(start.x, start.y).to(end.x, end.y).shade(dist,colors);
+	        g2d.deleteGraphicsElement(this.gradientId);
+	        g2d.definesSVG(gradient1.toSVG());
+	        
+	        var el = shapeEffect.fillURL(this.Id+'gradient').toSVG();
+	        g2d.insertSVG(el);
 	    }
 		
-		
-		
 	});
-	
-	
 	
 	
 	JenScript.SymbolBarEffect1 = function(config) {
@@ -25442,9 +25800,7 @@ function stringInputToObject(color) {
 		
 		v : function(g2d, bar) {
 
-	        // Graphics2D partGraphics =bar.getPart().getGraphics2D();
-
-	        var w2d = bar.getHost().getProjection();
+	        var proj = bar.getHost().getProjection();
 
 	        var p2dUser = null;
 	        if (bar.isAscent()) {
@@ -25453,10 +25809,10 @@ function stringInputToObject(color) {
 	        if (bar.isDescent()) {
 	            p2dUser = new JenScript.Point2D(0, bar.getBase() - bar.getValue());
 	        }
-	        var p2ddevice = w2d.userToPixel(p2dUser);
+	        var p2ddevice = proj.userToPixel(p2dUser);
 
 	        var p2dUserBase = new JenScript.Point2D(0, bar.getBase());
-	        var p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+	        var p2ddeviceBase = proj.userToPixel(p2dUserBase);
 
 	        var x = bar.getLocationX();
 	        var y =  p2ddevice.getY();
@@ -25522,7 +25878,7 @@ function stringInputToObject(color) {
 
 	    h : function(g2d, bar) {
 
-//	        Projection w2d = bar.getHost().getProjection();
+//	        Projection proj = bar.getHost().getProjection();
 //
 //	        Point2D p2dUser = null;
 //	        if (bar.isAscent()) {
@@ -25532,10 +25888,10 @@ function stringInputToObject(color) {
 //	            p2dUser = new JenScript.Point2D(bar.getBase() - bar.getValue(), 0);
 //	        }
 //
-//	        Point2D p2ddevice = w2d.userToPixel(p2dUser);
+//	        Point2D p2ddevice = proj.userToPixel(p2dUser);
 //
 //	        Point2D p2dUserBase = new JenScript.Point2D(bar.getBase(), 0);
-//	        Point2D p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+//	        Point2D p2ddeviceBase = proj.userToPixel(p2dUserBase);
 //
 //	        double y = bar.getLocationY();
 //	        double x = (int) p2ddeviceBase.getX();
@@ -25645,7 +26001,7 @@ function stringInputToObject(color) {
 		
 		v : function(g2d, bar) {
 
-	        var w2d = bar.getHost().getProjection();
+	        var proj = bar.getHost().getProjection();
 
 	        var p2dUser = null;
 	        if (bar.isAscent()) {
@@ -25654,10 +26010,10 @@ function stringInputToObject(color) {
 	        if (bar.isDescent()) {
 	            p2dUser = new JenScript.Point2D(0, bar.getBase() - bar.getValue());
 	        }
-	        var p2ddevice = w2d.userToPixel(p2dUser);
+	        var p2ddevice = proj.userToPixel(p2dUser);
 
 	        var p2dUserBase = new JenScript.Point2D(0, bar.getBase());
-	        var p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+	        var p2ddeviceBase = proj.userToPixel(p2dUserBase);
 
 	        var x = bar.getLocationX();
 	        var y =  p2ddevice.getY();
@@ -25745,7 +26101,7 @@ function stringInputToObject(color) {
 
 	    h:function(g2d, bar) {
 
-//	        Projection w2d = bar.getHost().getProjection();
+//	        Projection proj = bar.getHost().getProjection();
 //
 //	        Point2D p2dUser = null;
 //	        if (bar.isAscent()) {
@@ -25755,10 +26111,10 @@ function stringInputToObject(color) {
 //	            p2dUser = new JenScript.Point2D(bar.getBase() - bar.getValue(), 0);
 //	        }
 //
-//	        Point2D p2ddevice = w2d.userToPixel(p2dUser);
+//	        Point2D p2ddevice = proj.userToPixel(p2dUser);
 //
 //	        Point2D p2dUserBase = new JenScript.Point2D(bar.getBase(), 0);
-//	        Point2D p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+//	        Point2D p2ddeviceBase = proj.userToPixel(p2dUserBase);
 //
 //	        double y = bar.getLocationY();
 //	        double x = (int) p2ddeviceBase.getX();
@@ -25883,7 +26239,7 @@ function stringInputToObject(color) {
 	        if (bar.getHost() === undefined || bar.getHost().getProjection() === undefined) {
 	            return;
 	        }
-	        var w2d = bar.getHost().getProjection();
+	        var proj = bar.getHost().getProjection();
 	        var p2dUser = null;
 	        if (bar.isAscent()) {
 	            p2dUser = new JenScript.Point2D(0, bar.getBase() + bar.getValue());
@@ -25891,9 +26247,9 @@ function stringInputToObject(color) {
 	        if (bar.isDescent()) {
 	            p2dUser = new JenScript.Point2D(0, bar.getBase() - bar.getValue());
 	        }
-	        var p2ddevice = w2d.userToPixel(p2dUser);
+	        var p2ddevice = proj.userToPixel(p2dUser);
 	        var p2dUserBase = new JenScript.Point2D(0, bar.getBase());
-	        var p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+	        var p2ddeviceBase = proj.userToPixel(p2dUserBase);
 
 	        var x = bar.getLocationX();
 	        var y = p2ddevice.getY();
@@ -25971,7 +26327,7 @@ function stringInputToObject(color) {
 
 	    h : function(g2d,bar) {
 
-//	        Projection w2d = bar.getHost().getProjection();
+//	        Projection proj = bar.getHost().getProjection();
 //
 //	        Point2D p2dUser = null;
 //	        if (bar.isAscent()) {
@@ -25981,10 +26337,10 @@ function stringInputToObject(color) {
 //	            p2dUser = new JenScript.Point2D(bar.getBase() - bar.getValue(), 0);
 //	        }
 //
-//	        Point2D p2ddevice = w2d.userToPixel(p2dUser);
+//	        Point2D p2ddevice = proj.userToPixel(p2dUser);
 //
 //	        Point2D p2dUserBase = new JenScript.Point2D(bar.getBase(), 0);
-//	        Point2D p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+//	        Point2D p2ddeviceBase = proj.userToPixel(p2dUserBase);
 //
 //	        double y = bar.getLocationY();
 //	        double x = (int) p2ddeviceBase.getX();
@@ -26108,9 +26464,6 @@ function stringInputToObject(color) {
 		
 	});
 	
-	
-})();
-(function(){
 	
 })();
 (function(){
@@ -26457,7 +26810,6 @@ function stringInputToObject(color) {
 	        var flattenSymbols = this.getFlattenSymbolComponents();
 	        var total = 0;
 	        var glues = [];
-	        
 	        for (var i = 0; i < flattenSymbols.length; i++) {
 				var bc = flattenSymbols[i];
 	            if (bc.isFiller && bc.getFillerType() === 'Glue') {
@@ -26619,7 +26971,8 @@ function stringInputToObject(color) {
 		   	    	}
 	            }
 	        }
-	        if (viewPart !== 'Device'   && paintRequest === 'LabelLayer') {
+	        //if (viewPart !== 'Device'   && paintRequest === 'LabelLayer') {
+	        if (paintRequest === 'LabelLayer') {
 	            this.paintSymbolsAxisLabel(g2d,symbols,viewPart);
 	        }
 	    },
@@ -26857,6 +27210,7 @@ function stringInputToObject(color) {
 	            var barRec = new JenScript.SVGRect().origin(x, y).size(width,height);
 	            bar.setBarShape(barRec);
 	        }
+	        bar.setBound2D(new JenScript.Bound2D(x,y,width,height));
 	    },
 
 	    /**
@@ -26925,6 +27279,9 @@ function stringInputToObject(color) {
 	            var barRec = new JenScript.SVGRect().Id(stackedBar.Id).origin(x, y).size(width, height);
 	            stackedBar.setBarShape(barRec);
 	        }
+	        
+	        stackedBar.setBound2D(new JenScript.Bound2D(x,y,width,height));
+	        
 	        var stacks = stackedBar.getStacks();
 	        var count = 0;
 	        for (var i = 0; i < stacks.length; i++) {
@@ -26993,6 +27350,7 @@ function stringInputToObject(color) {
 	            	 var barRec = new JenScript.SVGRect().Id(stack.Id).origin(stackedx,stackedy).size(stackedwidth, stackedheight);
 	                 stack.setBarShape(barRec);
 	            }
+	            stack.setBound2D(new JenScript.Bound2D(stackedx,stackedx,stackedwidth,stackedheight));
 	            count++;
 	        }
 	    },
@@ -27063,7 +27421,7 @@ function stringInputToObject(color) {
 	        bar.setHost(this.getHost());
 	        var proj = this.getHost().getProjection();
 
-	        var p2dUser = null;
+	        var p2dUser = undefined;
 	        if (bar.isAscent()) {
 	            p2dUser = new JenScript.Point2D(bar.getBase() + bar.getValue(), 0);
 	        }
@@ -27117,6 +27475,7 @@ function stringInputToObject(color) {
 	            var barRec = new JenScript.SVGRect().Id(this.Id).origin(x,y).size(width,height);
 	            bar.setBarShape(barRec);
 	        }
+	        bar.setBound2D(new JenScript.Bound2D(x,y,width,height));
 	    },
 
 	    /**
@@ -27130,9 +27489,8 @@ function stringInputToObject(color) {
 	        }
 	        stackedBar.setHost(this.getHost());
 	        stackedBar.normalize();
-	        
-	        var w2d = getHost().getProjection();
-	        var p2dUser = null;
+	        var proj = this.getHost().getProjection();
+	        var p2dUser = undefined;
 	        if (stackedBar.isAscent()) {
 	            p2dUser = new JenScript.Point2D(stackedBar.getBase() + stackedBar.getValue(), 0);
 	        }
@@ -27145,9 +27503,9 @@ function stringInputToObject(color) {
 	        if (!stackedBar.isBaseSet()) {
 	            throw new Error("stacked bar symbol base value should be supplied.");
 	        }
-	        var p2ddevice = w2d.userToPixel(p2dUser);
+	        var p2ddevice = proj.userToPixel(p2dUser);
 	        var p2dUserBase = new JenScript.Point2D(stackedBar.getBase(), 0);
-	        var p2ddeviceBase = w2d.userToPixel(p2dUserBase);
+	        var p2ddeviceBase = proj.userToPixel(p2dUserBase);
 	        var y = this.getComponentYLocation(stackedBar);
 	        var x = p2ddeviceBase.x;
 	        if (stackedBar.isAscent()) {
@@ -27187,11 +27545,13 @@ function stringInputToObject(color) {
 	        	  var barRec = new JenScript.SVGRect().Id(stackedBar.Id).origin(x,y).size(width,height);
 	        	  stackedBar.setBarShape(barRec);
 	        }
+	        
+	        stackedBar.setBound2D(new JenScript.Bound2D(x,y,width,height));
+	        
 	        var stacks = stackedBar.getStacks();
 	        var count = 0;
-	        for (var int = 0; int < stacks.length; int++) {
+	        for (var i = 0; i < stacks.length; i++) {
 				var stack = stacks[i];
-
 	            stack.setThickness(stackedBar.getThickness());
 	            stack.setBase(stackedBar.getStackBase(stack));
 	            stack.setNature(stackedBar.getNature());
@@ -27211,9 +27571,9 @@ function stringInputToObject(color) {
 	            else if (stackedBar.isDescent()) {
 	                stackedp2dUser = new JenScript.Point2D(stackedBar.getStackBase(stack) - stack.getNormalizedValue(), 0);
 	            }
-	            var stackedp2ddevice = w2d.userToPixel(stackedp2dUser);
+	            var stackedp2ddevice = proj.userToPixel(stackedp2dUser);
 	            var stackedp2dUserBase = new JenScript.Point2D(stackedBar.getStackBase(stack), 0);
-	            var stackedp2ddeviceBase = w2d.userToPixel(stackedp2dUserBase);
+	            var stackedp2ddeviceBase = proj.userToPixel(stackedp2dUserBase);
 
 	            var stackedy = this.getComponentYLocation(stackedBar);
 	            var stackedx = stackedp2ddeviceBase.x;
@@ -27254,13 +27614,14 @@ function stringInputToObject(color) {
 	                }
 	                else {
 	                	var barRec = new JenScript.SVGRect().Id(stack.Id).origin(stackedx,stackedy).size(stackedwidth,stackedheight);
-	                	stackedBar.setBarShape(barRec);
+	                	stack.setBarShape(barRec);
 	                }
 	            }
 	            else {
 	            	 var barRec = new JenScript.SVGRect().Id(stack.Id).origin(stackedx,stackedy).size(stackedwidth,stackedheight);
-		        	 stackedBar.setBarShape(barRec);
+	            	 stack.setBarShape(barRec);
 	            }
+	            stack.setBound2D(new JenScript.Bound2D(stackedx,stackedy,stackedwidth,stackedheight));
 	            count++;
 	        }
 	    },
@@ -27714,12 +28075,12 @@ function stringInputToObject(color) {
 	    * @param {String} viewPart the view part
 	    */
 	    paintPlugin : function(g2d,viewPart) {
-	    	if(viewPart !== 'Device') return;
+	    	//if(viewPart !== 'Device') return;
 	        this.solveLayers();
 	        for (var i = 0; i < this.countLayers(); i++) {
 	        	var layer = this.getLayer(i);
 	            layer.paintLayer(g2d,viewPart,'SymbolLayer');
-	            //layer.paintLayer(g2d,viewPart,'LabelLayer');
+	            layer.paintLayer(g2d,viewPart,'LabelLayer');
 	        }
 	    },
 	    
@@ -30085,6 +30446,8 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 			this.volumeColor = (config.volumeColor !== undefined)?config.volumeColor:'cyan';
+			this.bearishColor = config.bearishColor;
+			this.bullishColor = config.bullishColor;
 			JenScript.StockLayer.call(this,{ name : "VolumeBarLayer"});
 		},
 		
@@ -30105,7 +30468,10 @@ function stringInputToObject(color) {
 				var svgLayer = new JenScript.SVGGroup().Id(this.Id);
 				for (var i = 0; i < this.getGeometries().length; i++) {
 					var geom = this.getGeometries()[i];
-					svgLayer.child(geom.deviceVolumeGap.fill(this.volumeColor).strokeNone().toSVG());
+					var bearc = (this.bearishColor !== undefined)?this.bearishColor:this.plugin.getBearishColor();
+					var bullc = (this.bullishColor !== undefined)?this.bullishColor:this.plugin.getBullishColor();
+					var fillColor = (geom.getStock().isBearish())? bearc:bullc;
+					svgLayer.child(geom.deviceVolumeGap.fill(fillColor).strokeNone().toSVG());
 				}
 				g2d.deleteGraphicsElement(this.Id);
 				g2d.insertSVG(svgLayer.toSVG());

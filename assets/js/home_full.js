@@ -7,7 +7,6 @@ function wrapResize (){
     var full = $('#header-full');
     var wrap = $('.wrap-primary');
     var bottom = $('.wrap-dark-color');
- 
     if(nav.offset()){
     	 var sizeTop = nav.offset().top + nav.height();
     	   var sizeWrap = $(window).height() - sizeTop - bottom.height();
