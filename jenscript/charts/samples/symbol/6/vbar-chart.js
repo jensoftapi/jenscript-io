@@ -116,16 +116,26 @@ function createVSymbolBarView(container, width, height) {
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
 		
-		var label2 = new JenScript.SymbolDefaultLabel({
-			part : 'North',
+		var axisLabel = new JenScript.SymbolAxisLabel({
+			part : 'North', //North or South for horizontal symbol
 			text : symbol.name,
 			textColor : 'black',
+			textAnchor : 'start',
 			paintType : 'None',
 			rotateAngle : -45,
 		});
+		symbol.setAxisLabel(axisLabel);
 		
-		//symbol.setBarLabel(label1);
-		symbol.setAxisLabel(label2);
+		var barLabel = new JenScript.SymbolBarLabel({
+			text : symbol.name,
+			textColor : 'black',
+			textAnchor : 'middle', //start, middle, end
+			barAnchor : 'bottom', //top, bottom, middle
+			paintType : 'None',
+			rotateAngle : 0,
+			ty : 20,
+		});
+		symbol.setBarLabel(barLabel);
 		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'symbol'+count+' stack1',

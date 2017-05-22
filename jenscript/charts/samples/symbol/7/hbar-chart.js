@@ -12,10 +12,6 @@ function createHSymbolBarView(container, width, height) {
 		name : container,
 		width : width,
 		height : height,
-		east : 80,
-		west : 80,
-		south: 80,
-		north : 80
 	});
 	
 	var proj = new JenScript.LinearProjection({
@@ -92,11 +88,11 @@ function createHSymbolBarView(container, width, height) {
 	}
 	
 	baseValue = function (){
-		return random(0,60);
+		return random(500,60);
 	}
 	
 	barValue = function (){
-		return random(200,800);
+		return random(200,500);
 	}
 	
 	stackValue = function (){
@@ -111,34 +107,13 @@ function createHSymbolBarView(container, width, height) {
 			base : baseValue(),
 			value: barValue(),
 			thickness : 18,
-			direction : 'ascent',
+			direction : 'descent',
 			morpheStyle : 'Round',
 			themeColor : JenScript.RosePalette.MANDARIN,
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
-		
-		var axisLabel = new JenScript.SymbolAxisLabel({
-			part : 'West', //East or West for horizontal symbol
-			text : symbol.name,
-			textColor : 'black',
-			textAnchor : 'end',
-			paintType : 'None',
-			rotateAngle : -25,
-		});
-		
-		symbol.setAxisLabel(axisLabel);
-		
-		var barLabel = new JenScript.SymbolBarLabel({
-			text : symbol.name,
-			textColor : 'black',
-			textAnchor : 'end',
-			barAnchor : 'middle',
-			paintType : 'None',
-			rotateAngle : 0,
-		});
-		symbol.setBarLabel(barLabel);
 		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'symbol'+count+' stack1',
@@ -174,13 +149,101 @@ function createHSymbolBarView(container, width, height) {
 	//lay out
 	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(10),false); //glue rigid 10px
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
-	for (var i = 1; i <= 10; i++) {
-		var bar = createBar();
-		barLayer.addSymbol(bar,false);
-		
-		if(i < 10)
-		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(10),false); //glue rigid except after last bar
-	}
+	
+
+	var bar = createBar(200,800);
+	barLayer.addSymbol(bar,false);
+	var barLabel = new JenScript.SymbolBarLabel({
+		text : 'symbol1',
+		textColor : 'black',
+		textAnchor : 'end', //start, middle, end
+		barAnchor : 'bottom', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : 0,
+		ty : 0,
+	});
+	bar.setBarLabel(barLabel);
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(40),false);
+	
+	var bar2 = createBar(200,800);
+	barLayer.addSymbol(bar2,false);
+	var barLabel2 = new JenScript.SymbolBarLabel({
+		text : 'symbol2',
+		textColor : 'black',
+		textAnchor : 'start', //start, middle, end
+		barAnchor : 'top', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : 0,
+		ty : 0,
+	});
+	bar2.setBarLabel(barLabel2);
+	
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(40),false);
+	
+	var bar3 = createBar(200,800);
+	barLayer.addSymbol(bar3,false);
+	var barLabel3 = new JenScript.SymbolBarLabel({
+		text : 'symbol3',
+		textColor : 'black',
+		textAnchor : 'middle', //start, middle, end
+		barAnchor : 'middle', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : 0,
+		ty : 0,
+	});
+	bar3.setBarLabel(barLabel3);
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(40),false);
+	
+	var bar4 = createBar(200,800);
+	barLayer.addSymbol(bar4,false);
+	var barLabel4 = new JenScript.SymbolBarLabel({
+		text : 'symbol4',
+		textColor : 'black',
+		textAnchor : 'middle', //start, middle, end
+		barAnchor : 'top', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : -90,
+		tx : 10,
+		ty : 0,
+	});
+	bar4.setBarLabel(barLabel4);
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(40),false);
+	
+	var bar5 = createBar(200,800);
+	barLayer.addSymbol(bar5,false);
+	var barLabel5 = new JenScript.SymbolBarLabel({
+		text : 'symbol5',
+		textColor : 'black',
+		textAnchor : 'middle', //start, middle, end
+		barAnchor : 'bottom', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : -90,
+		tx : 0,
+		ty : 0,
+	});
+	bar5.setBarLabel(barLabel5);
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(40),false);
+	
+	var bar6 = createBar(200,800);
+	barLayer.addSymbol(bar6,false);
+	var barLabel6 = new JenScript.SymbolBarLabel({
+		text : 'symbol6',
+		textColor : 'black',
+		textAnchor : 'middle', //start, middle, end
+		barAnchor : 'middle', //top, bottom, middle
+		paintType : 'None',
+		rotateAngle : -90,
+		tx : bar6.thickness/2 + 12,
+		ty : 0,
+	});
+	bar6.setBarLabel(barLabel6);
+	
+	
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
 	
 	//invoke repaint only one time
