@@ -15,6 +15,10 @@ var eastMetrics;
 var southMetrics2;
 var eastMetrics2;
 
+var random = function getRandomArbitrary(min, max) {
+	  return Math.random() * (max - min) + min;
+	}
+
 var minor = {
 	tickMarkerSize : 2,
 	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
@@ -559,7 +563,9 @@ function createTranslate(){
 							press : function(){
 								if(proj1.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj12)
-								}else{
+								}else if(proj12.Id === view1.getActiveProjection().Id){
+									view1.setActiveProjection(proj13)
+								}else if(proj13.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj1)
 								}
 							}
@@ -759,7 +765,7 @@ function createZoomLens(){
 	});
 }
 
-function createDonut2d(container, width, height) {
+function createDonut2d(container, width, height,title) {
 
 	var view = new JenScript.View({
 		name : container,
@@ -781,7 +787,7 @@ function createDonut2d(container, width, height) {
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
-		text   : 'Sell 2017',
+		text   : title,
 		fontSize : 10,
 		textColor : 'white',
 		xAlign : 'center',
@@ -803,30 +809,32 @@ function createDonut2d(container, width, height) {
 	donutPlugin.addDonut(donut);
 	
 	//donutPlugin.translate(1000,0);
-
+	sliceValue = function (){
+		return random(20,100);
+	}
 	var s1 = new JenScript.Donut2DSlice({
 		name : "s1",
-		value : 45,
+		value : sliceValue(),
 		themeColor : 'rgba(240, 240, 240, 0.9)'
 	});
 	var s2 = new JenScript.Donut2DSlice({
 		name : "s2",
-		value : 5,
+		value : sliceValue(),
 		themeColor : 'rgba(37,38,41,1)'
 	});
 	var s3 = new JenScript.Donut2DSlice({
 		name : "s3",
-		value : 30,
+		value : sliceValue(),
 		themeColor : 'rgba(78,148,44,1)'
 	});
 	var s4 = new JenScript.Donut2DSlice({
 		name : "s4",
-		value : 5,
+		value : sliceValue(),
 		themeColor : 'rgba(22,125,218, 1)'
 	});
 	var s5 = new JenScript.Donut2DSlice({
 		name : "s5",
-		value : 5,
+		value : sliceValue(),
 		themeColor : 'rgba(61,44,105,1)'
 	});
 
@@ -917,10 +925,11 @@ function createSymbolBarView(container, width, height) {
 		name : container,
 		width : width,
 		height : height,
-		
-		west : 80,
-		east : 80,
-		north : 60,
+		east : 0,
+		west : 40,
+//		west : 80,
+//		east : 80,
+//		north : 60,
 		south:60
 	});
 	
@@ -929,7 +938,7 @@ function createSymbolBarView(container, width, height) {
 		paintMode : 'ACTIVE',
 		minX : 0,
 		maxX : 0,
-		minY : -100,
+		minY : -5,
 		maxY : 1200
 	});
 	
@@ -949,7 +958,7 @@ function createSymbolBarView(container, width, height) {
 		color : 'pink'
 	});
 
-	proj.registerPlugin(outline);
+	//proj.registerPlugin(outline);
 	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
@@ -1004,9 +1013,7 @@ function createSymbolBarView(container, width, height) {
 	proj.registerPlugin(symbolPlugin);
 	
 	// arbitrary values between min max values
-	var random = function getRandomArbitrary(min, max) {
-	  return Math.random() * (max - min) + min;
-	}
+	
 	
 	barValue = function (){
 		return random(200,800);
@@ -1023,9 +1030,9 @@ function createSymbolBarView(container, width, height) {
 			name : "Symbol "+iname++,
 			base : 0,
 			value: val,
-			thickness : 20,
+			thickness : 10,
 			direction : 'ascent',
-			morpheStyle : 'Round',
+			morpheStyle : 'Rectangle',
 			round : 2,
 			themeColor : JenScript.RosePalette.MANDARIN,
 			opacity : 1,
@@ -1041,7 +1048,7 @@ function createSymbolBarView(container, width, height) {
 //			rotate : true,
 //			rotateAngle : -45,
 //		});
-		var label2 = new JenScript.SymbolDefaultLabel({
+		var label2 = new JenScript.SymbolAxisLabel({
 			part : 'Device',
 			text : symbol.name,
 			textColor : 'yellow',
@@ -1050,7 +1057,7 @@ function createSymbolBarView(container, width, height) {
 		});
 		
 		//symbol.setBarLabel(label1);
-		symbol.setAxisLabel(label2);
+		//symbol.setBarLabel(label2);
 		
 		
 		var  s1 = new JenScript.SymbolStack({
@@ -1084,12 +1091,13 @@ function createSymbolBarView(container, width, height) {
 	
 	//lay out
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
-	for (var i = 1; i <= 8; i++) {
+	//barLayer.addSymbol(JenScript.SymbolFiller.createStrut(10));
+	for (var i = 1; i <= 18; i++) {
 		var bar = createBar(barValue());
 		barLayer.addSymbol(bar,false);
 		
-		if(i < 10)
-		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(30),false); //glue rigid except after last bar
+		if(i < 18)
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(2),false); //glue rigid except after last bar
 	}
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
 	
@@ -1136,5 +1144,202 @@ function createSymbolBarView(container, width, height) {
 		//console.log('symbol release');
 	},'this demo');
 }
+
+
+
+/**
+ * createSymbolBarView
+ * 
+ * @param container
+ * @param width
+ * @param height
+ */
+function createSymbolBarView2(container, width, height) {
+
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+//		holders : 0,
+//		west : 80,
+//		east : 80,
+//		north : 60,
+		south:60
+	});
+	
+
+	
+	var proj = new JenScript.LinearProjection({
+		name : "proj",
+		paintMode : 'ACTIVE',
+
+		minX : -100,
+		maxX : 1200,
+		minY : -0,
+		maxY : 0
+	});
+	
+	view.registerProjection(proj);
+
+	var outline = new JenScript.DeviceOutlinePlugin({
+		color : 'pink'
+	});
+
+	//proj.registerPlugin(outline);
+	
+	var metrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisSouth,
+		minor : {
+			tickMarkerSize : 2,
+			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+			tickMarkerStroke : 1
+		},
+		median : {
+			tickMarkerSize : 4,
+			tickMarkerColor : JenScript.RosePalette.EMERALD,
+			tickMarkerStroke : 1.2,
+			tickTextColor : JenScript.RosePalette.EMERALD,
+			tickTextFontSize : 10
+		},
+		major : {
+			tickMarkerSize : 8,
+			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+			tickMarkerStroke : 3,
+			tickTextColor : JenScript.RosePalette.TURQUOISE,
+			tickTextFontSize : 12
+		}
+	});
+	proj.registerPlugin(metrics);
+	
+	var gridPlugin = new JenScript.GridModeledPlugin({
+		gridOrientation : 'Vertical',
+		gridColor : 'white',
+		gridWidth : 0.5,
+		gridOpacity : 0.5
+	});
+	proj.registerPlugin(gridPlugin);
+	
+	//TOOL
+	var tx1 = new JenScript.TranslatePlugin({
+		mode : 'tX',
+	});
+	proj.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
+	
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelX'
+	});
+	proj.registerPlugin(zoomwheel);
+	
+	var symbolPlugin = new JenScript.SymbolPlugin({
+		nature : 'Horizontal'
+	});
+	proj.registerPlugin(symbolPlugin);
+	
+	// arbitrary values between min max values
+	var random = function getRandomArbitrary(min, max) {
+	  return Math.random() * (max - min) + min;
+	}
+	
+	baseValue = function (){
+		return random(0,200);
+	}
+	
+	barValue = function (){
+		return random(200,800);
+	}
+	
+	stackValue = function (){
+		return random(20,60);
+	}
+	
+	var iname= 0;
+	//symbol factory
+	var createBar = function(val){
+		var symbol = new JenScript.SymbolBarStacked({
+			name : "Symbol "+iname++,
+			base : baseValue(),
+			value: barValue(),
+			thickness : 6,
+			direction : 'ascent',
+			morpheStyle : 'Rectangle',
+			round : 3,
+			themeColor : JenScript.RosePalette.MANDARIN,
+			opacity : 1,
+			barFill : new JenScript.SymbolBarFill0({}),
+			//barStroke : new JenScript.SymbolBarStroke({strokeColor : 'white', strokeWidth : 0.5}),
+			//barEffect  : new JenScript.SymbolBarEffect0({}),
+		});
+		
+//		var label1 = new JenScript.SymbolDefaultLabel({
+//			part : 'East',
+//			text : symbol.name,
+//			textColor : 'red',
+//			paintType : 'None',
+//			rotate : true,
+//			rotateAngle : -45,
+//		});
+		var label2 = new JenScript.SymbolAxisLabel({
+			part : 'Device',
+			text : symbol.name,
+			textColor : 'yellow',
+			paintType : 'None',
+			rotateAngle : -90,
+		});
+		
+		//symbol.setBarLabel(label1);
+		symbol.setAxisLabel(label2);
+		
+		
+		var  s1 = new JenScript.SymbolStack({
+			name : symbol.name+' stack1 ',
+			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			stackValue : stackValue()
+		});
+		var  s2 = new JenScript.SymbolStack({
+			name : symbol.name+' stack2',
+			themeColor : JenScript.RosePalette.NEPTUNE,
+			stackValue : stackValue()
+		});
+		var  s3 = new JenScript.SymbolStack({
+			name : symbol.name+' stack3',
+			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			stackValue : stackValue()
+		});
+		
+		symbol.addStack(s1);
+		symbol.addStack(s2);
+		symbol.addStack(s3);
+		
+		return symbol;
+	}
+	
+	//layer
+	var barLayer = new JenScript.SymbolBarLayer();
+	symbolPlugin.addLayer(barLayer);
+	
+
+	
+	//lay out
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(10));
+	for (var i = 1; i <= 18; i++) {
+		var bar = createBar();
+		barLayer.addSymbol(bar,false);
+		
+		if(i < 18)
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(2),false); //glue rigid except after last bar
+	}
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
+	
+	//invoke repaint only one time
+	symbolPlugin.repaintPlugin();
+	
+}
+
+
 
 

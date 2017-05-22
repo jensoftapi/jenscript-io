@@ -68,8 +68,11 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<div id="bar1"></div>
+						</div>
+						<div class="col-md-6">
+							<div id="bar2"></div>
 						</div>
 					</div>
 				</div>
@@ -168,19 +171,20 @@ $.get("/assets/nav-content.html", function(data){
 		
 		var w2 = $("#donut2d1").width();
 		console.log("width donut2d "+w2);
-		createDonut2d('donut2d1',w2,300);
+		createDonut2d('donut2d1',w2,300,"sell 2015");
 		
 		var w22 = $("#donut2d2").width();
-		createDonut2d('donut2d2',w22,300);
+		createDonut2d('donut2d2',w22,300,"sell 2016");
 		
 		var w22 = $("#donut2d3").width();
-		createDonut2d('donut2d3',w22,300);
+		createDonut2d('donut2d3',w22,300,"sell 2017");
 		
 		
 		var b1 = $("#bar1").width();
-		//var b2 = $("#bar2").width();
+		var b2 = $("#bar2").width();
 		console.log("width bar "+b1);
 		createSymbolBarView('bar1',b1,300);
+		createSymbolBarView2('bar2',b2,300);
 		//createSymbolBarView('bar2',b2,300);
 		
 	}
