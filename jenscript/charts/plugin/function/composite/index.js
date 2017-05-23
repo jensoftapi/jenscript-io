@@ -111,7 +111,7 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 			themeColor : 'pink',
 			source : splineSource1,
 			areaBase : 0,
-			shader : {percents : [ '0%', '100%' ],opacity:[0.8,0], colors : ['orange','orange']}
+			shader : {percents : [ '0%', '100%' ],opacity:[1,0.2], colors : ['rgb(236, 240, 241)','rgb(236, 240, 241)']}
 			});
 	
 	var area2 = new JenScript.Area({
@@ -119,7 +119,7 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 		//themeColor : 'skyblue',
 		source : splineSource2,
 		areaBase : 0,
-		shader : {percents : [ '0%', '100%' ],opacity:[0.8,0], colors : ['blue','blue']}
+		shader : {percents : [ '0%', '100%' ],opacity:[1,0.2], colors : ['	rgb(230, 126, 34)','rgb(230, 126, 34)']}
 	});
 	
 	var area3 = new JenScript.Area({
@@ -127,7 +127,7 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 		//themeColor : 'skyblue',
 		source : splineSource3,
 		areaBase : 0,
-		shader : {percents : [ '0%', '100%' ],opacity:[0.8,0], colors : ['green','green']}
+		shader : {percents : [ '0%', '100%' ],opacity:[1,0.2], colors : ['rgb(41, 128, 185)','rgb(41, 128, 185)']}
 	});
 	
 	functionPlugin.addFunction(area3);
