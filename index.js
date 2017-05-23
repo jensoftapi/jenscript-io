@@ -447,6 +447,7 @@ function create(container1,container2, width, height) {
 	},{foregroundColor : 'rgba(153, 255, 51,0.5)', outlineColor : 'rgb(255, 255, 0)'});
 
 	view1.setActiveProjection(proj1);
+	translateView1Proj1.select();
 }
 
 
@@ -650,7 +651,7 @@ function createTranslate(){
 		translates : [ translateView1Proj1,translateView1Proj2,translateView1Proj3, translateView2Proj1,translateView2Proj2 ]
 	});
 	
-	translateView1Proj1.select();
+	
 	
 }
 
