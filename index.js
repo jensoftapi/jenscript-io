@@ -562,7 +562,7 @@ function createTranslate(){
 								}else if(proj12.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj13)
 								}else if(proj13.Id === view1.getActiveProjection().Id){
-									view1.setActiveProjection(proj11)
+									view1.setActiveProjection(proj1)
 								}
 							}
 							
