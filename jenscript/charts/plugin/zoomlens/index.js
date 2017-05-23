@@ -368,7 +368,5 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 	view1.setActiveProjection(proj1);
 	lensView1Proj1.select();
-	//lens.select();
-	
 
 }
