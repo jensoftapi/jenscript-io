@@ -130,15 +130,15 @@ function createHSymbolBarView(container, width, height) {
 		
 		symbol.setAxisLabel(axisLabel);
 		
-		var barLabel = new JenScript.SymbolBarLabel({
-			text : symbol.name,
-			textColor : 'black',
-			textAnchor : 'end',
-			barAnchor : 'middle',
-			paintType : 'None',
-			rotateAngle : 0,
-		});
-		symbol.setBarLabel(barLabel);
+//		var barLabel = new JenScript.SymbolBarLabel({
+//			text : symbol.name,
+//			textColor : 'black',
+//			textAnchor : 'end',
+//			barAnchor : 'middle',
+//			paintType : 'None',
+//			rotateAngle : 0,
+//		});
+//		symbol.setBarLabel(barLabel);
 		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'symbol'+count+' stack1',
@@ -186,43 +186,4 @@ function createHSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
 }
