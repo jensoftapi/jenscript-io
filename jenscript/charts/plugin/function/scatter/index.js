@@ -1,11 +1,28 @@
 
-/**
- * Create view with line scatter x function
- * 
- * @param container
- * @param width
- * @param height
- */
+var minor = {
+		tickMarkerSize : 2,
+		tickMarkerColor : 'cyan',
+		tickMarkerStroke : 1
+	};
+var median = {
+	tickMarkerSize : 4,
+	tickMarkerColor : 'cyan',
+	tickMarkerStroke : 1.2,
+	tickTextColor : 'cyan',
+	tickTextFontSize : 10,
+	tickTextOffset : 8
+};
+
+
+var major = {
+	tickMarkerSize : 8,
+	tickMarkerColor : 'yellow',
+	tickMarkerStroke : 3,
+	tickTextColor : 'yellow',
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
+
 function createViewLineScatterXFunction(container, width, height) {
 	
 	var view = new JenScript.View({
@@ -33,12 +50,18 @@ function createViewLineScatterXFunction(container, width, height) {
 	proj.registerPlugin(outline);
 
 	var southMetrics = new JenScript.AxisMetricsModeled({
-		axis : JenScript.Axis.AxisSouth
+		axis : JenScript.Axis.AxisSouth,
+		minor : minor,
+		median : median,
+		major :major
 	});
 	proj.registerPlugin(southMetrics);
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
-		axis : JenScript.Axis.AxisWest, gravity :'natural' //gravity :'rotate'
+		axis : JenScript.Axis.AxisWest, gravity :'natural', //gravity :'rotate'
+			minor : minor,
+			median : median,
+			major :major
 	});
 	
 	proj.registerPlugin(westMetrics);
