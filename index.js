@@ -381,7 +381,8 @@ function createView2Proj2() {
 	proj22.registerPlugin(stockPluginView2Proj2);
 
 	stockPluginView2Proj2.addLayer(new JenScript.VolumeBarLayer({
-		volumeColor : 'rgba(211, 84, 0,0.8)'
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	}));
 	//
 	//rgba(255,130,0,0.7)

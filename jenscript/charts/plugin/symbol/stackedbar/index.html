@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<script src="/jenscript.min.js"></script>
+    <title>Javascript Chart Library | JenScript Bar Symbol Chart</title>
+
+     <link href="/favicon.png" rel="icon" type="image/png" />
+    <meta name="description" content="javascript axis metrics chart with jenscript javascript chart library">
+
+    <!-- CSS -->
+    <link href="/assets/css/preload.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/font-mfizz/font-mfizz.css">
+    <link href="/assets/css/vendors.css" rel="stylesheet">
+    <link href="/assets/css/syntaxhighlighter/shCore.css" rel="stylesheet" >
+
+    <!-- RS5.0 Stylesheet -->
+    <!--<link rel="stylesheet" type="text/css" href="/assets/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/navigation.css">-->
+
+    <link href="/assets/css/style-green5.css" rel="stylesheet" title="default">
+    <link href="/assets/css/width-full.css" rel="stylesheet" title="default">
+
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="/assets/js/html5shiv.min.js"></script>
+        <script src="/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<!-- Preloader -->
+<div id="preloader">
+    <div id="status">&nbsp;</div>
+</div>
+
+<body>
+
+<div class="sb-site-container">
+<div class="boxed">
+
+<div id="contentNav"></div>
+
+<header id="header-full">
+    <div class="wrap-primary">
+        <div class="container">
+            
+          <div class="row" style="padding-top: 20px;">
+				<div  id="view" class="col-md-12"></div>
+			</div>
+            
+            
+            <div class="row header-full-icons text-center">
+                <div class="col-sm-3 animated fadeInDown animation-delay-19">
+                    <span class="icon-ar icon-ar-circle icon-ar-turquoise icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cube"></i></span>
+                    <h3>Symbol</h3>
+                    <p class="text-center">Bar Symbol</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-21">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-info-circle" ></i></span>
+                    <h3>Info</h3>
+                    <p class="text-center">Grouped data with rectangular bars</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-22">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-tag" ></i></span>
+                    <h3>Label</h3>
+                    <p class="text-center">Bar Label & Marker</p>
+                </div>
+                <div class="col-sm-3 animated fadeInDown animation-delay-20">
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-flash" ></i></span>
+                    <h3>Event</h3>
+                    <p class="text-center">Interacts with symbol</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="wrap-dark-color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 feature-container">
+                    <a class="feature-icon" target="_blank" href="https://raw.githubusercontent.com/sjanaud/jenscript/master/build/plugins/jenscript-metrics.min.js">
+                        <i class="fa fa-download"></i>
+                        <h4>Downloads</h4>
+                    </a>
+                    <a class="feature-icon" href="/jenscript/charts/samples/metrics/1">
+                        <i class="fa fa-file-code-o"></i>
+                        <h4>Samples</h4>
+                    </a>
+                    <a class="feature-icon" href="https://github.com/sjanaud/jenscript/tree/master/src/plugins/metrics">
+                        <i class="fa fa-github"></i>
+                        <h4>Source</h4>
+                    </a>
+                </div>
+                <div class="col-md-5 hidden-sm hidden-xs">
+                    <p class="lead text-center">JenScript HTML5 SVG Javascript Chart Library. New Release! Rooster 1.1.9 is now available. </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+</div> <!-- boxed -->
+</div> <!-- sb-site -->
+
+<script src="/assets/js/vendors.js"></script>
+
+<!--<script type="text/javascript" src="/assets/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+<script type="text/javascript" src="/assets/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>-->
+
+
+<!-- Syntaxhighlighter -->
+<script src="/assets/js/syntaxhighlighter/shCore.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushXml.js"></script>
+<script src="/assets/js/syntaxhighlighter/shBrushJScript.js"></script>
+
+<script src="/assets/js/DropdownHover.js"></script>
+<script src="/assets/js/app.js"></script>
+<script src="/assets/js/holder.js"></script>
+<script src="/assets/js/home_full.js"></script>
+
+
+<script type="text/javascript">
+$.get("/assets/nav-content.html", function(data){
+    $("#contentNav").replaceWith(data);
+    $("#header-full-top").addClass("hidden-sm hidden-md hidden-lg");
+
+	$("#header").removeClass('navbar-header-full');
+	$("#ar-brand").removeClass("hidden-lg hidden-md hidden-sm");
+	$("#bs-example-navbar-collapse-1").addClass("navbar-right");
+
+	$("#header").addClass('navbar-light');
+	$("#header").removeClass('navbar-dark navbar-inverse');
+	$('[data-hover="dropdown"]').dropdownHover();
+});
+
+</script>
+
+<script src="index.js"></script>
+   <script type="text/javascript">
+	$(window).resize(function() {
+		init();
+	});
+	function init(){
+		var w = $("#view").width();
+		createSymbolBarView('view',w,400);
+	}
+	init();
+</script>
+
+</body>
+
+</html>
