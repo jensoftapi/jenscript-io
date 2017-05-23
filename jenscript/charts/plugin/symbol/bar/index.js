@@ -85,11 +85,12 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(symbolPlugin);
 	
-	
+	var count = 1;
 	
 	//symbol factory
 	var createBar = function(val){
 		var symbol = new JenScript.SymbolBar({
+			name : 'Symbol'+count,
 			base : 0,
 			value: val,
 			thickness : 32,
@@ -97,10 +98,25 @@ function createSymbolBarView(container, width, height) {
 			morpheStyle : 'Round',
 			themeColor : JenScript.RosePalette.MANDARIN,
 			opacity : 0.8,
+			barStroke : new JenScript.SymbolBarStroke({strokeColor : 'white', strokeWidth :0.5}),
 			barFill : new JenScript.SymbolBarFill1({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
+		
+		
+		var axisLabel = new JenScript.SymbolAxisLabel({
+			part : 'South', //North or South for horizontal symbol
+			text : symbol.name,
+			textColor : 'orange',
+			textAnchor : 'end',
+			paintType : 'None',
+			rotateAngle : -45,
+			ty : 20
+		});
+		symbol.setAxisLabel(axisLabel);
+		count++;
 		return symbol;
+		
 	}
 	
 	//layer
@@ -130,43 +146,5 @@ function createSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
+
 }

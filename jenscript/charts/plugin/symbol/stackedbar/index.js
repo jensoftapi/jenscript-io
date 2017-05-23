@@ -98,9 +98,12 @@ function createSymbolBarView(container, width, height) {
 		return random(20,60);
 	}
 	
+	var count = 1;
+	
 	//symbol factory
 	var createBar = function(val){
 		var symbol = new JenScript.SymbolBarStacked({
+			name : 'Symbol'+count,
 			base : 0,
 			value: val,
 			thickness : 32,
@@ -108,10 +111,22 @@ function createSymbolBarView(container, width, height) {
 			morpheStyle : 'Round',
 			themeColor : JenScript.RosePalette.MANDARIN,
 			opacity : 0.6,
+			barStroke : new JenScript.SymbolBarStroke({strokeColor : 'white', strokeWidth :0.5}),
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
 		
+		var axisLabel = new JenScript.SymbolAxisLabel({
+			part : 'South', //North or South for horizontal symbol
+			text : symbol.name,
+			textColor : 'turquoise',
+			textAnchor : 'end',
+			paintType : 'None',
+			rotateAngle : -45,
+			ty : 20
+		});
+		symbol.setAxisLabel(axisLabel);
+		count++;
 		
 		
 		var  s1 = new JenScript.SymbolStack({
