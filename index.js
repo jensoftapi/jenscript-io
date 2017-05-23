@@ -578,7 +578,7 @@ function createTranslate(){
 								if(boxView1Proj1.isLockSelected()){
 									boxView1Proj1.unselect();
 								}
-								else 
+								else{
 									boxView1Proj1.select();
 								}
 							}
