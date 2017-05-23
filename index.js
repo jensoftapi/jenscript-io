@@ -559,8 +559,10 @@ function createTranslate(){
 							press : function(){
 								if(proj1.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj12)
-								}else{
-									view1.setActiveProjection(proj1)
+								}else if(proj12.Id === view1.getActiveProjection().Id){
+									view1.setActiveProjection(proj13)
+								}else if(proj13.Id === view1.getActiveProjection().Id){
+									view1.setActiveProjection(proj11)
 								}
 							}
 							
@@ -576,7 +578,7 @@ function createTranslate(){
 								if(boxView1Proj1.isLockSelected()){
 									boxView1Proj1.unselect();
 								}
-								else{
+								else 
 									boxView1Proj1.select();
 								}
 							}
