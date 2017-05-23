@@ -285,6 +285,34 @@ function createViewStockMACD(container1,container2, width, height) {
 	createView1Proj2();
 
 
+	
+	
+	
+	
+	
+
+	//view 2
+	view2 = new JenScript.View({
+		name : container2,
+		width : width,
+		height : height,
+		east : 50,
+		west : 50,
+		south : 60,
+	});
+	
+	createView2Proj1();
+	
+	
+	
+	
+	var loader = new StockLoader(proj1,[2015,2016],function(year,stocks){
+		stockPluginView1Proj1.setStocks(stocks);
+		stockPluginView1Proj2.setStocks(stocks);
+		stockPluginView2Proj1.setStocks(stocks);
+	});
+
+	
 	var lensView1Proj1 = new JenScript.ZoomLensPlugin({name : 'mainLens'});
 	proj1.registerPlugin(lensView1Proj1);
 	
@@ -292,7 +320,7 @@ function createViewStockMACD(container1,container2, width, height) {
 	proj12.registerPlugin(lensView1Proj2);
 	
 	var lensView2Proj1 = new JenScript.ZoomLensPlugin({name : 'tertiaryLens'});
-	proj12.registerPlugin(lensView1Proj2);
+	proj2.registerPlugin(lensView2Proj1);
 	
 	
 	
@@ -333,32 +361,6 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 	lensView1Proj1.registerWidget(lx);
 	lensView1Proj1.registerWidget(ly);
-	
-	
-	
-	
-
-	//view 2
-	view2 = new JenScript.View({
-		name : container2,
-		width : width,
-		height : height,
-		east : 50,
-		west : 50,
-		south : 60,
-	});
-	
-	createView2Proj1();
-	
-	
-	
-	
-	var loader = new StockLoader(proj1,[2015,2016],function(year,stocks){
-		stockPluginView1Proj1.setStocks(stocks);
-		stockPluginView1Proj2.setStocks(stocks);
-		stockPluginView2Proj1.setStocks(stocks);
-	});
-
 
 	
 	var synchronizer = new JenScript.ZoomLensSynchronizer({
