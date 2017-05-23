@@ -65,20 +65,6 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
-	//TOOL
-	var tx1 = new JenScript.TranslatePlugin({
-		mode : 'ty',
-	});
-	proj.registerPlugin(tx1);
-	tx1.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : 'pink'
-	}));
-	tx1.select();
-	
-	var zoomwheel = new JenScript.ZoomWheelPlugin({
-		mode : 'wheelY'
-	});
-	proj.registerPlugin(zoomwheel);
 	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Vertical'
@@ -211,6 +197,23 @@ function createSymbolBarView(container, width, height) {
 	proj.registerPlugin(t3);
 	
 	 
+	//TOOL
+	var tx1 = new JenScript.TranslatePlugin({
+		mode : 'ty',
+		slaves :[{plugin : symbolPlugin, direction: 'y'},
+		         {plugin : gridPlugin, direction: 'y'},
+		         {plugin : metrics, direction: 'y'}]
+	});
+	proj.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
+	
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelY'
+	});
+	proj.registerPlugin(zoomwheel);
 	 
 	
 }
