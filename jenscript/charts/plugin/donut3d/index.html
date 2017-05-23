@@ -154,14 +154,14 @@ $.get("/assets/nav-content.html", function(data){
 
 </script>
 
-<script src="index.js"></script>
+<script src="donut3d.js"></script>
    <script type="text/javascript">
 	$(window).resize(function() {
 		init();
 	});
 	function init(){
 		var w = $("#view").width();
-		createView('view',w,400);
+		create('view',w,400);
 	}
 	init();
 </script>

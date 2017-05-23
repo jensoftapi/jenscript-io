@@ -175,43 +175,42 @@ function createSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
+	var t1 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 1',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	proj.registerPlugin(t1);
 	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
+	var t2 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 2',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.NEPTUNE,
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin : 20
+	});
+	proj.registerPlugin(t2);
 	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
+	var t3 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 3',
+		fontSize : 14,
+		textColor : JenScript.RosePalette.AEGEANBLUE,
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin : 36
+	});
+	proj.registerPlugin(t3);
 	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
+	 
+	 
 	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
 }
