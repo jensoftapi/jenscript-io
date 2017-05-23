@@ -132,8 +132,8 @@ function createView1Proj1() {
 	
 	//STOCK PLUGIN
 	stockPluginView1Proj1 = new JenScript.StockPlugin({
-		bearishColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30),
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgb(211, 84, 0)',
+		bullishColor : 'rgb(41, 128, 185)',
 		name : "Main Stock Plugin"
 	});
 	proj1.registerPlugin(stockPluginView1Proj1);
