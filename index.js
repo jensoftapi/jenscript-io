@@ -650,6 +650,8 @@ function createTranslate(){
 		translates : [ translateView1Proj1,translateView1Proj2,translateView1Proj3, translateView2Proj1,translateView2Proj2 ]
 	});
 	
+	translateView1Proj1.select();
+	
 }
 
 
