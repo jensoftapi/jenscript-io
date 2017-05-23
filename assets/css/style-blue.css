@@ -1788,6 +1788,33 @@ hr.double {
   color: #d9534f;
   border-color: #d9534f;
 }
+.icon-ar.icon-ar-inverse.icon-ar-turquoise {
+  background-color: transparent;
+  color: rgb(23, 130, 187);
+  border-color: rgb(23, 130, 187);
+}
+.icon-ar.icon-ar-inverse.icon-ar-calypsoblue {
+  background-color: transparent;
+  color: rgb(91, 151, 168);
+  border-color: rgb(91, 151, 168);
+}
+.icon-ar.icon-ar-inverse.icon-ar-coralred {
+  background-color: transparent;
+  color: rgb(208, 58, 47);
+  border-color: rgb(208, 58, 47);
+}
+.icon-ar.icon-ar-inverse.icon-ar-mandarin {
+  background-color: transparent;
+  color: rgb(255, 136, 83);
+  border-color: rgb(255, 136, 83);
+}
+.icon-ar.icon-ar-inverse.icon-ar-lemonpeel {
+  background-color: transparent;
+  color: rgb(247, 239, 100);
+  border-color: rgb(247, 239, 100);
+}
+
+
 .icon-ar.icon-ar-inverse.icon-ar-warning {
   background-color: transparent;
   color: #f0ad4e;
