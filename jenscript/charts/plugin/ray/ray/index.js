@@ -117,7 +117,5 @@ function createView(container, width, height) {
 	
 	var translate = new JenScript.TranslatePlugin({mode : 'tx'});
 	proj.registerPlugin(translate);
-	translate.select();
-	
+	translate.select();	
 }
-

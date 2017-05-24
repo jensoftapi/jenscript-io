@@ -9,14 +9,17 @@ function createView(container, width, height) {
 		
 	});
 	
+	
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
-		minX : -250,
-		maxX : 250,
-		minY : -250,
-		maxY : 250
+		minX : -300,
+		maxX : 300,
+		minY : -80,
+		maxY : 420
 	});
 	view.registerProjection(proj);
+	
+	
 	
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
@@ -80,30 +83,36 @@ function createView(container, width, height) {
 		return random(80,200);
 	}
 	
-	for (var i = -250; i <= 250; i = i + 10) {
-		var ray = new JenScript.Ray();
-		ray.setName("ray" + i);
-		ray.setThicknessType('Device');//means in pixel
-		ray.setThickness(6);
-		ray.setRayNature('XRay');
-		ray.setRayBase(0);
-		ray.setAscentValue(rayValue());
-		ray.setThemeColor('purple');
-		ray.setRay(i);
-		rayPlugin.addRay(ray);
+	stackValue = function (){
+		return random(10,30);
 	}
+	
+	 var BUTTER3 = 'rgb(199, 174, 47)';
+	 var CHAMELEON3 = 'rgb(121, 163, 39)';
+	 var ORANGE3 = 'rgb(191, 118, 41)';
 
-	for (var i = -250; i <= 250; i = i + 10) {
-		var ray = new JenScript.Ray();
-		ray.setName("ray" + i);
-		ray.setThicknessType('Device');
-		ray.setThickness(6);
-		ray.setRayNature('XRay');
-		ray.setRayBase(0);
-		ray.setDescentValue(rayValue());
-		ray.setThemeColor('orange');
-		ray.setRay(i);
-		rayPlugin.addRay(ray);
+	 for (var i = -250; i <= 250; i = i + 4) {
+
+	 
+		var sray = new JenScript.StackedRay({});
+		sray.setName("stacked ray 1");
+		sray.setThicknessType('User');
+		sray.setThickness(3);
+		sray.setRayNature('XRay');
+		sray.setRayBase(0);
+		sray.setAscentValue(rayValue());
+		sray.setRay(i);
+		sray.setThemeColor('white');
+		//stack value is defined as percent of the whole
+		var rs11 = new JenScript.RayStack({name : "ray "+i+" stack 1", themeColor: BUTTER3,stackValue: 20});
+		var rs12 = new JenScript.RayStack({name : "ray "+i+" stack 2", themeColor:CHAMELEON3,stackValue: 30}); 
+		var rs13 = new JenScript.RayStack({name: "ray "+i+" stack 3",themeColor: ORANGE3,stackValue:50});
+
+		sray.addStack(rs11);
+		sray.addStack(rs12);
+		sray.addStack(rs13);
+
+		rayPlugin.addRay(sray);
 	}
 	
 	rayPlugin.repaintPlugin();
@@ -111,13 +120,6 @@ function createView(container, width, height) {
 	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.RosePalette.EMERALD});
 	proj.registerPlugin(outline);
-	
-	var zoomwheel = new JenScript.ZoomWheelPlugin({mode:'wx'});
-	proj.registerPlugin(zoomwheel);
-	
-	var translate = new JenScript.TranslatePlugin({mode : 'tx'});
-	proj.registerPlugin(translate);
-	translate.select();
 	
 }
 
