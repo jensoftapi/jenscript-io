@@ -14,7 +14,7 @@ function createSymbolBarView(container, width, height) {
 		height : height,
 		
 		west : 80,
-		south:60
+		south:80
 	});
 	
 	var proj = new JenScript.LinearProjection({
@@ -96,7 +96,8 @@ function createSymbolBarView(container, width, height) {
 			text : symbol.name,
 			textColor : 'orange',
 			textAnchor : 'end',
-			paintType : 'None',
+			fillColor : 'rgba(250,250,250,0.3)',
+			paintType : 'Both',
 			rotateAngle : -45,
 			ty : 20
 		});

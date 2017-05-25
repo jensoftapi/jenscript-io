@@ -3259,7 +3259,7 @@ a.thumbnail.active {
   font-family: "Muli", sans-serif;
   word-spacing: -6px;
   -webkit-text-stroke: 0;
-  background-image: url("/svg/branddonut2d.svg");
+  background-image: url("/svg/donut2d.svg");
   background-position: left center;
   background-repeat: no-repeat;
   padding-left: 45px;
@@ -5067,7 +5067,8 @@ input.input-lg[type="text"] {
 }
 #header-full .secondary-color {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
-  color: #cdff76;
+/*   color : rgb(250,88,0); */
+color : #2980b9;
   font-weight: 300;
 }
 #header-full .lead {
@@ -5276,7 +5277,7 @@ a.feature-icon:hover {
   right: 0;
 }
 .title-logo {
-  background-image: url("/svg/branddonut2d.svg");
+  background-image: url("/svg/donut2d.svg");
   background-repeat: no-repeat;
   background-position: center top;
   font-size: 2.3em;
@@ -5284,7 +5285,7 @@ a.feature-icon:hover {
   font-family: "Muli", "Lato", sans-serif;
   color: #000;
   padding-top: 70px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   text-align: center;
 }
 .title-logo span {

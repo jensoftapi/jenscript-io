@@ -103,7 +103,8 @@ function createDeviceTextLabel(container, width, height) {
 		outlineWidth : 2,
 		textColor : JenScript.RosePalette.LEMONPEEL,
 		nature : 'Device',
-		location :{x : 100, y:150}
+		location :{x : 100, y:150},
+		rotateAngle : 45
 	});
 	labelPlugin.addLabel(label);
 	
