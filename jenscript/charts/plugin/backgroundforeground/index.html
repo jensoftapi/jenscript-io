@@ -54,36 +54,28 @@
             
 <!--             <img src="/assets/img/logo_raw_white.png" alt="" class="aligncenter head-full-logo animated bounceIn animation-delay-5"> -->
             
-          <div class="row" style="padding-top: 20px;">
+            <div class="row" style="padding-top: 20px;">
 				<div  id="view0" class="col-md-4"></div>
 				<div  id="view1" class="col-md-4"></div>
 				<div  id="view2" class="col-md-4"></div>
 			</div>
+			<div class="row" style="padding-top: 20px;">
+				<div  id="view3" class="col-md-4"></div>
+				<div  id="view4" class="col-md-4"></div>
+				<div  id="view5" class="col-md-4"></div>
+			</div>
             
-
             
-<!--             <h2 class="tool-color text-center head-subtitle animated fadeInUp animation-delay-14">jenscript@translate</h2> -->
-<!--             <p class="lead text-center animated fadeInUp animation-delay-14">We bring the revolution to the web design, our principles are experience, knowledge and creativity. Discover JenScript API.</p> -->
             <div class="row header-full-icons text-center">
-                <div class="col-sm-3 animated fadeInDown animation-delay-19">
+               <div class="col-sm-3 animated fadeInDown animation-delay-19">
                     <span class="icon-ar icon-ar-circle icon-ar-turquoise icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-cube"></i></span>
-                    <h3>Translate</h3>
-                    <p class="text-center">Geometric or semantic Translate</p>
+                    <h3>Background/Foreground</h3>
+                    <p class="text-center">Chart view decorators</p>
                 </div>
                 <div class="col-sm-3 animated fadeInDown animation-delay-21">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-play-circle" ></i></span>
-                    <h3>Widgets</h3>
-                    <p class="text-center">UI Bar, Pad and Compass Widgets</p>
-                </div>
-                <div class="col-sm-3 animated fadeInDown animation-delay-22">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-exchange" ></i></span>
-                    <h3>Synchronization</h3>
-                    <p class="text-center">Components synchronization</p>
-                </div>
-                <div class="col-sm-3 animated fadeInDown animation-delay-20">
-                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-wrench" ></i></span>
-                    <h3>Tool</h3>
-                    <p class="text-center">Interaction tool</p>
+                    <span class="icon-ar icon-ar-circle icon-ar-mandarin icon-ar-xl-lg icon-ar-white icon-ar-inverse"><i class="fa fa-info-circle" ></i></span>
+                    <h3>Info</h3>
+                    <p class="text-center">Gradient, Texture and Outline view decorator</p>
                 </div>
             </div>
         </div>
@@ -160,9 +152,17 @@ $.get("/assets/nav-content.html", function(data){
 
 </script>
 
+<script src="view-composition-background.js"></script>
+<script src="view-dual-colors-background.js"></script> 
 <script src="view-dual-texture-color-background.js"></script>
+<script src="view-dual-textures-background.js"></script>
 <script src="view-gloss-foreground.js"></script> 
 <script src="view-gradient-background.js"></script>
+<script src="view-no-background.js"></script>
+<script src="view-outline.js"></script> 
+<script src="view-parts-size.js"></script>
+<script src="view-text-foreground.js"></script>
+<script src="view-texture-background.js"></script> 
 <script src="index.js"></script>
    <script type="text/javascript">
 	$(window).resize(function() {
@@ -171,17 +171,20 @@ $.get("/assets/nav-content.html", function(data){
 	function init(){
 		var w = $("#view0").width();
 		var h = 200;
+		
 		createViewGlossForeground('view0',w,h);
-		//createViewCompositionBackgrounds('view1',w,h);
-//		createViewDualColorsBackground('view2',w,h);
  		createViewDualTextureColorBackground('view1',w,h);
-// 		createViewDualTexturesBackground('view4',w,h);
  		createViewGradientBackground('view2',w,h);
+ 		
+ 		createViewDualTexturesBackground('view3',w,h);
+		createViewCompositionBackgrounds('view4',w,h);
+		//createViewDualColorsBackground('view5',w,h);
+		
 // 		createViewNoBackground('view6',w,h);
-// 		createViewOutline('view7',w,h);
+ 		createViewOutline('view5',w,h);
 // 		createViewPartSize('view8',w,h);
 // 		createViewTextForeground('view9',w,h);
-// 		createViewTextureBackground('view10',w,h);
+ //		createViewTextureBackground('view5',w,h);
 	}
 	init();
 </script>
