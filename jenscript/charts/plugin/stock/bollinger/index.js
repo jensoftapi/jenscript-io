@@ -65,9 +65,12 @@ function createViewStockBollingerBand(container, width, height) {
 	});
 	projPrice.registerPlugin(stockPlugin1);
 
-	stockPlugin1.addLayer(new JenScript.CandleStickLayer({
+	
+	var candles = new JenScript.CandleStickLayer({
 		lowHighColor : JenScript.RosePalette.COALBLACK
-	}));
+	});
+	
+	stockPlugin1.addLayer(candles);
 	stockPlugin1.addLayer(new JenScript.StockBollingerLayer({
 		bandColor:'rgb(236, 240, 241)',
 		bandOpacity: 0.1,
@@ -132,6 +135,47 @@ function createViewStockBollingerBand(container, width, height) {
 	var __loader = new StockLoader(projPrice,[2013,2014,2015],function(year,stocks){
 		stockPlugin1.setStocks(stocks);
 	});
+	
+	
+	//listener
+	candles.addStockListener('enter',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('stock enter');
+	},'this demo');
+	
+	//listener
+	candles.addStockListener('exit',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('stock exit');
+	},'this demo');
+	
+	//listener
+	candles.addStockListener('move',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('stock move');
+	},'this demo');
+	
+	//listener
+	candles.addStockListener('press',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('stock press');
+	},'this demo');
+	
+	//listener
+	candles.addStockListener('release',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('stock release');
+	},'this demo');
 	
 	
 }
