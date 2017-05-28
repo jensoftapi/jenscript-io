@@ -170,13 +170,78 @@ function createView1Proj1() {
 	});
 	proj1.registerPlugin(stockPluginView1Proj1);
 	
-	stockPluginView1Proj1.addLayer(new JenScript.CandleStickLayer({
+	
+	candles = new JenScript.CandleStickLayer({
 		lowHighColor : 'rgba(250,250,250,0.5)'
-	}));
+	})
+	
+	stockPluginView1Proj1.addLayer(candles);
 	
 	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
 	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
 	
+	
+	
+	var tooltip = new JenScript.Tooltip({
+		text : "",
+		fontSize : 12,
+		textColor : 'white',
+		width : 120,
+		outlineColor : 'white',
+		fillColor : 'black',
+		arrowAnchor : { x : 250, y : 160},
+		visible :false,
+		position : 'bottom',
+	});
+	
+	var tooltipPlugin = new JenScript.TooltipPlugin({tooltip : tooltip});
+	
+	proj1.registerPlugin(tooltipPlugin);
+	var updateText = function( point, stock) {
+		tooltip.setVisible(true);
+		if(stock.isBearish()){tooltip.setFillColor('rgba(231, 76, 60,0.8)')};
+		if(stock.isBullish()){tooltip.setFillColor('rgba(52, 152, 219,0.8)')};
+		tooltip.setText(stock.fixing.toDateString()+", Dollar(USD) low-high open:"+stock.open+"$, close:"+stock.close+'$, Volume:'+stock.volume);
+		tooltip.setArrowAnchor({ x : point.x, y : point.y});
+		tooltipPlugin.repaintPlugin();
+	};
+	
+	var removeText = function() {
+		tooltip.setVisible(false);
+		tooltipPlugin.repaintPlugin();
+	};
+	
+	var lock = false;
+	
+	candles.addStockListener('enter',function(event){
+		//updateText("enter "+event.stock.getFixing(),event.device);
+		//console.log('stock enter '+event);
+		updateText(event.device, event.stock);
+		lock = true;
+		setTimeout(function(){lock=false;},100);
+	},'this demo');
+	
+	candles.addStockListener('exit',function(event){
+		//updateText("exit "+event.stock.getFixing(),event.device);
+		setTimeout(function(){removeText();},100);
+		
+		//console.log('stock exit');
+	},'this demo');
+	
+	candles.addStockListener('move',function(event){
+		//console.log('stock move');
+		setTimeout(function(){updateText(event.device, event.stock);},50);
+		
+	},'this demo');
+	
+	candles.addStockListener('press',function(event){
+		updateText(event.device, event.stock);
+	},'this demo');
+	
+	candles.addStockListener('release',function(event){
+		removeText();
+	},'this demo');
+
 }
 
 function createView1Proj2() {
@@ -193,7 +258,6 @@ function createView1Proj2() {
 	var outline12 = new JenScript.DeviceOutlinePlugin({color : '#ffb6c1', strokeOpacity : 0.8, strokeWidth : 1});
 	proj12.registerPlugin(outline12);
 	
-	//LEGEND PLUGIN
 	var ohlcLegend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -206,7 +270,6 @@ function createView1Proj2() {
 	});
 	proj12.registerPlugin(ohlcLegend);
 
-	//STOCK PLUGIN
 	stockPluginView1Proj2 = new JenScript.StockPlugin({
 		bearishColor : JenScript.RosePalette.MELON,
 		bullishColor : JenScript.RosePalette.TURQUOISE,
@@ -360,7 +423,6 @@ function createView2Proj2() {
 	});
 	view2.registerProjection(proj22);
 	
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'rgba(230, 126, 34,0.6)'});
 	proj22.registerPlugin(outline);
 	
@@ -384,9 +446,7 @@ function createView2Proj2() {
 		bearishColor : 'rgba(231, 76, 60,0.8)',
 		bullishColor : 'rgba(52, 152, 219,0.8)',
 	}));
-	//
-	//rgba(255,130,0,0.7)
-//rgba(255,218,227)
+
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -539,6 +599,9 @@ function createTranslate(){
 	});
 	
 	
+	
+	
+	
 	toolbarWidget.addButton({
 							icon : 'lnr-pointer-up',
 							toggle : true,
@@ -554,6 +617,15 @@ function createTranslate(){
 									translateView1Proj1.select();
 								}
 							},
+						    tooltip : new JenScript.Tooltip({
+								text : "Lock and Unlock Translate",
+								fontSize : 10,
+								textColor : 'white',
+								width : 200,
+								//outlineColor : 'white',
+								fillColor : 'rgba(255,130,0,0.5)',
+								position : 'top',
+							})
 							
 	});
 	toolbarWidget.addButton({
@@ -566,7 +638,17 @@ function createTranslate(){
 								}else if(proj13.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj1)
 								}
-							}
+							},
+							tooltip : new JenScript.Tooltip({
+									text : "Switch projections layers",
+									fontSize : 10,
+									textColor : 'white',
+									width : 200,
+									//outlineColor : 'white',
+									fillColor : 'rgba(173,255,47,0.5)',
+									position : 'top',
+									lengthRatio : 0.8
+							})
 							
 	});
 	toolbarWidget.addButton({
@@ -583,7 +665,17 @@ function createTranslate(){
 								else{
 									boxView1Proj1.select();
 								}
-							}
+							},
+							tooltip : new JenScript.Tooltip({
+								text : "Lock/Unlock Zoom Box",
+								fontSize : 10,
+								textColor : 'white',
+								width : 200,
+								//outlineColor : 'white',
+								fillColor : 'rgba(0,229,238,0.5)',
+								position : 'top',
+								lengthRatio : 0.2
+							})
 
 	});
 	toolbarWidget.addButton({
@@ -600,7 +692,17 @@ function createTranslate(){
 								else{
 									lensView1Proj1.select();
 								}
-							}
+							},
+							tooltip : new JenScript.Tooltip({
+									text : "Lock/Unlock Zoom Lens",
+									fontSize : 10,
+									textColor : 'white',
+									width : 200,
+									//outlineColor : 'white',
+									fillColor : 'rgba(0,250,154,0.5)',
+									position : 'top',
+									lengthRatio : 0.6
+							})
 
 	});
 	
@@ -616,7 +718,17 @@ function createTranslate(){
 								  window.location.href = reader.result;
 								}
 								reader.readAsDataURL(formBlob);
-							}
+							},
+							 tooltip : new JenScript.Tooltip({
+									text : "Capture view as SVG file",
+									fontSize : 10,
+									textColor : 'white',
+									width : 200,
+									//outlineColor : 'white',
+									fillColor : 'rgba(173,255,47,0.5)',
+									position : 'top',
+									lengthRatio : 0.8
+								})
 	});
 	
 	translateView1Proj1.registerWidget(toolbarWidget);
