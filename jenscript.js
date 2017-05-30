@@ -4,7 +4,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-05-29
+// build: 2017-05-30
 // All Rights reserved
 
 /**
@@ -6679,7 +6679,6 @@ function stringInputToObject(color) {
 		},
 		 
 		p2u : function(p){
-			 //??
 			return this.getProjection().pixelToUser(new JenScript.Point2D((p.x-this.tx)/this.sx,(p.y-this.ty)/this.sy));
 			//return this.getProjection().pixelToUser(new JenScript.Point2D(p.x/plugin.sx-plugin.tx,p.y/plugin.sy-plugin.ty));
 		},
@@ -6827,7 +6826,6 @@ function stringInputToObject(color) {
 		},
 		
 		onProjectionRegister: function(){
-			//console.log("abstract plugin onProjectionRegister "+this.name);
 		},
 		
 		/**
@@ -6898,9 +6896,7 @@ function stringInputToObject(color) {
 		 * @deprecated
 		 */
 		onClick : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on click callback ",x,y);
 		},
-
 		
 		/**
 		 * move callback
@@ -6910,7 +6906,6 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onMove : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on move callback");
 		},
 
 		/**
@@ -6921,7 +6916,6 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onPress : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on press callback");
 		},
 
 		/**
@@ -6932,9 +6926,7 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onRelease : function(evt,part,x, y) {
-			 //console.info(this.name," abstract plugin on release callback");
 		},
-
 		
 		/**
 		 * enter part callback
@@ -6944,7 +6936,6 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onEnter : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on enter callback");
 		},
 
 		/**
@@ -6955,7 +6946,6 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onExit : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on exit callback");
 		},
 		
 		/**
@@ -6966,9 +6956,7 @@ function stringInputToObject(color) {
 		 * @param {Number} y pixel coordinate
 		 */
 		onWheel : function(evt,part,x, y) {
-			// console.info(this.name," abstract plugin on exit callback");
 		},
-		
 		
 		/**
 		 * return true if this plugin hosts widgets, false otherwise
@@ -6988,7 +6976,6 @@ function stringInputToObject(color) {
 			}
 			return false;
 		},
-		
 		
 	    /**
 	     * register widget

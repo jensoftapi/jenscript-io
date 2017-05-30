@@ -88,7 +88,7 @@ function createView(container, width, height) {
 		ray.setRayNature('XRay');
 		ray.setRayBase(0);
 		ray.setAscentValue(rayValue());
-		ray.setThemeColor('purple');
+		ray.setThemeColor('#2980b9');
 		ray.setRay(i);
 		rayPlugin.addRay(ray);
 	}
@@ -101,7 +101,7 @@ function createView(container, width, height) {
 		ray.setRayNature('XRay');
 		ray.setRayBase(0);
 		ray.setDescentValue(rayValue());
-		ray.setThemeColor('orange');
+		ray.setThemeColor('#e67e22');
 		ray.setRay(i);
 		rayPlugin.addRay(ray);
 	}
@@ -115,7 +115,16 @@ function createView(container, width, height) {
 	var zoomwheel = new JenScript.ZoomWheelPlugin({mode:'wx'});
 	proj.registerPlugin(zoomwheel);
 	
-	var translate = new JenScript.TranslatePlugin({mode : 'tx'});
+	var translate = new JenScript.TranslatePlugin({
+		mode : 'txy',
+		slaves : [
+		          {plugin : rayPlugin , direction : 'xy'},
+		          {plugin : southMetrics , direction : 'x'},
+		          {plugin : westMetrics , direction : 'y'},
+		          
+		          ]
+	
+	});
 	proj.registerPlugin(translate);
 	translate.select();	
 }

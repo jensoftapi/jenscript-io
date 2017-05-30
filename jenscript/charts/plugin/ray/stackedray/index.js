@@ -14,7 +14,7 @@ function createView(container, width, height) {
 		name : "proj1",
 		minX : -300,
 		maxX : 300,
-		minY : -80,
+		minY : 0,
 		maxY : 420
 	});
 	view.registerProjection(proj);
@@ -34,21 +34,21 @@ function createView(container, width, height) {
 
 	var minor = {
 		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.PINGPIZZAZZ,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 1
 	};
 	var median = {
 		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#e67e22',
 		tickMarkerStroke : 0.6,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#e67e22',
 		tickTextFontSize : 8
 	};
 	var major = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.CALYPSOBLUE,
+		tickMarkerColor : '#27ae60',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.CALYPSOBLUE,
+		tickTextColor : '#27ae60',
 		tickTextFontSize : 10
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
@@ -87,11 +87,7 @@ function createView(container, width, height) {
 		return random(10,30);
 	}
 	
-	 var BUTTER3 = 'rgb(199, 174, 47)';
-	 var CHAMELEON3 = 'rgb(121, 163, 39)';
-	 var ORANGE3 = 'rgb(191, 118, 41)';
-
-	 for (var i = -250; i <= 250; i = i + 4) {
+	 for (var i = -350; i <= 350; i = i + 4) {
 
 	 
 		var sray = new JenScript.StackedRay({});
@@ -104,9 +100,9 @@ function createView(container, width, height) {
 		sray.setRay(i);
 		sray.setThemeColor('white');
 		//stack value is defined as percent of the whole
-		var rs11 = new JenScript.RayStack({name : "ray "+i+" stack 1", themeColor: BUTTER3,stackValue: 20});
-		var rs12 = new JenScript.RayStack({name : "ray "+i+" stack 2", themeColor:CHAMELEON3,stackValue: 30}); 
-		var rs13 = new JenScript.RayStack({name: "ray "+i+" stack 3",themeColor: ORANGE3,stackValue:50});
+		var rs11 = new JenScript.RayStack({name : "ray "+i+" stack 1", themeColor: '#e67e22',stackValue: 20});
+		var rs12 = new JenScript.RayStack({name : "ray "+i+" stack 2", themeColor:'#27ae60',stackValue: 30}); 
+		var rs13 = new JenScript.RayStack({name: "ray "+i+" stack 3",themeColor: '#2980b9',stackValue:50});
 
 		sray.addStack(rs11);
 		sray.addStack(rs12);
@@ -120,6 +116,20 @@ function createView(container, width, height) {
 	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.RosePalette.EMERALD});
 	proj.registerPlugin(outline);
+	
+	var translate = new JenScript.TranslatePlugin({
+		mode : 'txy',
+		slaves : [
+		          {plugin : rayPlugin , direction : 'xy'},
+		          {plugin : southMetrics , direction : 'x'},
+		          {plugin : westMetrics , direction : 'y'},
+		          
+		          ]
+	
+	});
+	proj.registerPlugin(translate);
+	
+	translate.select();
 	
 }
 
