@@ -15,6 +15,10 @@ var eastMetrics;
 var southMetrics2;
 var eastMetrics2;
 
+var lensView1Proj1;
+var lensView1Proj2;
+var lensView2Proj1;
+
 var minor = {
 	tickMarkerSize : 2,
 	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
@@ -163,7 +167,6 @@ function createView1Proj1() {
 	});
 	proj1.registerPlugin(dateLegend);
 	
-	//STOCK PLUGIN
 	stockPluginView1Proj1 = new JenScript.StockPlugin({
 		bearishColor : 'rgba(231, 76, 60,0.8)',
 		bullishColor : 'rgba(52, 152, 219,0.8)',
@@ -201,7 +204,7 @@ function createView1Proj1() {
 		tooltip.setVisible(true);
 		if(stock.isBearish()){tooltip.setFillColor('rgba(231, 76, 60,0.8)')};
 		if(stock.isBullish()){tooltip.setFillColor('rgba(52, 152, 219,0.8)')};
-		tooltip.setText(stock.fixing.toDateString()+", Dollar(USD) low-high open:"+stock.open+"$, close:"+stock.close+'$, Volume:'+stock.volume);
+		tooltip.setText(stock.fixing.toDateString()+", Dollar(USD) open:"+stock.open+"$, close:"+stock.close+'$, Volume:'+stock.volume);
 		tooltip.setArrowAnchor({ x : point.x, y : point.y});
 		tooltipPlugin.repaintPlugin();
 	};
@@ -214,24 +217,17 @@ function createView1Proj1() {
 	var lock = false;
 	
 	candles.addStockListener('enter',function(event){
-		//updateText("enter "+event.stock.getFixing(),event.device);
-		//console.log('stock enter '+event);
 		updateText(event.device, event.stock);
 		lock = true;
 		setTimeout(function(){lock=false;},100);
 	},'this demo');
 	
 	candles.addStockListener('exit',function(event){
-		//updateText("exit "+event.stock.getFixing(),event.device);
-		setTimeout(function(){removeText();},100);
-		
-		//console.log('stock exit');
+		removeText()
 	},'this demo');
 	
 	candles.addStockListener('move',function(event){
-		//console.log('stock move');
-		setTimeout(function(){updateText(event.device, event.stock);},50);
-		
+		setTimeout(function(){updateText(event.device, event.stock);},20);
 	},'this demo');
 	
 	candles.addStockListener('press',function(event){
@@ -241,7 +237,6 @@ function createView1Proj1() {
 	candles.addStockListener('release',function(event){
 		removeText();
 	},'this demo');
-
 }
 
 function createView1Proj2() {
@@ -464,7 +459,6 @@ function createView2Proj2() {
 
 function create(container1,container2, width, height) {
 
-	//view
 	view1 = new JenScript.View({
 		name : container1,
 		width : width,
@@ -473,14 +467,11 @@ function create(container1,container2, width, height) {
 		west : 50,
 		south : 60,
 	});
-	
 
 	createView1Proj1();
 	createView1Proj2();
 	createView1Proj3();
 	
-
-	//view 2
 	view2 = new JenScript.View({
 		name : container2,
 		width : width,
@@ -598,10 +589,6 @@ function createTranslate(){
 			mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
 	});
 	
-	
-	
-	
-	
 	toolbarWidget.addButton({
 							icon : 'lnr-pointer-up',
 							toggle : true,
@@ -706,7 +693,6 @@ function createTranslate(){
 
 	});
 	
-	
 	toolbarWidget.addButton({
 							icon : 'lnr-camera', 
 							press : function(){
@@ -732,9 +718,6 @@ function createTranslate(){
 	});
 	
 	translateView1Proj1.registerWidget(toolbarWidget);
-	
-	
-	//view 2
 	
 	translateView2Proj1 = new JenScript.TranslatePlugin({
 		mode:'tx',
@@ -762,11 +745,7 @@ function createTranslate(){
 	var synchronizer = new JenScript.TranslateSynchronizer({
 		translates : [ translateView1Proj1,translateView1Proj2,translateView1Proj3, translateView2Proj1,translateView2Proj2 ]
 	});
-	
-	
-	
 }
-
 
 
 function createZoomBox(){
@@ -804,15 +783,12 @@ function createZoomBox(){
 	});
 	proj13.registerPlugin(boxView1Proj3);
 	
-	
-	//view 2
     boxView2Proj1 = new JenScript.ZoomBoxPlugin({
 		mode : 'x',
 		name : 'macdBox',
 		slaves : [stockPluginView2Proj1]
 	});
 	proj2.registerPlugin(boxView2Proj1);
-	
 	
 	boxView2Proj2 = new JenScript.ZoomBoxPlugin({
 			mode : 'x',
@@ -827,9 +803,7 @@ function createZoomBox(){
 	
 }
 
-var lensView1Proj1;
-var lensView1Proj2;
-var lensView2Proj1;
+
 function createZoomLens(){
 	lensView1Proj1 = new JenScript.ZoomLensPlugin({name : 'mainLens'});
 	proj1.registerPlugin(lensView1Proj1);
@@ -855,7 +829,7 @@ function createZoomLens(){
 		buttonRolloverFillColor : 'rgba(0,250,154,1)',
 		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	});
-	//0,250,154
+
 	var ly = new JenScript.LensY({
 		width : 16,
 		height :  60,
