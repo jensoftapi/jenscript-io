@@ -38,7 +38,7 @@
 
 <h1>Donut3D Chart <span style="color : rgb(22, 125, 218);">Animation</span></h1> 
 
-<small>Sébastien Janaud - June 1, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - June 1, 2015 - updated june 2017 / <a href="../../">JenScript</a>
 </small>
 
 
@@ -88,25 +88,9 @@ function create(name,w,h) {
 		south :20,
 	});
 	
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
-	});
-	
-	//or 
 	var proj = new JenScript.IdentityProjection();
 	
-	//or JenScript.IdentityProjection
 	view.registerProjection(proj);
-
-	var outline = new JenScript.DeviceOutlinePlugin({
-		color : 'rgb(220,220,220)'
-	});
-
-	//proj.registerPlugin(outline);
 
 	var donut3DPlugin = new JenScript.Donut3DPlugin();
 	proj.registerPlugin(donut3DPlugin);
@@ -120,30 +104,24 @@ function create(name,w,h) {
 		name : "s1",
 		value : 45,
 		themeColor : 'rgb(250, 250, 250)',
-		divergence : 200
 	});
 	var s2 = new JenScript.Donut3DSlice({
 		name : "s2",
 		value : 5,
 		themeColor : 'rgb(244, 145, 26)',
-		divergence : 200
 	});
 	var s3 = new JenScript.Donut3DSlice({
 		name : "s3",
 		value : 30,
 		themeColor : 'rgb(78, 148, 44)',
-		divergence : 200
 	});
 	var s4 = new JenScript.Donut3DSlice({
 		name : "s4",
 		value : 5,
 		themeColor : 'rgb(208, 58, 47)',
-		divergence : 200
 	});
 
 	donut.addSlices([s1,s2,s3,s4]);
-
-
 	
 	var s1Label = new JenScript.Donut3DBorderLabel({
 		text : "JenScript",
@@ -151,7 +129,7 @@ function create(name,w,h) {
 		outlineColor : 'rgb(180,180,180)',
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.addSliceLabel(s1Label);
 
@@ -161,7 +139,7 @@ function create(name,w,h) {
 		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),20),
+		textColor :s2.getThemeColor(),
 	});
 	s2.addSliceLabel(s2Label);
 
@@ -171,17 +149,17 @@ function create(name,w,h) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),20),
+		textColor :s3.getThemeColor(),
 	});
 	s3.addSliceLabel(s3Label);
 	
 	var s4Label = new JenScript.Donut3DBorderLabel({
 		text : "JavaScript",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s4.getThemeColor(),20),
+		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),20),
+		textColor :s4.getThemeColor(),
 	});
 	s4.addSliceLabel(s4Label);
 
@@ -190,13 +168,11 @@ function create(name,w,h) {
 
 	tx1.select();
 	
-	
-		// 2 times 360 in 2 seconds with 20 repaint frames
 	setTimeout(function() {
 		donut.shift(2 * 360, 2000, 20);
 	}, 1000);
 	setTimeout(function() {
-		donut.shift(-140, 500, 8);
+		donut.shift(-200, 500, 8);
 	}, 4000);
 	
 

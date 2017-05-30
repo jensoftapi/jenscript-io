@@ -8,9 +8,6 @@
  */
 function createView(container1,container2, width, height) {
 
-	
-
-	//view 1
 	var view = new JenScript.View({
 		name : container1,
 		width : width,

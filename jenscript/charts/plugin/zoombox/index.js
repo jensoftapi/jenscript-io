@@ -202,7 +202,7 @@ function createView2Proj1() {
 	view2.registerProjection(proj2);
 	
 	//device outline
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#1abc9c', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
 
@@ -324,12 +324,13 @@ function createViewStockMACD(container1,container2, width, height) {
 	boxView1Proj1.registerWidget(new JenScript.ZoomBoxWidget({
 		width : 60,
 		height :  16,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonStrokeWidth : 1,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		outlineStrokeColor : 'rgba(0,229,238,1)',
+		outlineFillColor : 'rgba(0,229,238,0.3)',
+		outlineStrokeWidth : 0.8,
+		buttonFillColor :  'rgba(0,229,238,0.6)',
+		buttonRolloverDrawColor :  'white',
+		buttonStrokeWidth : 0.8,
+		buttonRolloverFillColor : 'rgba(0,229,238,1)',
 		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
 	}));
 	

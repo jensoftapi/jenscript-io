@@ -1,28 +1,25 @@
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
-	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
-	tickTextFontSize : 10
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
+
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 	
 /**
  * Create view with translate
@@ -95,7 +92,7 @@ function createView(container, width, height) {
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED
+		themeColor : '#c0392b'
 	});
 	var s3 = new JenScript.PieSlice({
 		name : "s3",
@@ -105,12 +102,12 @@ function createView(container, width, height) {
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE,
+		themeColor : '#2980b9',
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
 		value : 5,
-		themeColor : JenScript.RosePalette.INDIGO
+		themeColor : '#16a085'
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);
@@ -139,23 +136,21 @@ function createView(container, width, height) {
 	functionPlugin.addFunction(curve);
 	
 
-	var choco = JenScript.RosePalette.CHOCOLATE;
 	var translate = new JenScript.TranslatePlugin({mode : 'y'});
 	proj.registerPlugin(translate);
 	
 	var percents = ['0%','50%','100%'];
-	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+	var colors = ['34495e','black','34495e'];
 	var opacity  = [0.8,0.8,0.8];
 	var ty = new JenScript.TranslateY({
 		width : 16,
 		height :  60,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeColor : '#16a085',
 		outlineStrokeWidth : 2,
 		shader : {percents : percents, colors : colors,opacity:opacity},
-		//outlineFillColor : 'white',
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		buttonFillColor :  '#16a085',
 		buttonStrokeWidth : 1,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		buttonRolloverFillColor : '#3498db',
 	});
 	translate.registerWidget(ty);
 

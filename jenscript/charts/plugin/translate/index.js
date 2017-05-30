@@ -131,8 +131,8 @@ function createView1Proj1() {
 	
 	//STOCK PLUGIN
 	stockPluginView1Proj1 = new JenScript.StockPlugin({
-		bearishColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30),
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj1.registerPlugin(stockPluginView1Proj1);
 	
@@ -200,7 +200,7 @@ function createView2Proj1() {
 	view2.registerProjection(proj2);
 	
 	//device outline
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#3498db', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
 
@@ -307,41 +307,53 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	proj12.registerPlugin(translateView1Proj2);
 	
+//	translateView1Proj1.registerWidget(new JenScript.TranslateCompassWidget({
+//		ringFillColor : 'orange',
+//		ringFillOpacity : 0.7,
+//	}));
+//	
+//	var choco = JenScript.RosePalette.CHOCOLATE;
+//	var percents = ['0%','50%','100%'];
+//	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+//	var opacity  = [0.8,0.8,0.8];
+	
 	translateView1Proj1.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : 'orange',
+		ringFillColor : 'rgba(255,130,0,0.7)',
 		ringFillOpacity : 0.7,
+		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	}));
 	
-	var choco = JenScript.RosePalette.CHOCOLATE;
-	var percents = ['0%','50%','100%'];
-	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
-	var opacity  = [0.8,0.8,0.8];
 	
 	var txWidget = new JenScript.TranslateX({
 		width : 60,
 		height :  16,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonStrokeWidth : 1,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'selected'}}
+		yIndex : 0,
+		xIndex : 3,
+		outlineStrokeColor : 'rgba(255,130,0,0.8)',
+		outlineFillColor : 'rgba(255,130,0,0.2)',
+		outlineStrokeWidth : 0.8,
+		buttonFillColor :  'rgba(255,130,0,0.5)',
+		buttonStrokeWidth : 0.8,
+		buttonRolloverFillColor : 'rgba(255,130,0,1)',
+		buttonRolloverDrawColor :  'white',
+		sample  : {step : 20, sleep : 10,fraction : 2}, // pixel/3 with 40 step, each step execute in 10 millisecond
+		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	});
 	
 	
 	var tyWidget = new JenScript.TranslateY({
 		width : 16,
 		height :  60,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonStrokeWidth : 1,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'selected'}}
+		outlineStrokeColor : 'rgba(255,130,0,0.8)',
+		outlineFillColor : 'rgba(255,130,0,0.2)',
+		outlineStrokeWidth : 0.8,
+		buttonFillColor :  'rgba(255,130,0,0.5)',
+		buttonStrokeWidth : 0.8,
+		buttonRolloverFillColor : 'rgba(255,130,0,1)',
+		buttonRolloverDrawColor :  'white',
+		sample  : {step : 20, sleep : 10,fraction : 2}, // pixel/3 with 40 step, each step execute in 10 millisecond
+		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	});
-	
 	
 	translateView1Proj1.registerWidget(tyWidget);
 	translateView1Proj1.registerWidget(txWidget);
@@ -385,249 +397,17 @@ function createViewStockMACD(container1,container2, width, height) {
 		xIndex :0,
 	}));
 	proj2.registerPlugin(tx2);
-//	var txWidget2 = new JenScript.TranslateX({
-//		width : 60,
-//		height :  16,
-//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-//		outlineStrokeWidth : 2,
-//		shader : {percents : percents, colors : colors,opacity:opacity},
-//		//outlineFillColor : 'white',
-//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonStrokeWidth : 1,
-//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
-//	});
-//	tx2.registerWidget(txWidget2);
-//	
-//	var tyWidget2 = new JenScript.TranslateY({
-//		width : 16,
-//		height :  60,
-//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-//		outlineStrokeWidth : 2,
-//		shader : {percents : percents, colors : colors,opacity:opacity},
-//		//outlineFillColor : 'white',
-//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonStrokeWidth : 1,
-//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
-//	});
-	
-	
-	
-	//tx2.registerWidget(tyWidget2);
+
 	
 	
 	var synchronizer = new JenScript.TranslateSynchronizer({
 		translates : [ translateView1Proj1,translateView1Proj2, tx2 ]
 	});
 	
-//	
-//	var zoombox = new JenScript.ZoomBoxPlugin({
-//		mode : 'bx',
-//		zoomBoxDrawColor : 'cyan',
-//		zoomBoxFillColor : 'pink'
-//	});
-//	proj1.registerPlugin(zoombox);
-//	//zoombox.select();
-//	
-//	var lens = new JenScript.ZoomLensPlugin();
-//	proj1.registerPlugin(lens);
-//
-//	var percents = ['0%','50%','100%'];
-//	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
-//	var opacity  = [0.8,0.8,0.8];
-//	
-//	var lx = new JenScript.LensX({
-//		width : 60,
-//		height :  16,
-//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-//		outlineStrokeWidth : 2,
-//		shader : {percents : percents, colors : colors,opacity:opacity},
-//		//outlineFillColor : 'white',
-//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonStrokeWidth : 2,
-//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//	});
-//	lens.registerWidget(lx);
-//	
-//	var ly = new JenScript.LensY({
-//		width : 16,
-//		height :  60,
-//		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-//		outlineStrokeWidth : 2,
-//		shader : {percents : percents, colors : colors,opacity:opacity},
-//		//outlineFillColor : 'white',
-//		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-//		buttonStrokeWidth : 2,
-//		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-//	});
-//	lens.registerWidget(ly);
-	
 
-	//createPie(view)
-	//translate.select();
 	
 	view1.setActiveProjection(proj1);
 	translateView1Proj1.select();
-	//lens.select();
 	
-//	var buttonGroup = new JenScript.ButtonPlugin();
-//	proj1.registerPlugin(buttonGroup);
-//	var button1 = new JenScript.ButtonWidget({
-//		width : 50,
-//		height : 30,
-//		radius : 0,
-//		inset : 8,
-//		text : 'Lock',
-//		textColor : 'white',
-//		buttonDrawColor : 'white',
-//		buttonRolloverDrawColor : 'yellow',
-//		buttonFillColor : 'black',
-//		buttonRolloverFillColor : 'green',
-//		buttonFillColorOpacity : 0.5,
-//		buttonDrawColorOpacity : 1,
-//		xIndex : 6,
-//		onPress : function(){
-//			if(!lens.isLockSelected()){
-//				lens.select();
-//				return;
-//			}	
-//			if(!tx1.isLockSelected()){
-//				tx1.select();
-//				return;
-//			}
-//				
-//		}
-//	});
-//	buttonGroup.registerWidget(button1);
-	//tx1.select();
 }
 
-function createPie(view){
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -3,
-		maxY : 3,
-		paintMode : 'ACTIVE'
-		
-	});
-	view.registerProjection(proj);
-
-
-	var piePlugin = new JenScript.PiePlugin();
-	proj.registerPlugin(piePlugin);
-
-	var pie = new JenScript.Pie({
-		radius : 80, 
-		startAngleDegree : 30,
-		opacity: 1,
-		y : -1 
-	});
-	piePlugin.addPie(pie);
-
-	pie.paint = false; //paint one time plugin by calling repainPlugin at end of block code section
-	
-	var fill = new JenScript.PieDefaultFill();
-	pie.setFill(fill);
-
-	var fx0 = new JenScript.PieLinearEffect();
-	pie.addEffect(fx0);
-	//var fxl = new JenScript.PieReflectionEffect();
-	//pie.addEffect(fxl);
-	
-	var s1 = new JenScript.PieSlice({
-		name : "s1",
-		value : 45,
-		themeColor : 'rgba(240, 240, 240, 0.9)',
-	});
-	var s2 = new JenScript.PieSlice({
-		name : "s2",
-		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED,
-	});
-	var s3 = new JenScript.PieSlice({
-		name : "s3",
-		value : 30,
-		opacity : 1,
-		themeColor : 'rgba(78,148,44,1)',
-	});
-	var s4 = new JenScript.PieSlice({
-		name : "s4",
-		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE,
-		divergence : 20,
-		
-	});
-	var s5 = new JenScript.PieSlice({
-		name : "s5",
-		value : 5,
-		themeColor : JenScript.RosePalette.INDIGO,
-	});
-
-	pie.addSlices([s1,s2,s3,s4,s5]);
-	
-
-	var s1Label = new JenScript.PieRadialLabel({
-		text : "Silver",
-		fillColor:'black',
-		fontSize : 11,
-		outlineColor : s1.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
-	});
-	s1.setSliceLabel(s1Label);
-
-	var s2Label = new JenScript.PieRadialLabel({
-		text : "Platinium",
-		fillColor:'black',
-		fontSize : 11,
-		outlineColor : JenScript.Color.lighten(s2.getThemeColor(),20),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),40),
-	});
-	s2.setSliceLabel(s2Label);
-
-	var s3Label = new JenScript.PieRadialLabel({
-		text : "Rhodium",
-		fillColor:'black',
-		fontSize : 11,
-		outlineColor : s3.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),30),
-		
-	});
-	s3.setSliceLabel(s3Label);
-
-	var s4Label = new JenScript.PieRadialLabel({
-		text : "Chrome",
-		fillColor:'black',
-		fontSize : 11,
-		outlineColor : s4.getThemeColor(),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),30),
-	});
-	s4.setSliceLabel(s4Label);
-
-	var s5Label = new JenScript.PieRadialLabel({
-		text : "Uranium",
-		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
-		cornerRadius : 8,
-		outlineWidth : 2,
-		fontSize : 11,
-		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
-	});
-	s5.setSliceLabel(s5Label);
-
-	piePlugin.repaintPlugin();
-}

@@ -1,29 +1,25 @@
 
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
-	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
-	tickTextFontSize : 10
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 	
 function createMetricsView(container, width, height) {
 	
@@ -49,12 +45,8 @@ function createMetricsView(container, width, height) {
 	});
 	view.registerProjection(proj);
 	
-	
-
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#8e44ad'});
 	proj.registerPlugin(outline);
-
 
 	var flowSouthMetrics = new JenScript.AxisMetricsFlow({
 		flowStart : -1200,
@@ -77,9 +69,7 @@ function createMetricsView(container, width, height) {
 		major:major
 	});
 	proj.registerPlugin(flowWestMetrics);
-	
 
-	//translate
 	translate1 = new JenScript.TranslatePlugin();
 	proj.registerPlugin(translate1);
 	var txw = new JenScript.TranslateX({
@@ -87,22 +77,16 @@ function createMetricsView(container, width, height) {
 			width : 150,
 			height : 22,
 			outlineStrokeColor : 'rgba(0,0,0,0)',
-			//outlineFillColor: 'gray',
 			sample  : {step : 10, sleep : 5,fraction : 20},
-			
 			buttonFillColor:'black',
-			buttonRolloverFillColor:JenScript.Color.lighten(emerald,40),
-			
+			buttonRolloverFillColor:'#27ae60',
 			buttonDrawColor:'white',
-			buttonRolloverDrawColor:JenScript.Color.lighten(emerald,20)
+			buttonRolloverDrawColor:'#27ae60'
 		}
 	);
 	
 	translate1.registerWidget(txw);
 	translate1.select();
-
-	
-	
 
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
@@ -114,9 +98,4 @@ function createMetricsView(container, width, height) {
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
-	
-	
 }
-
-
-

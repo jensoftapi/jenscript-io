@@ -47,11 +47,11 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 			tickTextFontSize : 10
 		};
 		var major = {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
-			tickTextFontSize : 12
+				tickMarkerSize : 8,
+				tickMarkerColor : 'orange',
+				tickMarkerStroke : 3,
+				tickTextColor : 'orange',
+				tickTextFontSize : 12
 		};
 		
 		var southMetrics = new JenScript.AxisMetricsModeled({

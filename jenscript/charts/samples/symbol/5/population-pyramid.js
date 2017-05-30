@@ -118,6 +118,27 @@ makeEntry(1912, 99, 10962, 1341, 9621);
 
 data.reverse();
 
+var minor = {
+		tickMarkerSize : 2,
+		tickMarkerColor : 'yellow',
+		tickMarkerStroke : 1
+};
+var median = {
+	tickMarkerSize : 4,
+	tickMarkerColor : '#d35400',
+	tickMarkerStroke : 1.2,
+	tickTextColor : '#d35400',
+	tickTextFontSize : 10
+};
+var major = {
+	tickMarkerSize : 8,
+	tickMarkerColor : '#2980b9',
+	tickMarkerStroke : 3,
+	tickTextColor : '#2980b9',
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
+
 function createView(container,width,height){
 	var view = new JenScript.View({
 		name : container,
@@ -159,39 +180,17 @@ function createView(container,width,height){
 	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		}
+		minor:minor,
+		median:median,
+		major:major
 	});
 	proj.registerPlugin(metrics);
-	
 	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Horizontal'
 	});
 	proj.registerPlugin(symbolPlugin);
 	
-	
-	
-	
-	
-	//layer
 	var menLayer = new JenScript.SymbolBarLayer();
 	symbolPlugin.addLayer(menLayer);
 	var womenLayer = new JenScript.SymbolBarLayer();
@@ -240,16 +239,15 @@ function createView(container,width,height){
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//label for listener
 	var labelPlugin = new JenScript.TextLabelPlugin();
 	proj.registerPlugin(labelPlugin);
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);
@@ -262,31 +260,19 @@ function createView(container,width,height){
 		labelPlugin.repaintPlugin();
 	};
 	
-	
-	//listener
-	//event is something like, refer to source
-	//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-	
-	
 	menLayer.addSymbolListener('enter',function(event){
 		updateText('enter',event);
 	},'this demo');
 	
-	//listener
 	menLayer.addSymbolListener('exit',function(event){
 		updateText('exit',event);
 	},'this demo');
-	
 	
 	womenLayer.addSymbolListener('enter',function(event){
 		updateText('enter',event);
 	},'this demo');
 	
-	//listener
 	womenLayer.addSymbolListener('exit',function(event){
 		updateText('exit',event);
 	},'this demo');
-	
-	
-
 }

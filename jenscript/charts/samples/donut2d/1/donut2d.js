@@ -64,7 +64,7 @@ function create(container, width, height) {
 		outlineColor : 'rgb(180,180,180)',
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.setSliceLabel(s1Label);
 
@@ -74,7 +74,7 @@ function create(container, width, height) {
 		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),30),
+		textColor :s2.getThemeColor(),
 	});
 	s2.setSliceLabel(s2Label);
 
@@ -84,7 +84,7 @@ function create(container, width, height) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),30),
+		textColor :s3.getThemeColor(),
 		
 	});
 	s3.setSliceLabel(s3Label);
@@ -95,17 +95,17 @@ function create(container, width, height) {
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),30),
+		textColor :s4.getThemeColor(),
 	});
 	s4.setSliceLabel(s4Label);
 
 	var s5Label = new JenScript.Donut2DRadialLabel({
 		text : "Uranium",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
+		outlineColor : s5.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
+		textColor :s5.getThemeColor()
 	});
 	s5.setSliceLabel(s5Label);
 

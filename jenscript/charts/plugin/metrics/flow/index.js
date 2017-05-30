@@ -52,7 +52,7 @@ function createMetricsView(container, width, height) {
 	
 
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#3498db'});
 	proj.registerPlugin(outline);
 
 

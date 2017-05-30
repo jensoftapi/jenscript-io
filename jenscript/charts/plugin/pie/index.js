@@ -65,7 +65,7 @@ function createPie(container, width, height) {
 		outlineColor : s1.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.setSliceLabel(s1Label);
 
@@ -73,10 +73,10 @@ function createPie(container, width, height) {
 		//Id :'myLabel2',
 		text : "Javascript",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s2.getThemeColor(),20),
+		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),40),
+		textColor :s2.getThemeColor(),
 	});
 	s2.setSliceLabel(s2Label);
 
@@ -87,7 +87,7 @@ function createPie(container, width, height) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),30),
+		textColor :s3.getThemeColor(),
 		
 	});
 	s3.setSliceLabel(s3Label);
@@ -99,7 +99,7 @@ function createPie(container, width, height) {
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),30),
+		textColor :s4.getThemeColor(),
 	});
 	s4.setSliceLabel(s4Label);
 
@@ -107,10 +107,10 @@ function createPie(container, width, height) {
 		//Id :'myLabel5',
 		text : "JenScript",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
+		outlineColor : s5.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
+		textColor :s5.getThemeColor()
 	});
 	s5.setSliceLabel(s5Label);
 	
@@ -164,26 +164,24 @@ function createPie(container, width, height) {
 		
 		if(i === 29){
 			var l = new JenScript.PieBorderLabel({
-				//Id :'myLabel10',
 				text : "JenScript",
-				fillColor:'black',
-				outlineColor : s5.getThemeColor(),
+				fillColor:'rgba(0,0,0,0.3)',
+				outlineColor : '#3498db',
 				cornerRadius : 8,
 				outlineWidth : 2,
-				textColor :JenScript.Color.lighten(s5.getThemeColor(),30),
+				textColor :'white',
 				margin : 80
 			});
 			
 			s5.setSliceLabel(l);
 			
 			var l2 = new JenScript.PieBorderLabel({
-				//Id :'myLabel10',
 				text : "JavaScript",
-				fillColor:'black',
-				outlineColor : s5.getThemeColor(),
+				fillColor:'rgba(0,0,0,0.3)',
+				outlineColor : '#3498db',
 				cornerRadius : 8,
 				outlineWidth : 2,
-				textColor :JenScript.Color.lighten(s5.getThemeColor(),30),
+				textColor :'white',
 				margin : 80
 			});
 			

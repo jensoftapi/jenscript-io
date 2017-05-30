@@ -34,7 +34,7 @@
 
 <h1>Translate Ty Widget</h1> 
 
-<small>Sébastien Janaud - June 3, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - June 3, 2015 - updated june 2017 / <a href="../../">JenScript</a>
 </small>
 
 
@@ -63,23 +63,21 @@
 <p style="padding-top: 40px;">Translate Ty Widget</p>
 <pre><code class="javascript">
 
-var choco = JenScript.RosePalette.CHOCOLATE;
 var translate = new JenScript.TranslatePlugin({mode : 'y'});
 proj.registerPlugin(translate);
 
 var percents = ['0%','50%','100%'];
-var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
+var colors = ['34495e','black','34495e'];
 var opacity  = [0.8,0.8,0.8];
 var ty = new JenScript.TranslateY({
 	width : 16,
 	height :  60,
-	outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+	outlineStrokeColor : '#16a085',
 	outlineStrokeWidth : 2,
 	shader : {percents : percents, colors : colors,opacity:opacity},
-	//outlineFillColor : 'white',
-	buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+	buttonFillColor :  '#16a085',
 	buttonStrokeWidth : 1,
-	buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+	buttonRolloverFillColor : '#3498db',
 });
 translate.registerWidget(ty);
 

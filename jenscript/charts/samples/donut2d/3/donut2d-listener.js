@@ -16,7 +16,6 @@ function createView(container, width, height) {
 		
 	});
 
-
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
 		minX : -1000,
@@ -25,7 +24,6 @@ function createView(container, width, height) {
 		maxY : 1000
 	});
 	view.registerProjection(proj);
-
 
 	var donutPlugin = new JenScript.Donut2DPlugin();
 	proj.registerPlugin(donutPlugin);
@@ -69,17 +67,15 @@ function createView(container, width, height) {
 	donut.addSlice(s4);
 	donut.addSlice(s5);
 	
-	
-	//label for listener
 	var labelPlugin = new JenScript.TextLabelPlugin();
 	proj.registerPlugin(labelPlugin);
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);
@@ -92,14 +88,7 @@ function createView(container, width, height) {
 	};
 	
 	var lock = false;
-	//listener
-	//event is something like, refer to source
-	//event : {slice : slice, x:x,y:y, device :{x:x,y:y}}
-	
 
-	/**
-	 * add Donut listener such as press, release, move, enter, exit
-	 */
 	donutPlugin.addDonutListener('enter', function(event) {
 		updateText('enter',event);
 		lock = true;
@@ -119,7 +108,4 @@ function createView(container, width, height) {
 		if(!lock)
 			updateText('move',event);
 	});
-
-	
-
 }

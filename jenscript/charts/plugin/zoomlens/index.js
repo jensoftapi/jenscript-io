@@ -70,12 +70,9 @@ function createView1Proj1() {
 	});
 	view1.registerProjection(proj1);
 	
-	//OUTLINE PLUGIN
 	var outline = new JenScript.DeviceOutlinePlugin({color : JenScript.RosePalette.MELON, strokeOpacity : 0.8, strokeWidth : 1});
 	proj1.registerPlugin(outline);
 	
-	
-	//METRICS PLUGIN
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
@@ -84,7 +81,6 @@ function createView1Proj1() {
 		major:major
 	});
 	proj1.registerPlugin(southMetrics1);
-	
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
@@ -102,7 +98,6 @@ function createView1Proj1() {
 	});
 	proj1.registerPlugin(eastMetrics);
 	
-	//LEGEND
 	var mme12Legend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -125,21 +120,18 @@ function createView1Proj1() {
 	});
 	proj1.registerPlugin(mme26Legend);
 	
-	
-	//STOCK PLUGIN
 	stockPluginView1Proj1 = new JenScript.StockPlugin({
-		bearishColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30),
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj1.registerPlugin(stockPluginView1Proj1);
 	
 	stockPluginView1Proj1.addLayer(new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.SAFFRON
+		lowHighColor : 'white'
 	}));
 	
 	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
 	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
-	
 }
 
 function createView1Proj2() {
@@ -156,7 +148,6 @@ function createView1Proj2() {
 	var outline12 = new JenScript.DeviceOutlinePlugin({color : '#ffb6c1', strokeOpacity : 0.8, strokeWidth : 1});
 	proj12.registerPlugin(outline12);
 	
-	//LEGEND PLUGIN
 	var ohlcLegend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -169,7 +160,6 @@ function createView1Proj2() {
 	});
 	proj12.registerPlugin(ohlcLegend);
 
-	//STOCK PLUGIN
 	stockPluginView1Proj2 = new JenScript.StockPlugin({
 		bearishColor : JenScript.RosePalette.MELON,
 		bullishColor : JenScript.RosePalette.TURQUOISE,
@@ -180,12 +170,10 @@ function createView1Proj2() {
 		markerColor : 'cyan',
 		markerWidth : 1.5
 	}));
-	
 }
 
 function createView2Proj1() {
 	
-	//ANOTHER PROJ FOR MANAGE MACD IN DIFFERENT PROJECTION
 	 proj2 = new JenScript.TimeXProjection({
 		cornerRadius : 6,
 		name : "proj2",
@@ -196,8 +184,7 @@ function createView2Proj1() {
 	});
 	view2.registerProjection(proj2);
 	
-	//device outline
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#1abc9c', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
 
@@ -280,18 +267,9 @@ function createViewStockMACD(container1,container2, width, height) {
 		south : 60,
 	});
 	
-
 	createView1Proj1();
 	createView1Proj2();
 
-
-	
-	
-	
-	
-	
-
-	//view 2
 	view2 = new JenScript.View({
 		name : container2,
 		width : width,
@@ -303,15 +281,11 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 	createView2Proj1();
 	
-	
-	
-	
 	var loader = new StockLoader(proj1,[2015,2016],function(year,stocks){
 		stockPluginView1Proj1.setStocks(stocks);
 		stockPluginView1Proj2.setStocks(stocks);
 		stockPluginView2Proj1.setStocks(stocks);
 	});
-
 	
 	var lensView1Proj1 = new JenScript.ZoomLensPlugin({name : 'mainLens'});
 	proj1.registerPlugin(lensView1Proj1);
@@ -322,53 +296,41 @@ function createViewStockMACD(container1,container2, width, height) {
 	var lensView2Proj1 = new JenScript.ZoomLensPlugin({name : 'tertiaryLens'});
 	proj2.registerPlugin(lensView2Proj1);
 	
-	
-	
-	var choco = JenScript.RosePalette.CHOCOLATE;
-	var percents = ['0%','50%','100%'];
-	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
-	var opacity  = [0.8,0.8,0.8];
-	
 	var lx = new JenScript.LensX({
 		width : 60,
 		height :  16,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		//outlineFillColor : 'white',
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonStrokeWidth : 2,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		outlineStrokeColor : 'rgba(0,250,154,1)',
+		outlineFillColor : 'rgba(0,250,154,0.3)',
+		outlineStrokeWidth : 0.8,
+		buttonFillColor :  'rgba(0,250,154,0.6)',
+		buttonDrawColor :  'rgba(0,250,154,0.6)',
+		buttonRolloverDrawColor :  'white',
+		buttonStrokeWidth : 1,
+		buttonRolloverFillColor : 'rgba(0,250,154,1)',
 		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
 	});
 	
 	var ly = new JenScript.LensY({
 		width : 16,
 		height :  60,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
-		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		//outlineFillColor : 'white',
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonStrokeWidth : 2,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		outlineStrokeColor : 'rgba(0,250,154,1)',
+		outlineFillColor : 'rgba(0,250,154,0.3)',
+		outlineStrokeWidth : 0.8,
+		buttonFillColor :  'rgba(0,250,154,0.6)',
+		buttonDrawColor :  'rgba(0,250,154,0.6)',
+		buttonRolloverDrawColor :  'white',
+		buttonStrokeWidth : 1,
+		buttonRolloverFillColor : 'rgba(0,250,154,1)',
 		mode : {paint : {proj : 'always', plugin : 'always'},event: {proj : 'always', plugin : 'always'}}
 	});
 	
 	lensView1Proj1.registerWidget(lx);
 	lensView1Proj1.registerWidget(ly);
-
 	
 	var synchronizer = new JenScript.ZoomLensSynchronizer({
 		lenses : [ lensView1Proj1,lensView1Proj2, lensView2Proj1 ]
 	});
 	
-	
 	view1.setActiveProjection(proj1);
 	lensView1Proj1.select();
-
 }

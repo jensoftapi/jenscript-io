@@ -1,36 +1,25 @@
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
-	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
-	tickTextFontSize : 10
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 	
-/**
- * Create view with translate
- * 
- * @param container
- * @param width
- * @param height
- */
 function createView(container, width, height) {
 
 	var view = new JenScript.View({
@@ -42,8 +31,6 @@ function createView(container, width, height) {
 		south :80
 	});
 
-
-	// Projection1
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
 		minX : 0,
@@ -53,7 +40,7 @@ function createView(container, width, height) {
 	});
 
 	view.registerProjection(proj);
-	var outline = new JenScript.DeviceOutlinePlugin('darkslategrey');
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj.registerPlugin(outline);
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -74,7 +61,6 @@ function createView(container, width, height) {
 	});
 	proj.registerPlugin(westMetrics);
 	
-	//PIE
 	var piePlugin = new JenScript.PiePlugin();
 	proj.registerPlugin(piePlugin);
 
@@ -95,7 +81,7 @@ function createView(container, width, height) {
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED
+		themeColor : '#e74c3c'
 	});
 	var s3 = new JenScript.PieSlice({
 		name : "s3",
@@ -105,18 +91,16 @@ function createView(container, width, height) {
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE,
+		themeColor : '#2980b9',
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
 		value : 5,
-		themeColor : JenScript.RosePalette.INDIGO
+		themeColor : '#16a085'
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);
 
-
-	//CURVE FUNCTION 
 	var xValues = [ -100, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1200 ];
 	var yValues = [ 600, 200, 1500, 200, 350, 610, 420, 850, 990, 1200, 800 ];
 	var splineSource = new JenScript.SplineSource({
@@ -132,7 +116,7 @@ function createView(container, width, height) {
 	
 	var curve = new JenScript.Curve({
 			name :'my spline curve function',
-			themeColor : JenScript.Color.lighten(choco,40),
+			themeColor : '#8e44ad',
 			strokeWidth : 1.2,
 			source : splineSource
 			});
@@ -143,40 +127,29 @@ function createView(container, width, height) {
 	var lens = new JenScript.ZoomLensPlugin();
 	proj.registerPlugin(lens);
 
-	var percents = ['0%','50%','100%'];
-	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
-	var opacity  = [0.8,0.8,0.8];
-	
 	var lx = new JenScript.LensX({
 		width : 60,
 		height :  16,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeColor : '#34495e',
 		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		//outlineFillColor : 'white',
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		outlineFillColor : 'white',
+		buttonDrawColor :   '#2980b9',
 		buttonStrokeWidth : 2,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		buttonRolloverDrawColor : '#e67e22',
 	});
 	lens.registerWidget(lx);
 	
 	var ly = new JenScript.LensY({
 		width : 16,
 		height :  60,
-		outlineStrokeColor : JenScript.RosePalette.FOXGLOWE,
+		outlineStrokeColor : '#34495e',
 		outlineStrokeWidth : 2,
-		shader : {percents : percents, colors : colors,opacity:opacity},
-		//outlineFillColor : 'white',
-		buttonFillColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
-		buttonDrawColor :  JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,40),
+		outlineFillColor : 'white',
+		buttonDrawColor :   '#2980b9',
 		buttonStrokeWidth : 2,
-		buttonRolloverFillColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
-		buttonRolloverDrawColor : JenScript.Color.lighten(JenScript.RosePalette.CHOCOLATE,70),
+		buttonRolloverDrawColor : '#e67e22',
 	});
 	lens.registerWidget(ly);
 
 	lens.select();
-
 }

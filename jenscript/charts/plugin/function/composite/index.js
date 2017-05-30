@@ -48,9 +48,9 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 		};
 		var major = {
 			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
+			tickMarkerColor : '#3498db',
 			tickMarkerStroke : 3,
-			tickTextColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
+			tickTextColor : '#3498db',
 			tickTextFontSize : 12
 		};
 		

@@ -34,7 +34,7 @@
 
 <h1>Let's Make a <span style="color : rgb(22, 125, 218);">Bar Chart</span></h1> 
 
-<small>Sébastien Janaud - May 26, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 26, 2015 - updated june 2017 / <a href="../../">JenScript</a>
 </small>
 
 
@@ -60,6 +60,7 @@
 
 
 <pre><code class="javascript">
+
 /**
  * createSymbolBarView
  * 
@@ -94,27 +95,33 @@ function createSymbolBarView(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
+	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		}
+		minor:minor,
+		median:median,
+		major:major
 	});
 	proj.registerPlugin(metrics);
 	
@@ -126,6 +133,20 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
+	//TOOL
+	var tx1 = new JenScript.TranslatePlugin({
+		mode : 'ty',
+	});
+	proj.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
+	
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelY'
+	});
+	proj.registerPlugin(zoomwheel);
 	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Vertical'
@@ -164,17 +185,60 @@ function createSymbolBarView(container, width, height) {
 	}
 	
 	//lay out
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue()); //glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
 	for (var i = 1; i <= 10; i++) {
 		var bar = createBar(barValue());
-		barLayer.addSymbol(bar);
+		barLayer.addSymbol(bar,false);
 		
 		if(i < 10)
-		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20)); //glue rigid except after last bar
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(20),false); //glue rigid except after last bar
 	}
-	barLayer.addSymbol(JenScript.SymbolFiller.createGlue());//glue stretch
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);//glue stretch
 	
+	//invoke repaint only one time
+	symbolPlugin.repaintPlugin();
+	
+	//listener
+	barLayer.addSymbolListener('enter',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('symbol enter');
+	},'this demo');
+	
+	//listener
+	barLayer.addSymbolListener('exit',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('symbol exit');
+	},'this demo');
+	
+	//listener
+	barLayer.addSymbolListener('move',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('symbol move');
+	},'this demo');
+	
+	//listener
+	barLayer.addSymbolListener('press',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('symbol press');
+	},'this demo');
+	
+	//listener
+	barLayer.addSymbolListener('release',function(event){
+		//event is something like, refer to source
+		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
+		
+		console.log('symbol release');
+	},'this demo');
 }
+
 
 </code></pre>
 

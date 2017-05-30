@@ -28,10 +28,9 @@ function createView(container, width, height) {
 	});
 	view.registerProjection(proj);
 
-	var outline = new JenScript.DeviceOutlinePlugin('darkslategrey');
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#2c3e50'});
 	proj.registerPlugin(outline);
 
-	//CURVE FUNCTION 
 	var xValues = [ -100, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1200 ];
 	var yValues = [ 600, 200, 1500, 200, 350, 610, 420, 850, 990, 1200, 800 ];
 	var splineSource = new JenScript.SplineSource({
@@ -62,25 +61,28 @@ function createView(container, width, height) {
 
 	curve.addMetric(g1);
 
+
 	var minor = {
 			tickMarkerSize : 2,
-			tickMarkerColor : 'cyan',
+			tickMarkerColor : 'yellow',
 			tickMarkerStroke : 1
-		};
-		var median = {
-			tickMarkerSize : 4,
-			tickMarkerColor : 'cyan',
-			tickMarkerStroke : 1.2,
-			tickTextColor : 'cyan',
-			tickTextFontSize : 10
-		};
-		var major = {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
-			tickTextFontSize : 12
-		};
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
 		var southMetrics = new JenScript.AxisMetricsModeled({
 			axis : JenScript.Axis.AxisSouth,
 			minor : minor,

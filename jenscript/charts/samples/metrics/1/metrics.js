@@ -1,33 +1,27 @@
 
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerColor : 'yellow',
 	tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#d35400',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '#d35400',
 	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
+	tickMarkerColor : '#2980b9',
 	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
+	tickTextColor : '#2980b9',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
 	
 function createMetricsView(container, width, height) {
 	
-	//view
 	var view = new JenScript.View({
 		name : container,
 		width : width,
@@ -38,7 +32,6 @@ function createMetricsView(container, width, height) {
 		south : 80,
 	});
 
-	
 	var proj = new JenScript.LinearProjection({
 		cornerRadius : 6,
 		name : "proj1",
@@ -49,12 +42,8 @@ function createMetricsView(container, width, height) {
 	});
 	view.registerProjection(proj);
 	
-	
-
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'orange'});
 	proj.registerPlugin(outline);
-
 
 	var southMetrics1 = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -64,7 +53,6 @@ function createMetricsView(container, width, height) {
 	});
 	proj.registerPlugin(southMetrics1);
 	
-	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
 		minor:minor,
@@ -73,7 +61,6 @@ function createMetricsView(container, width, height) {
 	});
 	proj.registerPlugin(westMetrics);
 
-	//translate
 	translate1 = new JenScript.TranslatePlugin();
 	proj.registerPlugin(translate1);
 	var txw = new JenScript.TranslateX({
@@ -81,36 +68,25 @@ function createMetricsView(container, width, height) {
 			width : 150,
 			height : 22,
 			outlineStrokeColor : 'rgba(0,0,0,0)',
-			//outlineFillColor: 'gray',
 			sample  : {step : 10, sleep : 5,fraction : 20},
-			
 			buttonFillColor:'black',
-			buttonRolloverFillColor:JenScript.Color.lighten(emerald,40),
-			
+			buttonRolloverFillColor:'#2ecc71',
 			buttonDrawColor:'white',
-			buttonRolloverDrawColor:JenScript.Color.lighten(emerald,20)
+			buttonRolloverDrawColor:'#2ecc71'
 		}
 	);
 	
 	translate1.registerWidget(txw);
 	translate1.select();
 
-	
-	
-
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : 'black',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
-	
-	
 }
-
-
-

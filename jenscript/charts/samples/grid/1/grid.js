@@ -17,13 +17,12 @@ var median = {
 	tickTextFontSize : 10
 };
 var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
+		tickMarkerSize : 8,
+		tickMarkerColor : '#8e44ad',
+		tickMarkerStroke : 3,
+		tickTextColor : '#8e44ad',
+		tickTextFontSize : 12
+	};
 	
 function createView(container, width, height) {
 	

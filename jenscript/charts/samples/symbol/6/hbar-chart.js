@@ -34,27 +34,34 @@ function createHSymbolBarView(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
+	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
+	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		}
+		minor:minor,
+		median:median,
+		major:major
 	});
 	proj.registerPlugin(metrics);
 	
@@ -66,7 +73,6 @@ function createHSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
-	//TOOL
 	var tx1 = new JenScript.TranslatePlugin({
 		mode : 'tx',
 	});

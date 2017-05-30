@@ -1,26 +1,21 @@
 
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
+		tickMarkerSize : 2,
+		tickMarkerColor : 'yellow',
+		tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#d35400',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '#d35400',
 	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
+	tickMarkerColor : '#2980b9',
 	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
+	tickTextColor : '#2980b9',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
@@ -47,7 +42,7 @@ function createMetricsView(container, width, height) {
 	});
 	view.registerProjection(proj);
 
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#16a085'});
 	proj.registerPlugin(outline);
 
 	var southMetrics = new JenScript.AxisMetricsFree({
@@ -76,7 +71,6 @@ function createMetricsView(container, width, height) {
 	proj.registerPlugin(southMetrics);
 	proj.registerPlugin(westMetrics);
 
-	//translate
 	translate1 = new JenScript.TranslatePlugin();
 	proj.registerPlugin(translate1);
 	var txw = new JenScript.TranslateX({
@@ -86,9 +80,9 @@ function createMetricsView(container, width, height) {
 			outlineStrokeColor : 'rgba(0,0,0,0)',
 			sample  : {step : 10, sleep : 5,fraction : 20},
 			buttonFillColor:'black',
-			buttonRolloverFillColor:JenScript.Color.lighten(emerald,40),
+			buttonRolloverFillColor:'#2ecc71',
 			buttonDrawColor:'white',
-			buttonRolloverDrawColor:JenScript.Color.lighten(emerald,20)
+			buttonRolloverDrawColor:'#2ecc71'
 		}
 	);
 	
@@ -100,13 +94,10 @@ function createMetricsView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : 'black',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
 	
 }
-
-
-

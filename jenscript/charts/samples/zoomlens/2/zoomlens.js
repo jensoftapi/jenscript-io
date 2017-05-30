@@ -1,36 +1,25 @@
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerColor : 'yellow',
 	tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#d35400',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '#d35400',
 	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
+	tickMarkerColor : '#2980b9',
 	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
+	tickTextColor : '#2980b9',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
-	
-/**
- * Create view with translate
- * 
- * @param container
- * @param width
- * @param height
- */
+
 function createView(container, width, height) {
 
 	var view = new JenScript.View({
@@ -42,8 +31,6 @@ function createView(container, width, height) {
 		south :80
 	});
 
-
-	// Projection1
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
 		minX : 0,
@@ -53,7 +40,7 @@ function createView(container, width, height) {
 	});
 
 	view.registerProjection(proj);
-	var outline = new JenScript.DeviceOutlinePlugin('darkslategrey');
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj.registerPlugin(outline);
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -62,7 +49,6 @@ function createView(container, width, height) {
 		major:major
 	});
 	proj.registerPlugin(southMetrics);
-	// southMetrics.setTickMarkerSize('minor',8);
 	southMetrics.setTickTextFontSize('major', 10);
 	southMetrics.setTickTextFontSize('median', 8);
 
@@ -74,7 +60,6 @@ function createView(container, width, height) {
 	});
 	proj.registerPlugin(westMetrics);
 	
-	//PIE
 	var piePlugin = new JenScript.PiePlugin();
 	proj.registerPlugin(piePlugin);
 
@@ -132,7 +117,7 @@ function createView(container, width, height) {
 	
 	var curve = new JenScript.Curve({
 			name :'my spline curve function',
-			themeColor : JenScript.Color.lighten(choco,40),
+			themeColor : '#c0392b',
 			strokeWidth : 1.2,
 			source : splineSource
 			});

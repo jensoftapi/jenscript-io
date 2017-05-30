@@ -271,8 +271,8 @@ function createView1Proj2() {
 	proj12.registerPlugin(ohlcLegend);
 
 	stockPluginView1Proj2 = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.MELON,
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj12.registerPlugin(stockPluginView1Proj2);
 	
@@ -437,8 +437,8 @@ function createView2Proj2() {
 
 
 	stockPluginView2Proj2 = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.EMERALD,
-		bullishColor : JenScript.RosePalette.CORALRED,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj22.registerPlugin(stockPluginView2Proj2);
 
@@ -851,7 +851,7 @@ function createZoomLens(){
 		buttonFillColor :  'rgba(0,250,154,0.6)',
 		buttonDrawColor :  'rgba(0,250,154,0.6)',
 		buttonRolloverDrawColor :  'white',
-		buttonStrokeWidth : 2,
+		buttonStrokeWidth : 1,
 		buttonRolloverFillColor : 'rgba(0,250,154,1)',
 		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	});
@@ -865,7 +865,7 @@ function createZoomLens(){
 		buttonFillColor :  'rgba(0,250,154,0.6)',
 		buttonDrawColor :  'rgba(0,250,154,0.6)',
 		buttonRolloverDrawColor :  'white',
-		buttonStrokeWidth : 2,
+		buttonStrokeWidth : 1,
 		buttonRolloverFillColor : 'rgba(0,250,154,1)',
 		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	});

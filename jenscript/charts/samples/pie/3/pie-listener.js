@@ -16,7 +16,6 @@ function createPieWithListener(container, width, height) {
 		
 	});
 
-
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
 		minX : -1000,
@@ -25,7 +24,6 @@ function createPieWithListener(container, width, height) {
 		maxY : 1000
 	});
 	view.registerProjection(proj);
-
 
 	var piePlugin = new JenScript.PiePlugin();
 	proj.registerPlugin(piePlugin);
@@ -66,17 +64,15 @@ function createPieWithListener(container, width, height) {
 	pie.addSlice(s4);
 	pie.addSlice(s5);
 	
-	
-	//label for listener
 	var labelPlugin = new JenScript.TextLabelPlugin();
 	proj.registerPlugin(labelPlugin);
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);
@@ -89,10 +85,6 @@ function createPieWithListener(container, width, height) {
 	};
 	
 	var lock = false;
-	//listener
-	//event is something like, refer to source
-	//event : {slice : slice, x:x,y:y, device :{x:x,y:y}}
-	
 
 	/**
 	 * add pie listener such as press, release, move, enter, exit
@@ -124,6 +116,4 @@ function createPieWithListener(container, width, height) {
 	pie.addEffect(fx0);
 	var fxl = new JenScript.PieReflectionEffect();
 	pie.addEffect(fxl);
-
-
 }

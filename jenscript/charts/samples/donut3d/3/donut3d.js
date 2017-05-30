@@ -9,25 +9,9 @@ function create(name,w,h) {
 		south :20,
 	});
 	
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
-	});
-	
-	//or 
 	var proj = new JenScript.IdentityProjection();
 	
-	//or JenScript.IdentityProjection
 	view.registerProjection(proj);
-
-	var outline = new JenScript.DeviceOutlinePlugin({
-		color : 'rgb(220,220,220)'
-	});
-
-	//proj.registerPlugin(outline);
 
 	var donut3DPlugin = new JenScript.Donut3DPlugin();
 	proj.registerPlugin(donut3DPlugin);
@@ -59,8 +43,6 @@ function create(name,w,h) {
 	});
 
 	donut.addSlices([s1,s2,s3,s4]);
-
-
 	
 	var s1Label = new JenScript.Donut3DBorderLabel({
 		text : "JenScript",
@@ -68,7 +50,7 @@ function create(name,w,h) {
 		outlineColor : 'rgb(180,180,180)',
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.addSliceLabel(s1Label);
 
@@ -78,7 +60,7 @@ function create(name,w,h) {
 		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),20),
+		textColor :s2.getThemeColor(),
 	});
 	s2.addSliceLabel(s2Label);
 
@@ -88,17 +70,17 @@ function create(name,w,h) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),20),
+		textColor :s3.getThemeColor(),
 	});
 	s3.addSliceLabel(s3Label);
 	
 	var s4Label = new JenScript.Donut3DBorderLabel({
 		text : "JavaScript",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s4.getThemeColor(),20),
+		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),20),
+		textColor :s4.getThemeColor(),
 	});
 	s4.addSliceLabel(s4Label);
 
@@ -107,29 +89,12 @@ function create(name,w,h) {
 
 	tx1.select();
 	
-	
-	// 2 times 360 in 2 seconds with 20 repaint frames
 	setTimeout(function() {
 		donut.shift(2 * 360, 2000, 20);
 	}, 1000);
 	setTimeout(function() {
-		donut.shift(-140, 500, 8);
+		donut.shift(-200, 500, 8);
 	}, 4000);
-	
-	
-//	var _ = function(i){
-//		setTimeout(function(){
-//			s1.divergence = 200-i*40;
-//			s2.divergence = 200-i*40;
-//			s3.divergence = 200-i*40;
-//			s4.divergence = 200-i*40;
-//			donut3DPlugin.repaintPlugin();
-//		},100);
-//	}
-//	
-//	for (var i = 0; i <= 5; i++) {
-//		_(i);
-//	}
 	
 
 }

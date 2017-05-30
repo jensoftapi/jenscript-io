@@ -1,19 +1,15 @@
 
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerColor : '#e74c3c',
 	tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#3498db',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '#3498db',
 	tickTextFontSize : 10
 };
 var major = {
@@ -52,7 +48,7 @@ function createMetricsView(container, width, height) {
 	
 
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#3498db'});
 	proj.registerPlugin(outline);
 
 
@@ -107,19 +103,14 @@ function createMetricsView(container, width, height) {
 		ringFillOpacity : 0.7,
 	}));
 	
-	
-	
 	translate1.select();
-
-	
-	
 
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : 'white',
 		xAlign : 'right',
 		yAlign : 'top',
 	});

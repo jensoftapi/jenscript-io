@@ -7,21 +7,21 @@ var aegean = JenScript.RosePalette.AEGEANBLUE;
 
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerColor : 'cyan',
 	tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : 'yellow',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : 'yellow',
 	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
+	tickMarkerColor : 'rgb(240,88,0)',
 	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
+	tickTextColor : 'rgb(240,88,0)',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
@@ -80,7 +80,7 @@ function createViewStockBollingerBand(container, width, height) {
 	}));
 
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.Color.lighten(indigo,40)});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'yellow'});
 	projPrice.registerPlugin(outline);
 
 
@@ -113,7 +113,7 @@ function createViewStockBollingerBand(container, width, height) {
 			//outlineFillColor: 'gray',
 			buttonStrokeColor:'white',
 			buttonFillColor:'black',
-			buttonRolloverStrokeColor:JenScript.Color.lighten(emerald,40)}
+			buttonRolloverStrokeColor:'yellow'}
 	);
 	translate1.registerWidget(txw);
 	translate1.select();

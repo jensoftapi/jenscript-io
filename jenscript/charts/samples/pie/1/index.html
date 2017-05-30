@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="javascript charts">
     <meta name="author" content="Sébastien Janaud">
-	<link rel="icon" type="image/svg+xml" href="/svg/donut2d.svg" />
+	<link href="/favicon.png" rel="icon" type="image/png" />
     <title>Let's Make JavaScript Pie Charts - JenScript JS</title>
    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -36,7 +36,7 @@
 
 <h1>Let's Make a <span style="color : rgb(22, 125, 218);">Pie Chart.</span></h1>
 
-<small>Sébastien Janaud - May 17, 2015 / <a href="../../">JenScript</a>
+<small>Sébastien Janaud - May 17, 2015 - updated june 2017 / <a href="../../">JenScript</a>
 </small>
 
 
@@ -68,86 +68,136 @@
 <div  id="pieview"></div>
 
 
-<p>
-First step is to create the view which is the end chart. name attribute refers the root element where view chart is attached. 
-</p>
-<pre><code>
-&lt;div id="pieview"&gt;&lt;/div&gt;
-</code></pre>
-<pre><code class="javascript">var view = new JenScript.View({
-		name : 'pieview',
-		width : 600,
-		height : 300,
-});
-</code></pre>
-
-
-<p style="padding-top: 40px;">Now, create simple projection. By default pie is projected in user coordinate system and its default center is (0,0). 
-it is drawn in center. in different context, you should want to draw pie in another location or in pixel coordinate at fixed position.
-
- </p>
 <pre><code class="javascript">
-var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
+
+function create(container, width, height) {
+
+	var view = new JenScript.View({
+		name : container,
+		width : width,
+		height : height,
+		holders : 0,
+		north: 20,
+		south :20,
 	});
 
-//or use identity projection
-//var proj = new JenScript.IdentityProjection();
-view.registerProjection(proj);
-</code></pre>
+
+	var proj = new JenScript.LinearProjection({
+		name : "proj1",
+		minX : -1000,
+		maxX : 1000,
+		minY : -1000,
+		maxY : 1000
+	});
+	view.registerProjection(proj);
 
 
-<p style="padding-top: 40px;">Then register pie chart plugin, and a pie with properties like radius, start angle, fill and effects.</p>
-<pre><code class="javascript">
-var piePlugin = new JenScript.PiePlugin();
-proj.registerPlugin(piePlugin);
+	var piePlugin = new JenScript.PiePlugin();
+	proj.registerPlugin(piePlugin);
 
-var pie = new JenScript.Pie();
-piePlugin.addPie(pie);
+	var pie = new JenScript.Pie({
+		radius : 120, 
+		startAngleDegree : 30,
+		opacity: 1,
+	});
+	piePlugin.addPie(pie);
 
-var fill = new JenScript.PieDefaultFill();
-pie.setFill(fill);
+	pie.paint = false; //paint one time plugin by calling repainPlugin at end of block code section
+	
+	var fill = new JenScript.PieDefaultFill();
+	pie.setFill(fill);
 
-var fx0 = new JenScript.PieLinearEffect();
-pie.addEffect(fx0);
-var fxl = new JenScript.PieReflectionEffect();
-pie.addEffect(fxl);
-</code></pre>
+	var fx0 = new JenScript.PieLinearEffect();
+	pie.addEffect(fx0);
+	var fxl = new JenScript.PieReflectionEffect();
+	pie.addEffect(fxl);
+	
+	var s1 = new JenScript.PieSlice({
+		name : "s1",
+		value : 45,
+		themeColor : 'rgba(240, 240, 240, 0.9)',
+	});
+	var s2 = new JenScript.PieSlice({
+		name : "s2",
+		value : 5,
+		themeColor : '#e74c3c',
+	});
+	var s3 = new JenScript.PieSlice({
+		name : "s3",
+		value : 30,
+		opacity : 1,
+		themeColor : '#16a085',
+	});
+	var s4 = new JenScript.PieSlice({
+		name : "s4",
+		value : 5,
+		themeColor : '#2980b9',
+		divergence : 20,
+		
+	});
+	var s5 = new JenScript.PieSlice({
+		name : "s5",
+		value : 5,
+		themeColor : '#9b59b6',
+	});
 
-<p style="padding-top: 40px;">Finally slice parts of pie.</p>
-<pre><code class="javascript">
-var s1 = new JenScript.PieSlice({
-	name : "s1",
-	value : 45,
-	themeColor : 'rgb(240,240,240)'
-});
-var s2 = new JenScript.PieSlice({
-	name : "s2",
-	value : 5,
-	themeColor : 'rgb(237, 54, 162)'
-});
-var s3 = new JenScript.PieSlice({
-	name : "s3",
-	value : 30,
-	themeColor : 'rgb(244, 145, 26)'
-});
-var s4 = new JenScript.PieSlice({
-	name : "s4",
-	value : 5,
-	themeColor : 'rgb(22,125,218)'
-});
-var s5 = new JenScript.PieSlice({
-	name : "s5",
-	value : 5,
-	themeColor : 'rgba(61,44,105,1)'
-});
+	pie.addSlices([s1,s2,s3,s4,s5]);
+	
 
-pie.addSlices([s1,s2,s3,s4,s5]);
+	var s1Label = new JenScript.PieRadialLabel({
+		text : "Silver",
+		fillColor:'black',
+		outlineColor : s1.getThemeColor(),
+		cornerRadius : 8,
+		outlineWidth : 2,
+		textColor : s1.getThemeColor(),
+	});
+	s1.setSliceLabel(s1Label);
 
+	var s2Label = new JenScript.PieRadialLabel({
+		text : "Platinium",
+		fillColor:'black',
+		outlineColor : s2.getThemeColor(),
+		cornerRadius : 8,
+		outlineWidth : 2,
+		textColor :s2.getThemeColor(),
+	});
+	s2.setSliceLabel(s2Label);
+
+	var s3Label = new JenScript.PieRadialLabel({
+		text : "Rhodium",
+		fillColor:'black',
+		outlineColor : s3.getThemeColor(),
+		cornerRadius : 8,
+		outlineWidth : 2,
+		textColor :s3.getThemeColor(),
+		
+	});
+	s3.setSliceLabel(s3Label);
+
+	var s4Label = new JenScript.PieRadialLabel({
+		text : "Chrome",
+		fillColor:'black',
+		outlineColor : s4.getThemeColor(),
+		cornerRadius : 8,
+		outlineWidth : 2,
+		textColor :s4.getThemeColor(),
+	});
+	s4.setSliceLabel(s4Label);
+
+	var s5Label = new JenScript.PieRadialLabel({
+		text : "Uranium",
+		fillColor:'black',
+		outlineColor : s5.getThemeColor(),
+		cornerRadius : 8,
+		outlineWidth : 2,
+		textColor :s5.getThemeColor()
+	});
+	s5.setSliceLabel(s5Label);
+
+	piePlugin.repaintPlugin();
+	
+}
 </code></pre>
 
 </div>

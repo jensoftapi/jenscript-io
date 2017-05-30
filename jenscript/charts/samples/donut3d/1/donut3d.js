@@ -9,25 +9,8 @@ function create(name,w,h) {
 		south :20,
 	});
 	
-	var proj = new JenScript.LinearProjection({
-		name : "proj1",
-		minX : -1,
-		maxX : 1,
-		minY : -1,
-		maxY : 1
-	});
-	
-	//or 
 	var proj = new JenScript.IdentityProjection();
-	
-	//or JenScript.IdentityProjection
 	view.registerProjection(proj);
-
-	var outline = new JenScript.DeviceOutlinePlugin({
-		color : 'rgb(220,220,220)'
-	});
-
-	//proj.registerPlugin(outline);
 
 	var donut3DPlugin = new JenScript.Donut3DPlugin();
 	proj.registerPlugin(donut3DPlugin);
@@ -71,7 +54,7 @@ function create(name,w,h) {
 		outlineColor : 'rgb(180,180,180)',
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.addSliceLabel(s1Label);
 
@@ -81,7 +64,7 @@ function create(name,w,h) {
 		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),20),
+		textColor :s2.getThemeColor(),
 	});
 	s2.addSliceLabel(s2Label);
 
@@ -91,17 +74,17 @@ function create(name,w,h) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),20),
+		textColor :s3.getThemeColor(),
 	});
 	s3.addSliceLabel(s3Label);
 	
 	var s4Label = new JenScript.Donut3DBorderLabel({
 		text : "JavaScript",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s4.getThemeColor(),20),
+		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),20),
+		textColor :s4.getThemeColor(),
 	});
 	s4.addSliceLabel(s4Label);
 

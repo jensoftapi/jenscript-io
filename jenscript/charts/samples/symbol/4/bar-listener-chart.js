@@ -31,27 +31,32 @@ function createSymbolView(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		}
+		minor:minor,
+		median:median,
+		major:major
 	});
 	proj.registerPlugin(metrics);
 	
@@ -91,7 +96,7 @@ function createSymbolView(container, width, height) {
 			thickness : 32,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.PINGPIZZAZZ,
+			themeColor : '#d35400',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill1({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
@@ -99,11 +104,10 @@ function createSymbolView(container, width, height) {
 		return symbol;
 	}
 	
-	//layer
 	var barLayer = new JenScript.SymbolBarLayer();
 	symbolPlugin.addLayer(barLayer);
 	
-	// arbitrary values between min max values
+	// randomized value between min max values
 	var random = function getRandomArbitrary(min, max) {
 	  return Math.random() * (max - min) + min;
 	}
@@ -126,16 +130,15 @@ function createSymbolView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//label for listener
 	var labelPlugin = new JenScript.TextLabelPlugin();
 	proj.registerPlugin(labelPlugin);
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);
@@ -147,37 +150,27 @@ function createSymbolView(container, width, height) {
 		labelPlugin.repaintPlugin();
 	};
 	
-	
 	var lock = false;
-	//listener
-	//event is something like, refer to source
-	//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-	
-	
 	barLayer.addSymbolListener('enter',function(event){
 		updateText('enter',event);
 		lock = true;
 		setTimeout(function(){lock=false;},200);
 	},'this demo');
 	
-	//listener
 	barLayer.addSymbolListener('exit',function(event){
 		updateText('exit',event);
 		setTimeout(function(){updateText(undefined,event);},200);
 	},'this demo');
 	
-	//listener
 	barLayer.addSymbolListener('move',function(event){
 		if(!lock)
 		updateText('move',event);
 	},'this demo');
 	
-	//listener
 	barLayer.addSymbolListener('press',function(event){
 		updateText('press',event);
 	},'this demo');
 	
-	//listener
 	barLayer.addSymbolListener('release',function(event){
 		updateText('release',event);
 	},'this demo');

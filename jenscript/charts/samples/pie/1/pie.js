@@ -49,25 +49,25 @@ function create(container, width, height) {
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED,
+		themeColor : '#e74c3c',
 	});
 	var s3 = new JenScript.PieSlice({
 		name : "s3",
 		value : 30,
 		opacity : 1,
-		themeColor : 'rgba(78,148,44,1)',
+		themeColor : '#16a085',
 	});
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE,
+		themeColor : '#2980b9',
 		divergence : 20,
 		
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
 		value : 5,
-		themeColor : JenScript.RosePalette.INDIGO,
+		themeColor : '#9b59b6',
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);
@@ -79,17 +79,17 @@ function create(container, width, height) {
 		outlineColor : s1.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s1.getThemeColor(),20),
+		textColor : s1.getThemeColor(),
 	});
 	s1.setSliceLabel(s1Label);
 
 	var s2Label = new JenScript.PieRadialLabel({
 		text : "Platinium",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s2.getThemeColor(),20),
+		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s2.getThemeColor(),40),
+		textColor :s2.getThemeColor(),
 	});
 	s2.setSliceLabel(s2Label);
 
@@ -99,7 +99,7 @@ function create(container, width, height) {
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s3.getThemeColor(),30),
+		textColor :s3.getThemeColor(),
 		
 	});
 	s3.setSliceLabel(s3Label);
@@ -110,17 +110,17 @@ function create(container, width, height) {
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s4.getThemeColor(),30),
+		textColor :s4.getThemeColor(),
 	});
 	s4.setSliceLabel(s4Label);
 
 	var s5Label = new JenScript.PieRadialLabel({
 		text : "Uranium",
 		fillColor:'black',
-		outlineColor : JenScript.Color.lighten(s5.getThemeColor(),30),
+		outlineColor : s5.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :JenScript.Color.lighten(s5.getThemeColor(),50)
+		textColor :s5.getThemeColor()
 	});
 	s5.setSliceLabel(s5Label);
 

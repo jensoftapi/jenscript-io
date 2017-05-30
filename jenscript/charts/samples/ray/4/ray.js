@@ -106,10 +106,10 @@ function createView(container, width, height) {
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);
@@ -121,12 +121,7 @@ function createView(container, width, height) {
 		labelPlugin.repaintPlugin();
 	};
 	
-	
 	var lock = false;
-	//listener
-	//event is something like, refer to source
-	//event : {ray : ray, x:x,y:y, device :{x:x,y:y}}
-	
 	rayPlugin.addRayListener('enter',function(event){
 		updateText('enter',event);
 		lock = true;
@@ -151,8 +146,7 @@ function createView(container, width, height) {
 		updateText('release',event);
 	},'this demo');
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.RosePalette.EMERALD});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#2ecc71'});
 	proj.registerPlugin(outline);
 	
 	var zoomwheel = new JenScript.ZoomWheelPlugin({mode:'wx'});
@@ -288,10 +282,10 @@ function createView2(container, width, height) {
 	
 	var label = new JenScript.TextLabel({
 		fillColor : 'black',
-		outlineColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		outlineColor : 'rgb(244, 145, 26)',
 		cornerRadius : 10,
 		outlineWidth : 2,
-		textColor : JenScript.Color.lighten('rgb(244, 145, 26)',20),
+		textColor : 'rgb(244, 145, 26)',
 		fontSize : 16
 	});
 	labelPlugin.addLabel(label);

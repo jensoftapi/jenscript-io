@@ -49,9 +49,9 @@ function createViewLineAreaXFunction(container, width, height) {
 		};
 		var major = {
 			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
+			tickMarkerColor : 'orange',
 			tickMarkerStroke : 3,
-			tickTextColor : JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE),
+			tickTextColor : 'orange',
 			tickTextFontSize : 12
 		};
 		var southMetrics = new JenScript.AxisMetricsModeled({

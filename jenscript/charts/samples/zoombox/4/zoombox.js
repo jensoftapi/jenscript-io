@@ -26,7 +26,6 @@ function createView(container, width, height) {
 	
 	
 	
-	//view 1
 	var view = new JenScript.View({
 		name : container+'vview1',
 		width : width,
@@ -34,8 +33,6 @@ function createView(container, width, height) {
 		holders : 40,
 		
 	});
-
-	
 
 	var proj = new JenScript.LinearProjection({
 		name : "proj1",
@@ -45,8 +42,10 @@ function createView(container, width, height) {
 		maxY : 1000
 	});
 	view.registerProjection(proj);
-	var outline = new JenScript.DeviceOutlinePlugin('darkslategrey');
+	
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#2c3e50'});
 	proj.registerPlugin(outline);
+	
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth
 	});
@@ -59,7 +58,7 @@ function createView(container, width, height) {
 	var box1 = new JenScript.ZoomBoxPlugin({
 		speed : 'fast',
 		zoomBoxDrawColor : 'yellow',
-		zoomBoxFillColor : JenScript.RosePalette.LAVENDER
+		zoomBoxFillColor : '#8e44ad'
 	});
 	proj.registerPlugin(box1);
 
@@ -81,8 +80,10 @@ function createView(container, width, height) {
 		maxY : 1000
 	});
 	view.registerProjection(proj);
-	var outline = new JenScript.DeviceOutlinePlugin('darkslategrey');
-	proj.registerPlugin(outline);
+	
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#2c3e50'});
+	proj.registerPlugin(outline2);
+	
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth
 	});

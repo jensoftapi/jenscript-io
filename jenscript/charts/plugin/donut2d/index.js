@@ -104,11 +104,10 @@ function createView(container, width, height) {
 		if(i === 29){
 			var l = new JenScript.Donut2DBorderLabel({
 				text : "JenScript",
-				fillColor:'black',
-				outlineColor : s5.getThemeColor(),
+				fillColor:'rgba(0,0,0,0.3)',
 				cornerRadius : 8,
 				outlineWidth : 2,
-				textColor :JenScript.Color.lighten(s5.getThemeColor(),30),
+				textColor :'white',
 				margin : 80
 			});
 			
@@ -116,11 +115,10 @@ function createView(container, width, height) {
 			
 			var l2 = new JenScript.Donut2DBorderLabel({
 				text : "JavaScript",
-				fillColor:'black',
-				outlineColor : s2.getThemeColor(),
+				fillColor:'rgba(0,0,0,0.3)',
 				cornerRadius : 8,
 				outlineWidth : 2,
-				textColor :JenScript.Color.lighten(s2.getThemeColor(),30),
+				textColor :'white',
 				margin : 80
 			});
 			

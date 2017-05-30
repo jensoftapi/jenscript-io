@@ -1,4 +1,3 @@
-
 var view1, view2;
 var proj, proj12, proj13, proj2, proj22;
 var stockPluginView1Proj1, stockPluginView1Proj2, stockPluginView1Proj3, stockPluginView2Proj1, stockPluginView2Proj2;
@@ -279,7 +278,7 @@ function createView2Proj1() {
 	});
 	view2.registerProjection(proj2);
 	
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#e67e22', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
 

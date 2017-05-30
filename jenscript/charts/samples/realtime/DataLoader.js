@@ -24,12 +24,12 @@ var DataLoader = function(proj,bundle,callback){
 			onComplete : function() {
 				//console.log('complete callback');
 			},
-			outlineColor : JenScript.RosePalette.COALBLACK,
-			backgroundColor : JenScript.Color.brighten(JenScript.RosePalette.EMERALD,20),
+			outlineColor : 'black',
+			backgroundColor : '#1abc9c',
 			backgroundOpacity : 1,
-			foregroundColor : JenScript.RosePalette.MANDARIN,
+			foregroundColor : '#e67e22',
 			foregroundOpacity : 1,
-			textColor : JenScript.RosePalette.EMERALD
+			textColor : '#2ecc71'
 	});
 	monitorPlugin.addMonitor(m);
 	 

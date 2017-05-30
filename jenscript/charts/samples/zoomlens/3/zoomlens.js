@@ -1,29 +1,24 @@
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
-	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
-	tickTextFontSize : 10
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.Color.lighten(choco,20),
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.Color.lighten(choco,20),
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
-	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 
 /**
  * Create views with zoom lens synchronized in 2 views
@@ -55,7 +50,7 @@ function createView(container1,container2, width, height) {
 	view1.registerProjection(proj1);
 	
 	
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
@@ -69,49 +64,29 @@ function createView(container1,container2, width, height) {
 	});
 	proj1.registerPlugin(legend1);
 	
-	minor = {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		};
-		median = {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		};
-		major = {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.CORALRED,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.CORALRED,
-			tickTextFontSize : 12,
-			//tickTextOffset : 16
-		};
-		var southMetrics1 = new JenScript.AxisMetricsModeled({
-			axis : JenScript.Axis.AxisSouth,
-			minor:minor,
-			median:median,
-			major:major
-		});
-		proj1.registerPlugin(southMetrics1);
+	var southMetrics1 = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisSouth,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(southMetrics1);
 
-		var westMetrics1 = new JenScript.AxisMetricsModeled({
-			axis : JenScript.Axis.AxisWest,
-			minor:minor,
-			median:median,
-			major:major
-		});
-		proj1.registerPlugin(westMetrics1);
+	var westMetrics1 = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor:minor,
+		median:median,
+		major:major
+	});
+	proj1.registerPlugin(westMetrics1);
 
 	var lens1 = new JenScript.ZoomLensPlugin();
 	proj1.registerPlugin(lens1);
 
 	var lx1 = new JenScript.LensX({
 		buttonStrokeWidth : 2,
-		buttonDrawColor : JenScript.RosePalette.MANDARIN,
-		buttonRolloverDrawColor:JenScript.RosePalette.CORALRED,
+		buttonDrawColor : '#9b59b6',
+		buttonRolloverDrawColor:'#e74c3c',
 	});
 	lens1.registerWidget(lx1);
 
@@ -170,8 +145,8 @@ function createView(container1,container2, width, height) {
 
 	var lx2 = new JenScript.LensX({
 		buttonStrokeWidth : 2,
-		buttonDrawColor : JenScript.RosePalette.MANDARIN,
-		buttonRolloverDrawColor:JenScript.RosePalette.CORALRED,
+		buttonDrawColor : '#9b59b6',
+		buttonRolloverDrawColor:'#e74c3c',
 	});
 	lens2.registerWidget(lx2);
 
