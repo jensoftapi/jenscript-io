@@ -29,28 +29,26 @@ function createViewStockCurveFixing(container, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 
-	//prepare metrics properties
 	var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
 	};
 	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
 	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.CORALRED,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.CORALRED,
+		tickTextColor : '#2980b9',
 		tickTextFontSize : 12,
 		tickTextOffset : 16
 	};
@@ -97,4 +95,17 @@ function createViewStockCurveFixing(container, width, height) {
 	var loader = new StockLoader(proj1,[2010,2011,2012,2013,2014],function(year,stocks){
 		stockPlugin.setStocks(stocks);
 	});
+	
+	var tx1 = new JenScript.TranslatePlugin({
+		slaves : [
+		          	{ plugin : stockPlugin, direction : 'xy'},
+		          ]
+	});
+	proj1.registerPlugin(tx1);
+	var tpad = new JenScript.TranslatePad();
+	tx1.registerWidget(tpad);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'yellow'
+	}));
+	tx1.select();
 }

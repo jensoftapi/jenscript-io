@@ -33,26 +33,26 @@ function createViewStockOHLC(container, width, height) {
 	view.registerProjection(proj1);
 	
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'black'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : 'green',
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : 'yellow',
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : 'orange',
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : 'pink',
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : 'pink',
+		tickTextColor : '#2980b9',
 		tickTextFontSize : 12,
 		tickTextOffset : 16
 	};
@@ -74,13 +74,7 @@ function createViewStockOHLC(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	
-
 	var stockPlugin = new JenScript.StockPlugin({
-		//not required in OHLC
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
-
 	});
 	proj1.registerPlugin(stockPlugin);
 

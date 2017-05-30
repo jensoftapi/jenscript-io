@@ -31402,6 +31402,7 @@ function stringInputToObject(color) {
 		_init : function(config){
 			config = config || {};
 			this.curveColor = (config.curveColor !== undefined)? config.curveColor : 'black';
+			this.curveOpacity = (config.curveOpacity !== undefined)? config.curveOpacity : 1;
 			this.curveWidth = (config.curveWidth !== undefined)? config.curveWidth : 1;
 			this.moveCount = (config.moveCount !== undefined)? config.moveCount : 20;
 			this.Id = 'fixing'+JenScript.sequenceId++;
@@ -31444,8 +31445,7 @@ function stringInputToObject(color) {
 							stockCurve.lineTo(proj.userToPixelX(point.x),proj.userToPixelY(point.y));
 					}
 					g2d.deleteGraphicsElement(this.Id);
-					//g2d.insertSVG();
-					svgLayer.child(stockCurve.stroke(this.curveColor).strokeWidth(this.curveWidth).fillNone().toSVG());
+					svgLayer.child(stockCurve.stroke(this.curveColor).strokeWidth(this.curveWidth).strokeOpacity(this.curveOpacity).fillNone().toSVG());
 					g2d.insertSVG(svgLayer.toSVG());
 				}
 			}

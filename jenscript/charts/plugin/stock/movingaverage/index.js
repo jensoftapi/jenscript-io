@@ -1,12 +1,24 @@
+var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 
-
-/**
- * Create stock moving average curve view
- * 
- * @param container
- * @param width
- * @param height
- */
 function createViewStockMovingAverage(container, width, height) {
 
 
@@ -43,26 +55,9 @@ function createViewStockMovingAverage(container, width, height) {
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.CORALRED,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.CORALRED,
-			tickTextFontSize : 12,
-			tickTextOffset : 16
-		}
+		minor : minor,
+		median:median,
+		major:major
 	});
 	proj1.registerPlugin(southMetrics1);
 	
@@ -85,7 +80,7 @@ function createViewStockMovingAverage(container, width, height) {
 		curveWidth : 0.4
 	}));
 	stockPlugin.addLayer(new JenScript.StockMovingAverageLayer({
-		curveColor:JenScript.RosePalette.EMERALD,
+		curveColor:'#1abc9c',
 		moveCount : 20
 	}));
 	
@@ -106,7 +101,7 @@ function createViewStockMovingAverage(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV SMA(20)',
 		fontSize : 12,
-		textColor : JenScript.RosePalette.EMERALD,
+		textColor : '#e74c3c',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 26
@@ -117,7 +112,6 @@ function createViewStockMovingAverage(container, width, height) {
 	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
 		stockPlugin.setStocks(stocks);
 	});
-
 
 }
 
@@ -157,7 +151,7 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 	view.registerProjection(proj1);
 	
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 
 	
@@ -165,26 +159,9 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.CORALRED,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.CORALRED,
-			tickTextFontSize : 12,
-			tickTextOffset : 16
-		}
+		minor : minor,
+		median:median,
+		major:major
 	});
 	proj1.registerPlugin(southMetrics1);
 	
@@ -202,11 +179,11 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.StockFixingLayer({
-		curveColor:'pink',
+		curveColor:'#e67e22',
 		curveWidth : 1.5
 	}));
 	stockPlugin.addLayer(new JenScript.StockWeightedMovingAverageLayer({
-		curveColor:'green',
+		curveColor:'#2ecc71',
 		moveCount : 20
 	}));
 	
@@ -215,7 +192,7 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV Fixing',
 		fontSize : 14,
-		textColor : 'pink',
+		textColor : '#2ecc71',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
@@ -225,7 +202,7 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV WMA(20)',
 		fontSize : 14,
-		textColor : 'purple',
+		textColor : 'e67e22',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 26
@@ -237,23 +214,10 @@ function createViewStockWeightedMovingAverage(container, width, height) {
 		stockPlugin.setStocks(stocks);
 	});
 
-
-
 }
 
-
-
-/**
- * Create stock exponential moving average curve view
- * 
- * @param container
- * @param width
- * @param height
- */
 function createViewStockExponentialMovingAverage(container, width, height) {
 
-
-	//view
 	var view = new JenScript.View({
 		name : container,
 		width : width,
@@ -263,7 +227,6 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 		south : 80,
 	});
 	
-	//date range
 	var startDate = new Date(2013, 04, 25);
 	var endDate = new Date(2013, 08, 05);
 
@@ -277,38 +240,17 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
-
-	
 	
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.CORALRED,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.CORALRED,
-			tickTextFontSize : 12,
-			tickTextOffset : 16
-		}
+		minor : minor,
+		median:median,
+		major:major
 	});
 	proj1.registerPlugin(southMetrics1);
-	
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest
@@ -319,16 +261,15 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 	proj1.registerPlugin(tx1);
 	tx1.select();
 
-
 	var stockPlugin = new JenScript.StockPlugin();
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.StockFixingLayer({
-		curveColor:'black',
+		curveColor:'#2ecc71',
 		curveWidth : 1
 	}));
 	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({
-		curveColor:'purple',
+		curveColor:'#3498db',
 		moveCount : 20
 	}));
 	
@@ -337,7 +278,7 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV Fixing',
 		fontSize : 14,
-		textColor : 'black',
+		textColor : '#2ecc71',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
@@ -348,17 +289,14 @@ function createViewStockExponentialMovingAverage(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV EMA(20)',
 		fontSize : 14,
-		textColor : 'purple',
+		textColor : '#3498db',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 26
 	});
 	proj1.registerPlugin(legend2);
-
 	
 	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
 		stockPlugin.setStocks(stocks);
 	});
-
-
 }

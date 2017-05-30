@@ -1,24 +1,23 @@
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : 'yellow',
-	tickMarkerStroke : 1.2,
-	tickTextColor : 'yellow',
-	tickTextFontSize : 10,
-	tickTextOffset : 8
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.RosePalette.MANDARIN,
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.RosePalette.MANDARIN,
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 
 function createViewStockCandleStick(container, width, height) {
 
@@ -48,7 +47,7 @@ function createViewStockCandleStick(container, width, height) {
 	view.registerProjection(proj1);
 	
 	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 
 
@@ -70,11 +69,9 @@ function createViewStockCandleStick(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	
-
 	var stockPlugin = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj1.registerPlugin(stockPlugin);
 
@@ -85,7 +82,7 @@ function createViewStockCandleStick(container, width, height) {
 	
 	var tx1 = new JenScript.TranslatePlugin({
 		slaves : [
-		          	{plugin : stockPlugin, direction : 'xy'},
+		          	{ plugin : stockPlugin, direction : 'xy'},
 		          ]
 	});
 	proj1.registerPlugin(tx1);
@@ -101,7 +98,7 @@ function createViewStockCandleStick(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV Fixing',
 		fontSize : 14,
-		textColor : 'purple',
+		textColor : '#d35400',
 		xAlign : 'right',
 		yAlign : 'top',
 	});

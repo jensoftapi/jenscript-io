@@ -22,25 +22,24 @@ function createViewStockMACD(container1,container2, width, height) {
 	var endDate = new Date(2013, 08, 05);
 	
 	var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
 	};
 	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 10,
-		tickTextOffset : 8
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
 	};
 	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.INDIGO,
+		tickMarkerColor : '#1abc9c',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.INDIGO,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 12,
-		tickTextOffset : 16
+		tickTextOffset : 18
 	};
 
 	var proj1 = new JenScript.TimeXProjection({
@@ -52,12 +51,9 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj1.registerPlugin(outline);
 
-	
-	
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({})],
@@ -76,29 +72,35 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	var tx1 = new JenScript.TranslatePlugin({});
-	proj1.registerPlugin(tx1);
 	
-	tx1.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : 'purple'
-	}));
-	
-	tx1.select();
 	
 
 	var stockPlugin = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.COALBLACK
+		lowHighColor : 'white'
 	}));
 	
 	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'purple'}));
 	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'green'}));
 	
+	var tx1 = new JenScript.TranslatePlugin({
+		mode:'txy',
+		slaves : [
+		          	{ plugin : stockPlugin, direction : 'xy'},
+		          ]
+	});
+	proj1.registerPlugin(tx1);
+	
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : '#1abc9c'
+	}));
+	
+	tx1.select();
 	
 	var mme12Legend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
@@ -121,17 +123,13 @@ function createViewStockMACD(container1,container2, width, height) {
 		yMargin: 26
 	});
 	
-	
 	proj1.registerPlugin(mme26Legend);
 	
-	//proj 1 manage loading and duplicate on proj2
 	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
 		stockPlugin.setStocks(stocks);
 		stockPlugin2.setStocks(stocks);
 	});
 
-
-	//view
 	var view2 = new JenScript.View({
 		name : container2,
 		width : width,
@@ -152,7 +150,7 @@ function createViewStockMACD(container1,container2, width, height) {
 	view2.registerProjection(proj2);
 	
 	//device outline
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#1abc9c'});
 	proj2.registerPlugin(outline2);
 	
 
@@ -222,16 +220,20 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	proj2.registerPlugin(legend3);
 	
+
+	
 	var tx2 = new JenScript.TranslatePlugin({
-		mode:'tx'
+		mode:'tx',
+		slaves : [
+		          	{ plugin : stockPlugin2, direction : 'xy'},
+		          ]
 	});
 	tx2.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : 'purple'
+		ringFillColor : 'yellow'
 	}));
 	
 	proj2.registerPlugin(tx2);
 	var synchronizer = new JenScript.TranslateSynchronizer({
 		translates : [ tx1, tx2 ]
 	});
-	tx1.select();
 }

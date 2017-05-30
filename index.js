@@ -20,48 +20,49 @@ var lensView1Proj2;
 var lensView2Proj1;
 
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
-	tickMarkerStroke : 1
+		tickMarkerSize : 2,
+		tickMarkerColor : '#9b59b6',
+		tickMarkerStroke : 0.8
 };
 var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : 'yellow',
-	tickMarkerStroke : 1.2,
-	tickTextColor : 'yellow',
+	tickMarkerSize : 8,
+	tickMarkerColor : '#1abc9c',
+	tickMarkerStroke : 2,
+	tickTextColor : '#1abc9c',
 	tickTextFontSize : 10,
-	tickTextOffset : 8
+	tickTextOffset : 14
 };
 var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.RosePalette.MANDARIN,
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.RosePalette.MANDARIN,
+	tickMarkerSize : 12,
+	tickMarkerColor : '#2980b9',
+	tickMarkerStroke : 2,
+	tickTextColor : '#2980b9',
 	tickTextFontSize : 12,
-	tickTextOffset : 16
+	tickTextOffset : 18
 };
+
 
 var minor2 = {
 		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.LIME,
-		tickMarkerStroke : 1
-	};
+		tickMarkerColor : '#9b59b6',
+		tickMarkerStroke : 0.8
+};
 var median2 = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 10,
-		tickTextOffset : 8
-	};
+	tickMarkerSize : 8,
+	tickMarkerColor : '#9b59b6',
+	tickMarkerStroke : 2,
+	tickTextColor : '#9b59b6',
+	tickTextFontSize : 10,
+	tickTextOffset : 14
+};
 var major2 = {
-		tickMarkerSize : 8,
-		tickMarkerColor : 'yellow',
-		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12,
-		tickTextOffset : 16
-	};
+	tickMarkerSize : 12,
+	tickMarkerColor : '#e74c3c',
+	tickMarkerStroke : 2,
+	tickTextColor : '#e74c3c',
+	tickTextFontSize : 12,
+	tickTextOffset : 18
+};
 
 function createView1Proj1() {
 	proj1 = new JenScript.TimeXProjection({
@@ -74,13 +75,10 @@ function createView1Proj1() {
 	});
 	view1.registerProjection(proj1);
 	
-	
-	//OUTLINE PLUGIN
-	var outline = new JenScript.DeviceOutlinePlugin({color : JenScript.RosePalette.MELON, strokeOpacity : 0.8, strokeWidth : 1});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#1abc9c', strokeOpacity : 0.8, strokeWidth : 1});
 	proj1.registerPlugin(outline);
 	
 	
-	//METRICS PLUGIN
 	 southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({}), new JenScript.YearModel({})],
@@ -113,7 +111,7 @@ function createView1Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 12',
 		fontSize : 10,
-		textColor : JenScript.RosePalette.DEEPHARBOR,
+		textColor : '#e67e22',
 		xAlign : 'left',
 		yAlign : 'bottom',
 	});
@@ -123,7 +121,7 @@ function createView1Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 26',
 		fontSize : 10,
-		textColor : JenScript.RosePalette.LEMONPEEL,
+		textColor : '#1abc9c',
 		xAlign : 'left',
 		yAlign : 'bottom',
 		yMargin: 18
@@ -180,10 +178,8 @@ function createView1Proj1() {
 	
 	stockPluginView1Proj1.addLayer(candles);
 	
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
-	
-	
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'#e67e22',curveOpacity : 0.7}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'#1abc9c',curveOpacity : 0.7}));
 	
 	var tooltip = new JenScript.Tooltip({
 		text : "",
@@ -214,20 +210,14 @@ function createView1Proj1() {
 		tooltipPlugin.repaintPlugin();
 	};
 	
-	var lock = false;
-	
 	candles.addStockListener('enter',function(event){
-		updateText(event.device, event.stock);
-		lock = true;
-		setTimeout(function(){lock=false;},100);
 	},'this demo');
 	
 	candles.addStockListener('exit',function(event){
-		removeText()
+		removeText();
 	},'this demo');
 	
 	candles.addStockListener('move',function(event){
-		setTimeout(function(){updateText(event.device, event.stock);},20);
 	},'this demo');
 	
 	candles.addStockListener('press',function(event){
@@ -333,7 +323,7 @@ function createView2Proj1() {
 	});
 	view2.registerProjection(proj2);
 	
-	var outline2 = new JenScript.DeviceOutlinePlugin({color : JenScript.Color.brighten(JenScript.RosePalette.TURQUOISE,40), strokeOpacity : 0.8, strokeWidth : 1});
+	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#3498db', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
 
@@ -366,17 +356,17 @@ function createView2Proj1() {
 		lineOpacity:1,
 		lineWidth:1,
 		
-		macdColor:'rgba(255,130,0,0.7)',
-		signalColor:'rgba(52, 152, 219,0.7)',
+		macdColor:'#3498db',
+		signalColor:'#2ecc71',
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12-26-9)',
-		fontSize : 14,
-		textColor : JenScript.RosePalette.MANDARIN,
-		xAlign : 'right',
+		fontSize : 10,
+		textColor : '#e74c3c',
+		xAlign : 'center',
 		yAlign : 'top',
 		yMargin: 5
 	});
@@ -386,22 +376,22 @@ function createView2Proj1() {
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'Signal MME 9',
-		fontSize : 14,
-		textColor : 'rgba(52, 152, 219,0.7)',
+		fontSize : 10,
+		textColor : '#2ecc71',
 		xAlign : 'right',
 		yAlign : 'bottom',
-		yMargin: 5
+		yMargin: 38
 	});
 	proj2.registerPlugin(legend2);
 	var legend3 = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12/26)',
-		fontSize : 14,
-		textColor : 'rgba(255,130,0,0.7)',
+		fontSize : 10,
+		textColor : '#3498db',
 		xAlign : 'right',
 		yAlign : 'bottom',
-		yMargin: 25
+		yMargin: 50
 	});
 	proj2.registerPlugin(legend3);
 }
@@ -445,14 +435,29 @@ function createView2Proj2() {
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
-		text   : 'Volume',
+		text   : 'Bullish Volume',
 		fontSize : 10,
-		textColor : 'rgba(155,89,182,1)',
+		textColor : '#d35400',
 		rotate : true,
 		rotateAngle : -90,
 		xAlign : 'left',
-		yAlign : 'center',
+		yAlign : 'bottom',
+		xMargin : 20,
+		yMargin : 80
+	});
+	proj22.registerPlugin(title);
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Bearish Volume',
+		fontSize : 10,
+		textColor : '#3498db',
+		rotate : true,
+		rotateAngle : -90,
+		xAlign : 'left',
+		yAlign : 'bottom',
 		xMargin : 10,
+		yMargin : 80
 	});
 	proj22.registerPlugin(title);
 }
@@ -612,6 +617,7 @@ function createTranslate(){
 								//outlineColor : 'white',
 								fillColor : 'rgba(255,130,0,0.5)',
 								position : 'top',
+								lengthRatio : 0.8
 							})
 							
 	});
@@ -634,7 +640,7 @@ function createTranslate(){
 									//outlineColor : 'white',
 									fillColor : 'rgba(173,255,47,0.5)',
 									position : 'top',
-									lengthRatio : 0.8
+									lengthRatio : 0.7
 							})
 							
 	});
@@ -661,7 +667,7 @@ function createTranslate(){
 								//outlineColor : 'white',
 								fillColor : 'rgba(0,229,238,0.5)',
 								position : 'top',
-								lengthRatio : 0.2
+								lengthRatio : 0.5
 							})
 
 	});
@@ -688,7 +694,7 @@ function createTranslate(){
 									//outlineColor : 'white',
 									fillColor : 'rgba(0,250,154,0.5)',
 									position : 'top',
-									lengthRatio : 0.6
+									lengthRatio : 0.4
 							})
 
 	});
@@ -713,7 +719,7 @@ function createTranslate(){
 									//outlineColor : 'white',
 									fillColor : 'rgba(173,255,47,0.5)',
 									position : 'top',
-									lengthRatio : 0.8
+									lengthRatio : 0.3
 								})
 	});
 	
@@ -729,7 +735,8 @@ function createTranslate(){
 	translateView2Proj1.registerWidget(new JenScript.TranslateCompassWidget({
 		ringFillColor : JenScript.RosePalette.AEGEANBLUE,
 		ringFillOpacity : 0.7,
-		xIndex :0,
+		xIndex :100,
+		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
 	}));
 	proj2.registerPlugin(translateView2Proj1);
 
