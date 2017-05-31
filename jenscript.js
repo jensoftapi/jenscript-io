@@ -4,7 +4,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-05-30
+// build: 2017-05-31
 // All Rights reserved
 
 /**
@@ -5363,9 +5363,13 @@ function stringInputToObject(color) {
 })();
 (function(){
 	JenScript.ViewBuilder = function(config){
-		var v = new JenScript.View(config);
+		//config = config || {};
+		var v = (config.view)? config.view :  new JenScript.View(config);
+		console.log("view "+v)
 		return {
+			//view : function(){return v;},
 			projection : function(type, config){
+				console.log("create projection ok")
 				var p;
 				
 				if('linear' === type)
@@ -5383,7 +5387,8 @@ function stringInputToObject(color) {
 				
 				//builder interfaces
 				return {
-					pie : function(config){return new JenScript.PieBuilder(v,p,config);},
+					//projection : function(){return p;},
+					pie : function(config){console.log("here"+config.radius+ ""+ JenScript.PieBuilder);return new JenScript.PieBuilder(v,p,config);},
 					donut3d : function(config){return new JenScript.Donut3DBuilder(v,p,config);},
 					donut2d : function(config){return new JenScript.Donut2DBuilder(v,p,config);},
 				}
