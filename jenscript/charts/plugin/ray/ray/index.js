@@ -23,30 +23,31 @@ function createView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Ray Chart',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#3498db',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
 
 	var minor = {
-		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.PINGPIZZAZZ,
-		tickMarkerStroke : 1
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
 	var median = {
-		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
-		tickMarkerStroke : 0.6,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 8
+		tickMarkerSize : 4,
+		tickMarkerColor : '#e74c3c',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '',
+		tickTextFontSize : 10
 	};
 	var major = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.CALYPSOBLUE,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.CALYPSOBLUE,
-		tickTextFontSize : 10
+		tickMarkerSize : 8,
+		tickMarkerColor : '#1abc9c',
+		tickMarkerStroke : 3,
+		tickTextColor : '#1abc9c',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -108,8 +109,7 @@ function createView(container, width, height) {
 	
 	rayPlugin.repaintPlugin();
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color:JenScript.RosePalette.EMERALD});
+	var outline = new JenScript.DeviceOutlinePlugin({color:'#1abc9c'});
 	proj.registerPlugin(outline);
 	
 	var zoomwheel = new JenScript.ZoomWheelPlugin({mode:'wx'});
@@ -123,7 +123,6 @@ function createView(container, width, height) {
 		          {plugin : westMetrics , direction : 'y'},
 		          
 		          ]
-	
 	});
 	proj.registerPlugin(translate);
 	translate.select();	

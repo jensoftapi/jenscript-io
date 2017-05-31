@@ -69,13 +69,11 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
-	
 	var symbolPlugin = new JenScript.SymbolPlugin({
 		nature : 'Vertical'
 	});
 	proj.registerPlugin(symbolPlugin);
 	
-	// arbitrary values between min max values
 	var random = function getRandomArbitrary(min, max) {
 	  return Math.random() * (max - min) + min;
 	}
@@ -90,7 +88,6 @@ function createSymbolBarView(container, width, height) {
 	
 	var count = 1;
 	
-	//symbol factory
 	var createBar = function(val){
 		var symbol = new JenScript.SymbolBarStacked({
 			name : 'Symbol'+count,
@@ -107,7 +104,7 @@ function createSymbolBarView(container, width, height) {
 		});
 		
 		var axisLabel = new JenScript.SymbolAxisLabel({
-			part : 'South', //North or South for horizontal symbol
+			part : 'South', 
 			text : symbol.name,
 			textColor : 'turquoise',
 			textAnchor : 'end',
@@ -144,13 +141,9 @@ function createSymbolBarView(container, width, height) {
 		return symbol;
 	}
 	
-	//layer
 	var barLayer = new JenScript.SymbolBarLayer();
 	symbolPlugin.addLayer(barLayer);
 	
-
-	
-	//lay out
 	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false); //glue stretch
 	for (var i = 1; i <= 10; i++) {
 		var bar = createBar(barValue());
@@ -169,7 +162,7 @@ function createSymbolBarView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Label 1',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : 'rgb(91, 151, 168)',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
@@ -180,7 +173,7 @@ function createSymbolBarView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Label 2',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.NEPTUNE,
+		textColor : 'rgb(128, 182, 191)',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin : 20
@@ -192,15 +185,13 @@ function createSymbolBarView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Label 3',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.AEGEANBLUE,
+		textColor : 'rgb(22, 125, 218)'',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin : 36
 	});
 	proj.registerPlugin(t3);
 	
-	 
-	//TOOL
 	var tx1 = new JenScript.TranslatePlugin({
 		mode : 'ty',
 		slaves :[{plugin : symbolPlugin, direction: 'y'},
@@ -218,5 +209,4 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(zoomwheel);
 	 
-	
 }

@@ -1,9 +1,4 @@
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-
 
 var minor = {
 	tickMarkerSize : 2,
@@ -58,7 +53,6 @@ function createViewStockBollingerBand(container, width, height) {
 	
 	
 	
-	//stock plugin
 	var stockPlugin1 = new JenScript.StockPlugin({
 		bearishColor : 'rgba(230, 126, 34,0.8)',
 		bullishColor : 'rgba(41, 128, 185,0.8)',
@@ -67,7 +61,9 @@ function createViewStockBollingerBand(container, width, height) {
 
 	
 	var candles = new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.COALBLACK
+		lowHighColor : 'white',
+		bearishColor : 'rgba(230, 126, 34,0.8)',
+		bullishColor : 'rgba(41, 128, 185,0.8)',
 	});
 	
 	stockPlugin1.addLayer(candles);
@@ -79,7 +75,6 @@ function createViewStockBollingerBand(container, width, height) {
 		lineWidth : 0.5
 	}));
 
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:'yellow'});
 	projPrice.registerPlugin(outline);
 
@@ -93,7 +88,6 @@ function createViewStockBollingerBand(container, width, height) {
 	});
 	projPrice.registerPlugin(southMetrics1);
 	
-	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
 		minor:minor,
@@ -102,7 +96,6 @@ function createViewStockBollingerBand(container, width, height) {
 	});
 	projPrice.registerPlugin(westMetrics);
 
-	//translate
 	var translate1 = new JenScript.TranslatePlugin();
 	projPrice.registerPlugin(translate1);
 	var txw = new JenScript.TranslateX({
@@ -118,14 +111,12 @@ function createViewStockBollingerBand(container, width, height) {
 	translate1.registerWidget(txw);
 	translate1.select();
 
-
-
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'Bollinger',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#9b59b6',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
@@ -135,47 +126,6 @@ function createViewStockBollingerBand(container, width, height) {
 	var __loader = new StockLoader(projPrice,[2013,2014,2015],function(year,stocks){
 		stockPlugin1.setStocks(stocks);
 	});
-	
-	
-	//listener
-	candles.addStockListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('stock enter');
-	},'this demo');
-	
-	//listener
-	candles.addStockListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('stock exit');
-	},'this demo');
-	
-	//listener
-	candles.addStockListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('stock move');
-	},'this demo');
-	
-	//listener
-	candles.addStockListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('stock press');
-	},'this demo');
-	
-	//listener
-	candles.addStockListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('stock release');
-	},'this demo');
 	
 	
 }

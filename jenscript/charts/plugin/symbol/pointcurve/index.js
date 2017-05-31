@@ -32,27 +32,32 @@ function createSymbolBarView(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'cyan',
+			tickMarkerStroke : 1
+		};
+		var median = {
+			tickMarkerSize : 4,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1.2,
+			tickTextColor : 'yellow',
+			tickTextFontSize : 10
+		};
+		var major = {
+			tickMarkerSize : 8,
+			tickMarkerColor : 'rgb(240,88,0)',
+			tickMarkerStroke : 3,
+			tickTextColor : 'rgb(240,88,0)',
+			tickTextFontSize : 12,
+			tickTextOffset : 16
+		};
+		
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
-		minor : {
-			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		}
+		minor : minor,
+		median : median,
+		major : major
 	});
 	proj.registerPlugin(metrics);
 	
@@ -64,7 +69,6 @@ function createSymbolBarView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
-	//TOOL
 	var tx1 = new JenScript.TranslatePlugin({
 		mode : 'ty',
 	});
@@ -105,7 +109,7 @@ function createSymbolBarView(container, width, height) {
 			thickness : 32,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
+			themeColor : '#d35400',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
@@ -115,17 +119,17 @@ function createSymbolBarView(container, width, height) {
 		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'stack1',
-			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			themeColor : 'rgb(91, 151, 168)',
 			stackValue : stackValue()
 		});
 		var  s2 = new JenScript.SymbolStack({
 			name : 'stack2',
-			themeColor : JenScript.RosePalette.NEPTUNE,
+			themeColor : 'rgb(128, 182, 191)',
 			stackValue : stackValue()
 		});
 		var  s3 = new JenScript.SymbolStack({
 			name : 'stack3',
-			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			themeColor : 'rgb(22, 125, 218)',
 			stackValue : stackValue()
 		});
 		

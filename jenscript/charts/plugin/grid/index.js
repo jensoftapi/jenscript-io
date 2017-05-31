@@ -1,14 +1,9 @@
 
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
 		tickMarkerSize : 2,
 		tickMarkerColor : 'cyan',
 		tickMarkerStroke : 1
-	};
+};
 var median = {
 	tickMarkerSize : 4,
 	tickMarkerColor : 'cyan',
@@ -17,8 +12,6 @@ var median = {
 	tickTextFontSize : 10,
 	tickTextOffset : 8
 };
-
-
 var major = {
 	tickMarkerSize : 8,
 	tickMarkerColor : 'yellow',
@@ -95,7 +88,6 @@ function createView(container, width, height) {
 	var wheel = new JenScript.ZoomWheelPlugin({});
 	proj.registerPlugin(wheel);
 	
-	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
 		          	{plugin :  gridPlugin, direction : 'x'},
@@ -127,21 +119,17 @@ function createView(container, width, height) {
 	}));
 	
 	
-	
 	//translate1.select();
 
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
-		text   : 'Metrics',
+		text   : 'Grids',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#e74c3c',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
 	
 }
-
-
-

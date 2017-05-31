@@ -1,10 +1,25 @@
-/**
- * 
- * @param container
- * @param width
- * @param height
- * 
- */
+
+var minor = {
+	tickMarkerSize : 2,
+	tickMarkerColor : '#9b59b6',
+	tickMarkerStroke : 1
+};
+var median = {
+	tickMarkerSize : 4,
+	tickMarkerColor : '#e74c3c',
+	tickMarkerStroke : 1.2,
+	tickTextColor : '',
+	tickTextFontSize : 10
+};
+var major = {
+	tickMarkerSize : 8,
+	tickMarkerColor : '#1abc9c',
+	tickMarkerStroke : 3,
+	tickTextColor : '#1abc9c',
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
+
 function createTimingMetrics(container, width, height) {
 
 	//view
@@ -17,8 +32,6 @@ function createTimingMetrics(container, width, height) {
 		south : 80,
 	});
 
-	
-	//date range
 	var startDate = new Date(2013, 10, 27);
 	var endDate = new Date(2013, 11, 04);
 
@@ -32,37 +45,17 @@ function createTimingMetrics(container, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
-	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#16a085'});
 	proj1.registerPlugin(outline);
-
 
 	var southMetrics = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({}),new JenScript.YearModel({})],
-		minor : {
-			tickMarkerSize : 1.2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-			tickMarkerStroke : 1
-		},
-		median : {
-			tickMarkerSize : 4,
-			tickMarkerColor : 'yellow',
-			tickMarkerStroke : 1.2,
-			tickTextColor : 'yellow',
-			tickTextFontSize : 10
-		},
-		major : {
-			tickMarkerSize : 8,
-			tickMarkerColor : 'cyan',
-			tickMarkerStroke : 3,
-			tickTextColor : 'cyan',
-			tickTextFontSize : 12,
-			tickTextOffset : 16
-		}
+		minor : minor,
+		median : median,
+		major :major
 	});
 	proj1.registerPlugin(southMetrics);
-	
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
@@ -70,7 +63,6 @@ function createTimingMetrics(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
 		          	{plugin :  southMetrics, direction : 'x'},
@@ -100,19 +92,16 @@ function createTimingMetrics(container, width, height) {
 		ringFillOpacity : 0.7,
 	}));
 	
-	
-	
 	translate1.select();
-
 	
 	var stockPlugin = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
+		bearishColor : '#e67e22',
+		bullishColor : '#1abc9c',
 	});
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.COALBLACK
+		lowHighColor : '#ecf0f1'
 	}));
 
 	var legend = new JenScript.TitleLegendPlugin({
@@ -126,8 +115,6 @@ function createTimingMetrics(container, width, height) {
 	});
 	proj1.registerPlugin(legend);
 	
-	
 	var wheel = new JenScript.ZoomWheelPlugin({});
 	proj1.registerPlugin(wheel);
-	
 }

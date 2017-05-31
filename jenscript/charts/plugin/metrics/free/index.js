@@ -1,29 +1,21 @@
 
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : 'yellow',
-		tickMarkerStroke : 1
-	};
+	tickMarkerSize : 2,
+	tickMarkerColor : '#9b59b6',
+	tickMarkerStroke : 1
+};
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+	tickMarkerColor : '#e74c3c',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.TURQUOISE,
-	tickTextFontSize : 10,
-	tickTextOffset : 8
+	tickTextColor : '',
+	tickTextFontSize : 10
 };
-
-
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : 'yellow',
+	tickMarkerColor : '#1abc9c',
 	tickMarkerStroke : 3,
-	tickTextColor : 'yellow',
+	tickTextColor : '#1abc9c',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
@@ -83,7 +75,6 @@ function createView(container, width, height) {
 	proj.registerPlugin(southMetrics);
 	proj.registerPlugin(westMetrics);
 
-	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
 		          	{plugin :  southMetrics, direction : 'x'},
@@ -113,8 +104,6 @@ function createView(container, width, height) {
 		ringFillOpacity : 0.7,
 	}));
 	
-	
-	
 	translate1.select();
 
 	var title = new JenScript.TitleLegendPlugin({
@@ -122,13 +111,10 @@ function createView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#3498db',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
 	
 }
-
-
-

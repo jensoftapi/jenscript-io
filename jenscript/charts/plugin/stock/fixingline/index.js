@@ -86,7 +86,7 @@ function createViewStockCurveFixing(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV Fixing',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.EMERALD,
+		textColor : '#1abc9c',
 		xAlign : 'right',
 		yAlign : 'top',
 	});

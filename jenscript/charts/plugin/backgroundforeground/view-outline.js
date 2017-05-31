@@ -25,7 +25,7 @@ function createViewOutline(container, width, height) {
 	view.registerProjection(proj);
 
 	var bg1 = new JenScript.ViewOutlineBackground({
-		strokeColor : JenScript.RosePalette.AEGEANBLUE
+		strokeColor : '#2980b9'
 	});
 	view.addViewBackground(bg1);
 

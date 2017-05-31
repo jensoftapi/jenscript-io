@@ -1,29 +1,20 @@
-
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : 'cyan',
-		tickMarkerStroke : 1
-	};
+	tickMarkerSize : 2,
+	tickMarkerColor : '#9b59b6',
+	tickMarkerStroke : 1
+};
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : 'cyan',
+	tickMarkerColor : '#e74c3c',
 	tickMarkerStroke : 1.2,
-	tickTextColor : 'cyan',
-	tickTextFontSize : 10,
-	tickTextOffset : 8
+	tickTextColor : '',
+	tickTextFontSize : 10
 };
-
-
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : 'yellow',
+	tickMarkerColor : '#1abc9c',
 	tickMarkerStroke : 3,
-	tickTextColor : 'yellow',
+	tickTextColor : '#1abc9c',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
@@ -66,7 +57,8 @@ function createView(container, width, height) {
 	proj.registerPlugin(southMetrics);
 	
 	var westMetrics = new JenScript.AxisMetricsModeled({
-		axis : JenScript.Axis.AxisWest, gravity :'natural', //gravity :'rotate'
+		axis : JenScript.Axis.AxisWest, 
+		gravity :'natural', 
 		minor : minor,
 		median : median,
 		major :major
@@ -76,7 +68,6 @@ function createView(container, width, height) {
 	var wheel = new JenScript.ZoomWheelPlugin({});
 	proj.registerPlugin(wheel);
 	
-	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
 		          	{plugin :  southMetrics, direction : 'x'},
@@ -106,8 +97,6 @@ function createView(container, width, height) {
 		ringFillOpacity : 0.7,
 	}));
 	
-	
-	
 	translate1.select();
 
 	var title = new JenScript.TitleLegendPlugin({
@@ -115,13 +104,9 @@ function createView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#9b59b6',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
-	
 }
-
-
-

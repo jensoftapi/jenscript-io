@@ -177,12 +177,12 @@ function createViewStockMACD(container1,container2, width, height) {
 		moveCountSignal:9,
 		moveCountMin:12,
 		moveCountMax:26,
-		lineColor:JenScript.RosePalette.MANDARIN,
+		lineColor:'#1abc9c',
 		lineOpacity:1,
 		lineWidth:1,
 		
-		macdColor:JenScript.RosePalette.CORALRED,
-		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+		macdColor:'#c0392b',
+		signalColor:'#2980b9',
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
@@ -190,7 +190,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12-26-9)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.MANDARIN,
+		textColor : '#1abc9c',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -202,7 +202,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Signal MME 9',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : '#2980b9',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 5
@@ -213,7 +213,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12/26)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CORALRED,
+		textColor : '#c0392b',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 25

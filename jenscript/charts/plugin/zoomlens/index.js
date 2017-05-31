@@ -15,48 +15,44 @@ var startDate = new Date(2015, 08, 15);
 var endDate = new Date(2015, 10, 15);
 
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
-	tickMarkerStroke : 1
+		tickMarkerSize : 2,
+		tickMarkerColor : 'cyan',
+		tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+	tickMarkerColor : 'cyan',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.TURQUOISE,
-	tickTextFontSize : 10,
-	tickTextOffset : 8
+	tickTextColor : 'cyan',
+	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.RosePalette.MANDARIN,
+	tickMarkerColor : '#3498db',
 	tickMarkerStroke : 3,
-	tickTextColor : JenScript.RosePalette.MANDARIN,
-	tickTextFontSize : 12,
-	tickTextOffset : 16
+	tickTextColor : '#3498db',
+	tickTextFontSize : 12
 };
 
 var minor2 = {
 		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.LIME,
+		tickMarkerColor : 'cyan',
 		tickMarkerStroke : 1
-	};
+};
 var median2 = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 10,
-		tickTextOffset : 8
-	};
+	tickMarkerSize : 4,
+	tickMarkerColor : 'cyan',
+	tickMarkerStroke : 1.2,
+	tickTextColor : 'cyan',
+	tickTextFontSize : 10
+};
 var major2 = {
-		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.MANDARIN,
-		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12,
-		tickTextOffset : 16
-	};
+	tickMarkerSize : 8,
+	tickMarkerColor : '#3498db',
+	tickMarkerStroke : 3,
+	tickTextColor : '#3498db',
+	tickTextFontSize : 12
+};
 
 
 function createView1Proj1() {
@@ -70,7 +66,7 @@ function createView1Proj1() {
 	});
 	view1.registerProjection(proj1);
 	
-	var outline = new JenScript.DeviceOutlinePlugin({color : JenScript.RosePalette.MELON, strokeOpacity : 0.8, strokeWidth : 1});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#8e44ad', strokeOpacity : 0.8, strokeWidth : 1});
 	proj1.registerPlugin(outline);
 	
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
@@ -103,7 +99,7 @@ function createView1Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 12',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.DEEPHARBOR,
+		textColor : '#e67e22',
 		xAlign : 'left',
 		yAlign : 'bottom',
 	});
@@ -113,7 +109,7 @@ function createView1Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 26',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.LEMONPEEL,
+		textColor : '#f1c40f',
 		xAlign : 'left',
 		yAlign : 'bottom',
 		yMargin: 26
@@ -130,8 +126,8 @@ function createView1Proj1() {
 		lowHighColor : 'white'
 	}));
 	
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'#e67e22'}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'#f1c40f'}));
 }
 
 function createView1Proj2() {
@@ -161,8 +157,8 @@ function createView1Proj2() {
 	proj12.registerPlugin(ohlcLegend);
 
 	stockPluginView1Proj2 = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.MELON,
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgba(230, 126, 34,0.8)',
+		bullishColor : 'rgba(41, 128, 185,0.8)',
 	});
 	proj12.registerPlugin(stockPluginView1Proj2);
 	
@@ -211,12 +207,12 @@ function createView2Proj1() {
 		moveCountSignal:9,
 		moveCountMin:12,
 		moveCountMax:26,
-		lineColor:JenScript.RosePalette.MANDARIN,
+		lineColor:'#c0392b',
 		lineOpacity:1,
 		lineWidth:1,
 		
-		macdColor:JenScript.RosePalette.CORALRED,
-		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+		macdColor:'#9b59b6',
+		signalColor:'#16a085',
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
@@ -224,7 +220,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12-26-9)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.MANDARIN,
+		textColor : '#c0392b',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -236,7 +232,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Signal MME 9',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : '#16a085',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 5
@@ -247,7 +243,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12/26)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CORALRED,
+		textColor : '#9b59b6',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 25

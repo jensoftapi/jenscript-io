@@ -1,33 +1,27 @@
 
-
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+	tickMarkerColor : '#9b59b6',
 	tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#e74c3c',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '',
 	tickTextFontSize : 10
 };
 var major = {
 	tickMarkerSize : 8,
-	tickMarkerColor : 'yellow',
+	tickMarkerColor : '#1abc9c',
 	tickMarkerStroke : 3,
-	tickTextColor : 'yellow',
+	tickTextColor : '#1abc9c',
 	tickTextFontSize : 12,
 	tickTextOffset : 16
 };
 	
 function createMetricsView(container, width, height) {
 	
-	//view
 	var view = new JenScript.View({
 		name : container,
 		width : width,
@@ -37,7 +31,6 @@ function createMetricsView(container, width, height) {
 		east : 80,
 		south : 80,
 	});
-
 	
 	var proj = new JenScript.LinearProjection({
 		cornerRadius : 6,
@@ -49,12 +42,8 @@ function createMetricsView(container, width, height) {
 	});
 	view.registerProjection(proj);
 	
-	
-
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color:'#3498db'});
 	proj.registerPlugin(outline);
-
 
 	var southMetrics = new JenScript.AxisMetricsFlow({
 		flowStart : -700,
@@ -78,8 +67,6 @@ function createMetricsView(container, width, height) {
 	});
 	proj.registerPlugin(westMetrics);
 	
-
-	//translate
 	translate1 = new JenScript.TranslatePlugin({
 		slaves : [
 		          	{plugin :  southMetrics, direction : 'x'},
@@ -110,22 +97,15 @@ function createMetricsView(container, width, height) {
 	}));
 	translate1.select();
 
-	
-	
-
 	var title = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : '#d35400',
 		xAlign : 'right',
 		yAlign : 'top',
 	});
 	proj.registerPlugin(title);
 	
-	
 }
-
-
-

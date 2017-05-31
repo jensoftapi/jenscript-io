@@ -15,48 +15,48 @@ var startDate = new Date(2015, 08, 15);
 var endDate = new Date(2015, 10, 15);
 
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.PALMLEAF,
-	tickMarkerStroke : 1
-};
-var median = {
-	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.TURQUOISE,
-	tickTextFontSize : 10,
-	tickTextOffset : 8
-};
-var major = {
-	tickMarkerSize : 8,
-	tickMarkerColor : JenScript.RosePalette.MANDARIN,
-	tickMarkerStroke : 3,
-	tickTextColor : JenScript.RosePalette.MANDARIN,
-	tickTextFontSize : 12,
-	tickTextOffset : 16
-};
-
-var minor2 = {
 		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.LIME,
+		tickMarkerColor : 'cyan',
 		tickMarkerStroke : 1
 	};
-var median2 = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerColor : 'cyan',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
+		tickTextColor : 'cyan',
 		tickTextFontSize : 10,
 		tickTextOffset : 8
 	};
-var major2 = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.MANDARIN,
+		tickMarkerColor : '#3498db',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
+		tickTextColor : '#3498db',
 		tickTextFontSize : 12,
-		tickTextOffset : 16
+		tickTextOffset : 10
 	};
+
+	var minor2 = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'cyan',
+			tickMarkerStroke : 1
+		};
+		var median2 = {
+			tickMarkerSize : 4,
+			tickMarkerColor : 'cyan',
+			tickMarkerStroke : 1.2,
+			tickTextColor : 'cyan',
+			tickTextFontSize : 10,
+			tickTextOffset : 6
+		};
+		var major2 = {
+			tickMarkerSize : 8,
+			tickMarkerColor : '#3498db',
+			tickMarkerStroke : 3,
+			tickTextColor : '#3498db',
+			tickTextFontSize : 12,
+			tickTextOffset : 10
+		};
 
 var southMetrics1;
 var westMetrics;
@@ -74,7 +74,7 @@ function createView1Proj1() {
 	view1.registerProjection(proj1);
 	
 	//OUTLINE PLUGIN
-	var outline = new JenScript.DeviceOutlinePlugin({color : JenScript.RosePalette.MELON, strokeOpacity : 0.8, strokeWidth : 1});
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#d35400', strokeOpacity : 0.8, strokeWidth : 1});
 	proj1.registerPlugin(outline);
 	
 	
@@ -105,13 +105,12 @@ function createView1Proj1() {
 	});
 	proj1.registerPlugin(eastMetrics);
 	
-	//LEGEND
 	var mme12Legend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 12',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.DEEPHARBOR,
+		textColor : '#16a085',
 		xAlign : 'left',
 		yAlign : 'bottom',
 	});
@@ -121,7 +120,7 @@ function createView1Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MME 26',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.LEMONPEEL,
+		textColor : '#c0392b',
 		xAlign : 'left',
 		yAlign : 'bottom',
 		yMargin: 26
@@ -129,7 +128,6 @@ function createView1Proj1() {
 	proj1.registerPlugin(mme26Legend);
 	
 	
-	//STOCK PLUGIN
 	stockPluginView1Proj1 = new JenScript.StockPlugin({
 		bearishColor : 'rgba(231, 76, 60,0.8)',
 		bullishColor : 'rgba(52, 152, 219,0.8)',
@@ -137,11 +135,13 @@ function createView1Proj1() {
 	proj1.registerPlugin(stockPluginView1Proj1);
 	
 	stockPluginView1Proj1.addLayer(new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.SAFFRON
+		lowHighColor : 'white',
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	}));
 	
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:JenScript.RosePalette.DEEPHARBOR}));
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:JenScript.RosePalette.LEMONPEEL}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'#16a085'}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'#c0392b'}));
 	
 }
 
@@ -172,10 +172,9 @@ function createView1Proj2() {
 	});
 	proj12.registerPlugin(ohlcLegend);
 
-	//STOCK PLUGIN
 	stockPluginView1Proj2 = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.MELON,
-		bullishColor : JenScript.RosePalette.TURQUOISE,
+		bearishColor : 'rgba(231, 76, 60,0.8)',
+		bullishColor : 'rgba(52, 152, 219,0.8)',
 	});
 	proj12.registerPlugin(stockPluginView1Proj2);
 	
@@ -227,12 +226,12 @@ function createView2Proj1() {
 		moveCountSignal:9,
 		moveCountMin:12,
 		moveCountMax:26,
-		lineColor:JenScript.RosePalette.MANDARIN,
+		lineColor:'#d35400',
 		lineOpacity:1,
 		lineWidth:1,
 		
-		macdColor:JenScript.RosePalette.CORALRED,
-		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+		macdColor:'#e74c3c',
+		signalColor:'#2980b9',
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
@@ -240,7 +239,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12-26-9)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.MANDARIN,
+		textColor : '#d35400',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -252,7 +251,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Signal MME 9',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : '#2980b9',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 5
@@ -263,7 +262,7 @@ function createView2Proj1() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12/26)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CORALRED,
+		textColor : '#e74c3c',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 25
@@ -307,15 +306,6 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	proj12.registerPlugin(translateView1Proj2);
 	
-//	translateView1Proj1.registerWidget(new JenScript.TranslateCompassWidget({
-//		ringFillColor : 'orange',
-//		ringFillOpacity : 0.7,
-//	}));
-//	
-//	var choco = JenScript.RosePalette.CHOCOLATE;
-//	var percents = ['0%','50%','100%'];
-//	var colors = [choco,JenScript.RosePalette.COALBLACK,choco];
-//	var opacity  = [0.8,0.8,0.8];
 	
 	translateView1Proj1.registerWidget(new JenScript.TranslateCompassWidget({
 		ringFillColor : 'rgba(255,130,0,0.7)',
@@ -392,7 +382,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		slaves : [{plugin : stockPluginView2Proj1, direction :'xy'}]
 	});
 	tx2.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : JenScript.RosePalette.AEGEANBLUE,
+		ringFillColor : '#c0392b',
 		ringFillOpacity : 0.7,
 		xIndex :0,
 	}));

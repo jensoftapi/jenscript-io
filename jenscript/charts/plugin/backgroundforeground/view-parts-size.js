@@ -38,7 +38,6 @@ function createViewPartSize(container, width, height) {
 	});
 	view.registerProjection(proj);
 
-	var outline = new JenScript.DeviceOutlinePlugin(
-			JenScript.RosePalette.CALYPSOBLUE);
+	var outline = new JenScript.DeviceOutlinePlugin({color : '#2980b9'});
 	proj.registerPlugin(outline);
 }
