@@ -185,7 +185,7 @@ function createSymbolBarView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Label 3',
 		fontSize : 14,
-		textColor : 'rgb(22, 125, 218)'',
+		textColor : 'rgb(22, 125, 218)',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin : 36
