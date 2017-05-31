@@ -17,8 +17,8 @@ function createHSymbolBarView(container, width, height) {
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
 		paintMode : 'ACTIVE',
-		minX : -100,
-		maxX : 1200,
+		minX : -800,
+		maxX : 800,
 		minY : 0,
 		maxY : 0
 	});
@@ -253,43 +253,4 @@ function createHSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
 }
