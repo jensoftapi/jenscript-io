@@ -59,7 +59,7 @@ function createViewLineScatterXFunction(container, width, height) {
 	
 	var scatter = new JenScript.Scatter({
 			name :'my scatter function',
-			themeColor : JenScript.RosePalette.EMERALD,
+			themeColor : '#16a085',
 			source : lineSourceFunction
 			});
 	

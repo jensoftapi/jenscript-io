@@ -1,11 +1,3 @@
-
-/**
- * createSymbolBarView
- * 
- * @param container
- * @param width
- * @param height
- */
 function createSymbolBarView(container, width, height) {
 
 	var view = new JenScript.View({
@@ -101,7 +93,7 @@ function createSymbolBarView(container, width, height) {
 			thickness : 32,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
+			themeColor : '#c0392b',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill1({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
@@ -109,11 +101,9 @@ function createSymbolBarView(container, width, height) {
 		return symbol;
 	}
 	
-	//layer
 	var barLayer = new JenScript.SymbolBarLayer();
 	symbolPlugin.addLayer(barLayer);
 	
-	// arbitrary values between min max values
 	var random = function getRandomArbitrary(min, max) {
 	  return Math.random() * (max - min) + min;
 	}
@@ -136,43 +126,4 @@ function createSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
 }

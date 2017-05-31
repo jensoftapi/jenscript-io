@@ -36,23 +36,24 @@ function createViewSplineCurveYFunction(container, width, height) {
 
 	var minor = {
 			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.PINGPIZZAZZ,
+			tickMarkerColor : 'yellow',
 			tickMarkerStroke : 1
-		};
-		var median = {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		};
-		var major = {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.CALYPSOBLUE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.CALYPSOBLUE,
-			tickTextFontSize : 12
-		};
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 		var southMetrics = new JenScript.AxisMetricsModeled({
 			axis : JenScript.Axis.AxisSouth,
 			minor : minor,

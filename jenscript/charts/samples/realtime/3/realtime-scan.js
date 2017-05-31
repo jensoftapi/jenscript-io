@@ -31,24 +31,25 @@ function createView(container, width, height) {
 	
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'pink'});
 	proj.registerPlugin(outline);
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -75,7 +76,7 @@ function createView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Scan',
 		fontSize : 12,
-		textColor : JenScript.RosePalette.TURQUOISE,
+		textColor : '#8e44ad',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -110,13 +111,11 @@ function createView(container, width, height) {
 		ray.setRayBase(0);
 		ray.setThickness(6);
 		ray.setThicknessType('Device');
-		ray.setThemeColor(JenScript.RosePalette.EMERALD);
+		ray.setThemeColor('#2980b9');
 		ray.setName('Mpx '+i+' MHz');
 		ray.setAscentValue(rayValue());
 		rayPlugin.addRay(ray);
 		rayPlugin.repaintPlugin();
-
-		//ray.inflate(rand.nextInt(76), 0, 200, 20);
 		
 		scanInfo.addChannel(ray);
 	}

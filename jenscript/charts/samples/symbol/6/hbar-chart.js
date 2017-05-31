@@ -119,7 +119,7 @@ function createHSymbolBarView(container, width, height) {
 			thickness : 18,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
+			themeColor : '#e67e22',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
@@ -136,29 +136,19 @@ function createHSymbolBarView(container, width, height) {
 		
 		symbol.setAxisLabel(axisLabel);
 		
-//		var barLabel = new JenScript.SymbolBarLabel({
-//			text : symbol.name,
-//			textColor : 'black',
-//			textAnchor : 'end',
-//			barAnchor : 'middle',
-//			paintType : 'None',
-//			rotateAngle : 0,
-//		});
-//		symbol.setBarLabel(barLabel);
-		
 		var  s1 = new JenScript.SymbolStack({
-			name : 'symbol'+count+' stack1',
-			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			name : 'symbol'+count+ 'stack1',
+			themeColor : 'rgb(91, 151, 168)',
 			stackValue : stackValue()
 		});
 		var  s2 = new JenScript.SymbolStack({
-			name : 'symbol'+count+' stack2',
-			themeColor : JenScript.RosePalette.NEPTUNE,
+			name : 'symbol'+count+ 'stack2',
+			themeColor : 'rgb(128, 182, 191)',
 			stackValue : stackValue()
 		});
 		var  s3 = new JenScript.SymbolStack({
 			name : 'symbol'+count+ 'stack3',
-			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			themeColor : 'rgb(22, 125, 218)',
 			stackValue : stackValue()
 		});
 		

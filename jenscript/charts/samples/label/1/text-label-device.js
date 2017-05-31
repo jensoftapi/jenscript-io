@@ -46,25 +46,27 @@ function createDeviceTextLabel(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
-	minor = {
+	
+	var minor = {
 			tickMarkerSize : 2,
-			tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
+			tickMarkerColor : '#9b59b6',
 			tickMarkerStroke : 1
-		};
-		median = {
-			tickMarkerSize : 4,
-			tickMarkerColor : JenScript.RosePalette.EMERALD,
-			tickMarkerStroke : 1.2,
-			tickTextColor : JenScript.RosePalette.EMERALD,
-			tickTextFontSize : 10
-		};
-		major = {
-			tickMarkerSize : 8,
-			tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-			tickMarkerStroke : 3,
-			tickTextColor : JenScript.RosePalette.TURQUOISE,
-			tickTextFontSize : 12
-		};
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
 		
 		var southMetrics = new JenScript.AxisMetricsModeled({
 			axis : JenScript.Axis.AxisSouth,
@@ -99,9 +101,9 @@ function createDeviceTextLabel(container, width, height) {
 	
 	var label = new JenScript.TextLabel({
 		text : 'JavaScript/SVG',
-		outlineColor : JenScript.RosePalette.LIME,
+		outlineColor : '#c0392b',
 		outlineWidth : 2,
-		textColor : JenScript.RosePalette.LEMONPEEL,
+		textColor : '#8e44ad',
 		nature : 'Device',
 		location :{x : 100, y:150},
 		rotateAngle : 45
@@ -110,11 +112,11 @@ function createDeviceTextLabel(container, width, height) {
 	
 	var label2 = new JenScript.TextLabel({
 		text : 'JenScript',
-		fillColor : JenScript.RosePalette.COALBLACK,
-		outlineColor : JenScript.RosePalette.LIME,
+		fillColor : 'black',
+		outlineColor : '#9b59b6',
 		outlineWidth : 2,
 		cornerRadius : 10,
-		textColor : JenScript.RosePalette.EMERALD,
+		textColor : '#1abc9c',
 		nature : 'Device',
 		location :{x : 200, y:250}
 	});
@@ -123,7 +125,7 @@ function createDeviceTextLabel(container, width, height) {
 	var label3 = new JenScript.TextLabel({
 		text : 'label in device pixel coordiante',
 		textAnchor : 'end',
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : '#2980b9',
 		nature : 'Device',
 		location :{x : 300, y:100}
 	});

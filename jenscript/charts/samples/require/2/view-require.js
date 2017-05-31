@@ -38,23 +38,23 @@ createView = function($,container,w,h){
 	var s2 = new $.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : $.RosePalette.CORALRED
+		themeColor : '#c0392b'
 	});
 	var s3 = new $.PieSlice({
 		name : "s3",
 		value : 30,
-		themeColor : 'rgba(78,148,44,1)'
+		themeColor : '#16a085'
 	});
 	var s4 = new $.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : $.RosePalette.AEGEANBLUE,
+		themeColor : '#2980b9',
 		divergence : 20
 	});
 	var s5 = new $.PieSlice({
 		name : "s5",
 		value : 5,
-		themeColor : $.RosePalette.INDIGO
+		themeColor : '#8e44ad'
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);
@@ -66,17 +66,17 @@ createView = function($,container,w,h){
 		outlineColor : s1.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :$.Color.lighten(s1.getThemeColor(),20),
+		textColor :s1.getThemeColor(),
 	});
 	s1.setSliceLabel(s1Label);
 
 	var s2Label = new $.PieRadialLabel({
 		text : "Platinium",
 		fillColor:'black',
-		outlineColor : $.Color.lighten(s2.getThemeColor(),20),
+		outlineColor : s2.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :$.Color.lighten(s2.getThemeColor(),40),
+		textColor :s2.getThemeColor(),
 	});
 	s2.setSliceLabel(s2Label);
 
@@ -86,7 +86,7 @@ createView = function($,container,w,h){
 		outlineColor : s3.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :$.Color.lighten(s3.getThemeColor(),30),
+		textColor :s3.getThemeColor(),
 		
 	});
 	s3.setSliceLabel(s3Label);
@@ -97,17 +97,17 @@ createView = function($,container,w,h){
 		outlineColor : s4.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :$.Color.lighten(s4.getThemeColor(),30),
+		textColor :s4.getThemeColor(),
 	});
 	s4.setSliceLabel(s4Label);
 
 	var s5Label = new $.PieRadialLabel({
 		text : "Uranium",
 		fillColor:'black',
-		outlineColor : $.Color.lighten(s5.getThemeColor(),30),
+		outlineColor : s5.getThemeColor(),
 		cornerRadius : 8,
 		outlineWidth : 2,
-		textColor :$.Color.lighten(s5.getThemeColor(),50)
+		textColor :s5.getThemeColor()
 	});
 	s5.setSliceLabel(s5Label);
 

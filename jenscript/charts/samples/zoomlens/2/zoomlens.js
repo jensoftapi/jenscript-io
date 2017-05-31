@@ -80,7 +80,7 @@ function createView(container, width, height) {
 	var s2 = new JenScript.PieSlice({
 		name : "s2",
 		value : 5,
-		themeColor : JenScript.RosePalette.CORALRED
+		themeColor : '#c0392b'
 	});
 	var s3 = new JenScript.PieSlice({
 		name : "s3",
@@ -90,12 +90,12 @@ function createView(container, width, height) {
 	var s4 = new JenScript.PieSlice({
 		name : "s4",
 		value : 5,
-		themeColor : JenScript.RosePalette.AEGEANBLUE,
+		themeColor : '#2980b9',
 	});
 	var s5 = new JenScript.PieSlice({
 		name : "s5",
 		value : 5,
-		themeColor : JenScript.RosePalette.INDIGO
+		themeColor : '#16a085'
 	});
 
 	pie.addSlices([s1,s2,s3,s4,s5]);

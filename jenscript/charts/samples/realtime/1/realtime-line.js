@@ -32,24 +32,25 @@ function createViewRealTimeLineCurve(container, width, height) {
 	
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'pink'});
 	proj.registerPlugin(outline);
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -79,7 +80,7 @@ function createViewRealTimeLineCurve(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Real Time Curve',
 		fontSize : 12,
-		textColor : JenScript.RosePalette.TURQUOISE,
+		textColor : '#2980b9',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -119,7 +120,7 @@ function createViewRealTimeLineCurve(container, width, height) {
 				if (ele !== undefined && ele != null) {
 					ele.setAttribute('d', path.buildPath());
 				} else {
-					g2d.insertSVG(path.fillNone().stroke(JenScript.RosePalette.TURQUOISE).strokeWidth(0.8).toSVG());
+					g2d.insertSVG(path.fillNone().stroke('#2980b9').strokeWidth(0.8).toSVG());
 							
 				}
 			},
@@ -143,8 +144,6 @@ function createViewRealTimeLineCurve(container, width, height) {
 
 	var myDemoPlugin = new DemoPlugin.LineData({});
 	proj.registerPlugin(myDemoPlugin);
-	
-	
 	
 
 	function RealTimeSimulator(data, demoPlugin) {

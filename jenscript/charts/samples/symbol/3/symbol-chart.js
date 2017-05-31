@@ -1,11 +1,4 @@
 
-/**
- * createSymbolView
- * 
- * @param container
- * @param width
- * @param height
- */
 function createSymbolView(container, width, height) {
 
 	var view = new JenScript.View({
@@ -69,7 +62,6 @@ function createSymbolView(container, width, height) {
 	});
 	proj.registerPlugin(gridPlugin);
 	
-	//TOOL
 	var tx1 = new JenScript.TranslatePlugin({
 		mode : 'ty',
 	});
@@ -110,27 +102,25 @@ function createSymbolView(container, width, height) {
 			thickness : 32,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
+			themeColor : '#16a085',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
 		
-		
-		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'stack1',
-			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			themeColor : 'rgb(91, 151, 168)',
 			stackValue : stackValue()
 		});
 		var  s2 = new JenScript.SymbolStack({
 			name : 'stack2',
-			themeColor : JenScript.RosePalette.NEPTUNE,
+			themeColor : 'rgb(128, 182, 191)',
 			stackValue : stackValue()
 		});
 		var  s3 = new JenScript.SymbolStack({
 			name : 'stack3',
-			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			themeColor : 'rgb(22, 125, 218)',
 			stackValue : stackValue()
 		});
 		

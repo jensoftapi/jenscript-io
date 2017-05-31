@@ -38,7 +38,7 @@ function createView(container1,container2, width, height) {
 
 	var tx1 = new JenScript.TranslatePlugin();
 	tx1.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : JenScript.RosePalette.CHOCOLATE,
+		ringFillColor : '#c0392b',
 	}));
 	proj.registerPlugin(tx1);
 

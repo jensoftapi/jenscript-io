@@ -96,7 +96,7 @@ function createView(container, width, height) {
 	var box2 = new JenScript.ZoomBoxPlugin({
 		speed : 'fast',
 		zoomBoxDrawColor : 'yellow',
-		zoomBoxFillColor : JenScript.RosePalette.LAVENDER
+		zoomBoxFillColor : '#8e44ad'
 	});
 	proj.registerPlugin(box2);
 

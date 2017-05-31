@@ -33,7 +33,6 @@ function createViewStackSplineMultipleAreaXFunction(container, width, height) {
 	});
 	proj.registerPlugin(outline);
 
-	//METRICS
 	var minor = {
 			tickMarkerSize : 2,
 			tickMarkerColor : 'cyan',

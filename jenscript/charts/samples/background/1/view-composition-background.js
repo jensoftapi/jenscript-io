@@ -35,7 +35,7 @@ function createViewCompositionBackgrounds(container, width, height) {
 	view.addViewBackground(textureBackground);
 
 	var bgo = new JenScript.ViewOutlineBackground({
-		strokeColor : JenScript.RosePalette.MANDARIN,
+		strokeColor : '#F64747',
 		strokeWidth : 2
 	});
 

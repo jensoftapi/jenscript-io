@@ -1,10 +1,24 @@
-/**
- * Create stock curve fixing view
- * 
- * @param container
- * @param width
- * @param height
- */
+var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
 function createViewStockCurveFixing(container, width, height) {
 
 	var view = new JenScript.View({
@@ -29,31 +43,10 @@ function createViewStockCurveFixing(container, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
 	proj1.registerPlugin(outline);
 
-	//prepare metrics properties
-	var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
-	};
-	var median = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 10
-	};
-	var major = {
-		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.CORALRED,
-		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.CORALRED,
-		tickTextFontSize : 12,
-		tickTextOffset : 16
-	};
+	
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.MonthModel({}), new JenScript.YearModel({})],
@@ -64,7 +57,6 @@ function createViewStockCurveFixing(container, width, height) {
 	});
 	proj1.registerPlugin(southMetrics1);
 	
-	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
 		minor : minor,
@@ -73,7 +65,6 @@ function createViewStockCurveFixing(container, width, height) {
 	});
 	proj1.registerPlugin(westMetrics);
 
-
 	var stockPlugin = new JenScript.StockPlugin();
 	proj1.registerPlugin(stockPlugin);
 
@@ -81,14 +72,13 @@ function createViewStockCurveFixing(container, width, height) {
 		curveColor :'pink',
 		curveWidth : 1
 	}));
-
 	
 	var legend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
 		text   : 'SLV Fixing',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.EMERALD,
+		textColor : '#16a085',
 		xAlign : 'right',
 		yAlign : 'top',
 	});

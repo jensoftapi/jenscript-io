@@ -15,8 +15,8 @@ function createViewDualColorsBackground(container, width, height) {
 	});
 
 	var textureBackground = new JenScript.DualViewBackground({
-		color1 : JenScript.RosePalette.AEGEANBLUE,
-		color2 : JenScript.RosePalette.COALBLACK
+		color1 : '##3498db',
+		color2 : 'black'
 	});
 	view.addViewBackground(textureBackground);
 

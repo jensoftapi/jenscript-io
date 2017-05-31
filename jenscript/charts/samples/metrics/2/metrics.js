@@ -92,7 +92,7 @@ function createSmallRangeMetricsView(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Small Range Metrics',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CHOCOLATE,
+		textColor : 'black',
 		xAlign : 'right',
 		yAlign : 'top',
 	});

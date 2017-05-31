@@ -1,11 +1,4 @@
 
-/**
- * createSymbolBarView
- * 
- * @param container
- * @param width
- * @param height
- */
 function createSymbolBarView(container, width, height) {
 
 	var view = new JenScript.View({
@@ -111,27 +104,26 @@ function createSymbolBarView(container, width, height) {
 			thickness : 32,
 			direction : 'ascent',
 			morpheStyle : 'Round',
-			themeColor : JenScript.RosePalette.MANDARIN,
+			themeColor : '#c0392b',
 			opacity : 1,
 			barFill : new JenScript.SymbolBarFill0({}),
 			barEffect  : new JenScript.SymbolBarEffect0({}),
 		});
 		
 		
-		
 		var  s1 = new JenScript.SymbolStack({
 			name : 'stack1',
-			themeColor : JenScript.RosePalette.CALYPSOBLUE,
+			themeColor : 'rgb(91, 151, 168)',
 			stackValue : stackValue()
 		});
 		var  s2 = new JenScript.SymbolStack({
 			name : 'stack2',
-			themeColor : JenScript.RosePalette.NEPTUNE,
+			themeColor : 'rgb(128, 182, 191)',
 			stackValue : stackValue()
 		});
 		var  s3 = new JenScript.SymbolStack({
 			name : 'stack3',
-			themeColor : JenScript.RosePalette.AEGEANBLUE,
+			themeColor : 'rgb(22, 125, 218)',
 			stackValue : stackValue()
 		});
 		
@@ -162,43 +154,4 @@ function createSymbolBarView(container, width, height) {
 	//invoke repaint only one time
 	symbolPlugin.repaintPlugin();
 	
-	//listener
-	barLayer.addSymbolListener('enter',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol enter');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('exit',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol exit');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('move',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol move');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('press',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol press');
-	},'this demo');
-	
-	//listener
-	barLayer.addSymbolListener('release',function(event){
-		//event is something like, refer to source
-		//event : {symbol : bar, x:x,y:y, device :{x:x,y:y}}
-		
-		console.log('symbol release');
-	},'this demo');
 }

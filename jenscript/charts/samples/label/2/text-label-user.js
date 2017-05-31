@@ -45,24 +45,25 @@ function createUserTextLabel(container, width, height) {
 
 	proj.registerPlugin(outline);
 	
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	
 	var southMetrics = new JenScript.AxisMetricsModeled({
@@ -100,7 +101,7 @@ function createUserTextLabel(container, width, height) {
 		fillColor : 'white',
 		outlineColor : 'darkgray',
 		outlineWidth : 2,
-		textColor : JenScript.RosePalette.COALBLACK,
+		textColor : 'black',
 		nature : 'User',
 		location : {x : 500, y:500}
 	});

@@ -1,10 +1,5 @@
 
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
-
 	
 function createMicro1(container, width, height) {
 	var view = new JenScript.View({
@@ -26,28 +21,29 @@ function createMicro1(container, width, height) {
 	view.registerProjection(proj);
 
 	var minor = {
-		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.PINGPIZZAZZ,
-		tickMarkerStroke : 1
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
 	};
 	var median = {
-		tickMarkerSize : 1,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
-		tickMarkerStroke : 0.6,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 8
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
 	};
 	var major = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.CALYPSOBLUE,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.CALYPSOBLUE,
-		tickTextFontSize : 10
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
 		axisBaseLine:true,
-		axisBaseLineColor :JenScript.RosePalette.CALYPSOBLUE,
+		axisBaseLineColor :'#2980b9',
 		axisBaseLineStrokeWidth : 2,
 		minor : minor,
 		median : median,
@@ -113,7 +109,7 @@ function createMicro1(container, width, height) {
 	
 	var scatter = new JenScript.Scatter2({
 			name :'my scatter function',
-			themeColor : JenScript.RosePalette.EMERALD,
+			themeColor : '#16a085',
 			source : lineSourceFunction
 	});
 	
@@ -126,7 +122,7 @@ function createMicro1(container, width, height) {
 		text   : '134',
 		fontSize : 38,
 		fontWeight : 'bold',
-		textColor : 'rgb(40,120,40)',
+		textColor : '#9b59b6',
 		xAlign : 'left',
 		yAlign : 'top',
 		xMargin : 10,
@@ -188,7 +184,7 @@ JenScript.Model.addMethods(JenScript.Scatter2, {
 		var proj = this.getProjection();
 		for (var i = 0; i < userPointsFunction.length; i++) {
 			var p = userPointsFunction[i];
-			var scatter = new JenScript.SVGCircle().center(proj.userToPixelX(p.x),proj.userToPixelY(p.y)).radius(3).fill(JenScript.RosePalette.EMERALD);
+			var scatter = new JenScript.SVGCircle().center(proj.userToPixelX(p.x),proj.userToPixelY(p.y)).radius(3).fill('#e74c3c');
 			g2d.insertSVG(scatter.toSVG());
 		}
 	}

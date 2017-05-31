@@ -1,28 +1,25 @@
 
 
-var indigo = JenScript.RosePalette.INDIGO;
-var choco = JenScript.RosePalette.CHOCOLATE;
-var emerald = JenScript.RosePalette.EMERALD;
-var aegean = JenScript.RosePalette.AEGEANBLUE;
 var minor = {
-	tickMarkerSize : 2,
-	tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-	tickMarkerStroke : 1
+		tickMarkerSize : 2,
+		tickMarkerColor : 'yellow',
+		tickMarkerStroke : 1
 };
 var median = {
 	tickMarkerSize : 4,
-	tickMarkerColor : JenScript.RosePalette.EMERALD,
+	tickMarkerColor : '#d35400',
 	tickMarkerStroke : 1.2,
-	tickTextColor : JenScript.RosePalette.EMERALD,
+	tickTextColor : '#d35400',
 	tickTextFontSize : 10
 };
 var major = {
-		tickMarkerSize : 8,
-		tickMarkerColor : '#8e44ad',
-		tickMarkerStroke : 3,
-		tickTextColor : '#8e44ad',
-		tickTextFontSize : 12
-	};
+	tickMarkerSize : 8,
+	tickMarkerColor : '#2980b9',
+	tickMarkerStroke : 3,
+	tickTextColor : '#2980b9',
+	tickTextFontSize : 12,
+	tickTextOffset : 16
+};
 	
 function createView(container, width, height) {
 	

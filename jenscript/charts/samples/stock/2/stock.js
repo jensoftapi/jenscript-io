@@ -32,27 +32,26 @@ function createViewStockOHLC(container, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'black'});
 	proj1.registerPlugin(outline);
 
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : 'purple',
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : 'purple',
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : 'purple',
+		tickTextColor : '#2980b9',
 		tickTextFontSize : 12,
 		tickTextOffset : 16
 	};
@@ -83,12 +82,7 @@ function createViewStockOHLC(container, width, height) {
 	}));
 	tx1.select();
 
-	var stockPlugin = new JenScript.StockPlugin({
-		//not required in OHLC
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
-
-	});
+	var stockPlugin = new JenScript.StockPlugin();
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.OhlcLayer({

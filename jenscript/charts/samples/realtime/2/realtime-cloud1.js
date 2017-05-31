@@ -30,24 +30,25 @@ function createViewRealTimeCloud1(container, width, height) {
 	
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'pink'});
 	proj.registerPlugin(outline);
-	minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
-		tickMarkerStroke : 1
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
 	};
-	median = {
+	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
-	major = {
+	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.TURQUOISE,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.TURQUOISE,
-		tickTextFontSize : 12
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,
@@ -76,7 +77,7 @@ function createViewRealTimeCloud1(container, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Real Time Cloud',
 		fontSize : 12,
-		textColor : JenScript.RosePalette.MANDARIN,
+		textColor : '#d35400',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -115,7 +116,7 @@ function createViewRealTimeCloud1(container, width, height) {
 							for (var i = 1; i < this.dataPoints.record.length; i++) {
 								var pt = this.dataPoints.record[i];
 								var p = this.getProjection().userToPixel(pt);
-								var svgRect = new JenScript.SVGRect().origin(p.x-0.5,p.y-0.5).size(1,1).fill(JenScript.RosePalette.INDIGO);
+								var svgRect = new JenScript.SVGRect().origin(p.x-0.5,p.y-0.5).size(1,1).fill('#d35400');
 								g2d.insertSVG(svgRect.toSVG());
 							}
 						}

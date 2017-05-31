@@ -27,7 +27,6 @@ var WebLoader = function(proj,args,callback){
 	 },
 	 
 	 this.execTask = function(task){
-		 console.log('load task : '+task.year);
 		if(task === undefined || task.year === undefined)
 			return;
 		
@@ -36,12 +35,12 @@ var WebLoader = function(proj,args,callback){
 			onComplete : function() {
 				proj.unregisterPlugin(this);
 			},
-			outlineColor : JenScript.RosePalette.INDIGO,
+			outlineColor : '#16a085',
 			backgroundColor : 'black',
 			backgroundOpacity : 0,
-			foregroundColor : JenScript.RosePalette.CALYPSOBLUE,
+			foregroundColor : '#2980b9',
 			foregroundOpacity : 0.6,
-			textColor : JenScript.RosePalette.EMERALD
+			textColor : '#2ecc71'
 		});
 		monitorPlugin.addMonitor(m);
 		
@@ -49,7 +48,7 @@ var WebLoader = function(proj,args,callback){
 		task.monitor = m;
 		
 		var dataCount = 0;
-		var dataWorker = new Worker('monitor/MonitorWorker.js');
+		var dataWorker = new Worker('/jenscript/charts/samples/monitor/MonitorWorker.js');
 		dataWorker.addEventListener("message", function(event) {
 			if (event.data.startsWith !== undefined && event.data.startsWith('finish')) {
 				var yearFromWorker = event.data.split(':')[1];

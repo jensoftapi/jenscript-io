@@ -60,7 +60,7 @@ function createViewSplineScatterXFunction(container, width, height) {
 	
 	var scatter = new JenScript.Scatter({
 		name :'my scatter function',
-		themeColor : JenScript.RosePalette.EMERALD,
+		themeColor : '#16a085',
 		source : splineSource
 		});
 

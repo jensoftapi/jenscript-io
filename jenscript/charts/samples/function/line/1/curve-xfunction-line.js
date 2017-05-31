@@ -18,16 +18,6 @@ function createViewLineCurveXFunction(container, width, height) {
 		
 	});
 
-//	var bg1 = new JenScript.GradientViewBackground();
-//	view.addViewBackground(bg1);
-//	var textureBackground = new JenScript.TexturedViewBackground({
-//		opacity : 0.3,
-//		texture : JenScript.Texture.getTriangleCarbonFiber(),
-//		strokeColor : 'cyan',
-//		strokeWidth : 2,
-//		cornerRadius : 0
-//	});
-//	view.addViewBackground(textureBackground);
 
 
 	var proj = new JenScript.LinearProjection({
@@ -44,23 +34,24 @@ function createViewLineCurveXFunction(container, width, height) {
 	});
 	proj.registerPlugin(outline);
 	var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.PINGPIZZAZZ,
-		tickMarkerStroke : 1
+			tickMarkerSize : 2,
+			tickMarkerColor : 'yellow',
+			tickMarkerStroke : 1
 	};
 	var median = {
 		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
+		tickMarkerColor : '#d35400',
 		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
+		tickTextColor : '#d35400',
 		tickTextFontSize : 10
 	};
 	var major = {
 		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.CALYPSOBLUE,
+		tickMarkerColor : '#2980b9',
 		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.CALYPSOBLUE,
-		tickTextFontSize : 12
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
 	};
 	var southMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisSouth,

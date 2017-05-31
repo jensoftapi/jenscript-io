@@ -5,7 +5,7 @@ var StockLoader = function(proj,args,callback,config){
 	 config = config ||{};
 	
 	 //var backgroundColor = (config.backgroundColor !== undefined)?config.backgroundColor : 'white';
-	 var foregroundColor = (config.foregroundColor !== undefined)?config.foregroundColor : JenScript.RosePalette.MANDARIN;
+	 var foregroundColor = (config.foregroundColor !== undefined)?config.foregroundColor : '#e67e22';
 	 var outlineColor = (config.outlineColor !== undefined)?config.outlineColor : 'black';
 	 
 	 var backgroundOpacity = (config.backgroundOpacity !== undefined)?config.backgroundOpacity : 0.3;

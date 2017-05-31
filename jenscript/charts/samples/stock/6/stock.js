@@ -1,10 +1,24 @@
-/**
- * Create stock MACD view
- * 
- * @param container
- * @param width
- * @param height
- */
+var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 1
+	};
+	var median = {
+		tickMarkerSize : 4,
+		tickMarkerColor : '#d35400',
+		tickMarkerStroke : 1.2,
+		tickTextColor : '#d35400',
+		tickTextFontSize : 10
+	};
+	var major = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#2980b9',
+		tickMarkerStroke : 3,
+		tickTextColor : '#2980b9',
+		tickTextFontSize : 12,
+		tickTextOffset : 16
+	};
+	
 function createViewStockMACD(container1,container2, width, height) {
 
 	//view
@@ -17,31 +31,9 @@ function createViewStockMACD(container1,container2, width, height) {
 		south : 80,
 	});
 	
-	//date range
 	var startDate = new Date(2013, 04, 25);
 	var endDate = new Date(2013, 08, 05);
 	
-	var minor = {
-		tickMarkerSize : 2,
-		tickMarkerColor : JenScript.RosePalette.AEGEANBLUE,
-		tickMarkerStroke : 1
-	};
-	var median = {
-		tickMarkerSize : 4,
-		tickMarkerColor : JenScript.RosePalette.EMERALD,
-		tickMarkerStroke : 1.2,
-		tickTextColor : JenScript.RosePalette.EMERALD,
-		tickTextFontSize : 10,
-		tickTextOffset : 8
-	};
-	var major = {
-		tickMarkerSize : 8,
-		tickMarkerColor : JenScript.RosePalette.INDIGO,
-		tickMarkerStroke : 3,
-		tickTextColor : JenScript.RosePalette.INDIGO,
-		tickTextFontSize : 12,
-		tickTextOffset : 16
-	};
 
 	var proj1 = new JenScript.TimeXProjection({
 		name : "proj1",
@@ -52,11 +44,9 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	view.registerProjection(proj1);
 	
-	//device outline
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
 	proj1.registerPlugin(outline);
 
-	
 	
 	var southMetrics1 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
@@ -87,13 +77,13 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 
 	var stockPlugin = new JenScript.StockPlugin({
-		bearishColor : JenScript.RosePalette.CORALRED,
-		bullishColor : JenScript.RosePalette.EMERALD,
+		bearishColor : '#c0392b',
+		bullishColor : '#16a085',
 	});
 	proj1.registerPlugin(stockPlugin);
 
 	stockPlugin.addLayer(new JenScript.CandleStickLayer({
-		lowHighColor : JenScript.RosePalette.COALBLACK
+		lowHighColor : 'black'
 	}));
 	
 	stockPlugin.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'purple'}));
@@ -124,14 +114,11 @@ function createViewStockMACD(container1,container2, width, height) {
 	
 	proj1.registerPlugin(mme26Legend);
 	
-	//proj 1 manage loading and duplicate on proj2
 	var loader = new StockLoader(proj1,[2012,2013],function(year,stocks){
 		stockPlugin.setStocks(stocks);
 		stockPlugin2.setStocks(stocks);
 	});
 
-
-	//view
 	var view2 = new JenScript.View({
 		name : container2,
 		width : width,
@@ -140,7 +127,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		west : 10,
 		south : 80,
 	});
-	//ANOTHER PROJ FOR MANAGE MACD IN DIFFERENT PROJECTION
+	
 	var proj2 = new JenScript.TimeXProjection({
 		cornerRadius : 6,
 		name : "proj2",
@@ -151,7 +138,6 @@ function createViewStockMACD(container1,container2, width, height) {
 	});
 	view2.registerProjection(proj2);
 	
-	//device outline
 	var outline2 = new JenScript.DeviceOutlinePlugin({color : 'darkslategrey'});
 	proj2.registerPlugin(outline2);
 	
@@ -179,12 +165,12 @@ function createViewStockMACD(container1,container2, width, height) {
 		moveCountSignal:9,
 		moveCountMin:12,
 		moveCountMax:26,
-		lineColor:JenScript.RosePalette.MANDARIN,
+		lineColor:'#e74c3c',
 		lineOpacity:1,
 		lineWidth:1,
 		
-		macdColor:JenScript.RosePalette.CORALRED,
-		signalColor:JenScript.RosePalette.CALYPSOBLUE,
+		macdColor:'#c0392b',
+		signalColor:'#2980b9',
 	}));
 	
 	var legend1 = new JenScript.TitleLegendPlugin({
@@ -192,7 +178,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12-26-9)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.MANDARIN,
+		textColor : '#e74c3c',
 		xAlign : 'right',
 		yAlign : 'top',
 		yMargin: 5
@@ -204,7 +190,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Signal MME 9',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CALYPSOBLUE,
+		textColor : '#2980b9',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 5
@@ -215,7 +201,7 @@ function createViewStockMACD(container1,container2, width, height) {
 		part   : JenScript.ViewPart.Device,
 		text   : 'MACD (12/26)',
 		fontSize : 14,
-		textColor : JenScript.RosePalette.CORALRED,
+		textColor : '#c0392b',
 		xAlign : 'right',
 		yAlign : 'bottom',
 		yMargin: 25
