@@ -2,7 +2,7 @@
 
 var minor = {
 	tickMarkerSize : 2,
-	tickMarkerColor : '#e74c3c',
+	tickMarkerColor : '#f1c40f',
 	tickMarkerStroke : 1
 };
 var median = {
@@ -10,16 +10,18 @@ var median = {
 	tickMarkerColor : '#3498db',
 	tickMarkerStroke : 1.2,
 	tickTextColor : '#3498db',
-	tickTextFontSize : 10
+	tickTextFontSize : 10,
+	tickTextOffset : 4
+	
 };
 var major = {
-		tickMarkerSize : 8,
-		tickMarkerColor : 'yellow',
-		tickMarkerStroke : 3,
-		tickTextColor : 'yellow',
-		tickTextFontSize : 12,
-		tickTextOffset : 16
-	};
+	tickMarkerSize : 8,
+	tickMarkerColor : '#1abc9c',
+	tickMarkerStroke : 3,
+	tickTextColor : '#1abc9c',
+	tickTextFontSize : 12,
+	tickTextOffset : 4
+};
 	
 function createMetricsView(container, width, height) {
 	
