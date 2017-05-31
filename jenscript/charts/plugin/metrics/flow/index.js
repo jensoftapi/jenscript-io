@@ -11,7 +11,6 @@ var median = {
 	tickTextColor : '#3498db',
 	tickTextFontSize : 10,
 	tickTextOffset : 4
-	
 };
 var major = {
 	tickMarkerSize : 8,
