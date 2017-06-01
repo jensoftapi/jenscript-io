@@ -1027,8 +1027,6 @@ function createViewMapLabel() {
 				feature.fillOpacity = 0.6;
 				feature.fillColor   = '#ecf0f1';
 			}
-				
-			console.log(country);
 	},'');
 	
 
