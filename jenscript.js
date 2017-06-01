@@ -4,7 +4,7 @@
 // Web Site : http://jenscript.io
 // Twitter  : http://twitter.com/JenSoftAPI
 // Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-05-31
+// build: 2017-06-01
 // All Rights reserved
 
 /**
@@ -3385,10 +3385,6 @@ function stringInputToObject(color) {
 				return this.height;
 			},
 			
-			/**
-			 * callback for the given action event that happens with the specified event, 
-			 * and specified location (x,y) in the component coordinate system.
-			 */
 			on : function(actionEvent,evt, x, y) {
 				//				if(evt.preventDefault){
 				//					evt.preventDefault();	
@@ -3402,30 +3398,36 @@ function stringInputToObject(color) {
 				selectorHandler.call(this.view.getSelectorPlugin(),evt,this.part,x,y);
 
 				if(this.view === undefined) return;
-				var projs = this.view.getProjections();
-				for (var p = 0; p < projs.length; p++) {
-		    		var proj = projs[p];
-		    		
-		    		var plugins = proj.getPlugins();
-					for (var p = 0; p < plugins.length; p++) {
-						var pluginHandler   = plugins[p]['on'+actionEvent];
-						pluginHandler.call(plugins[p],evt,this.part,x, y);
-					}
-					
-				}
 				
-//				if(this.view === undefined || this.view.getActiveProjection() === undefined) return;
-//				var projection = this.view.getActiveProjection();
-//				var plugins = projection.getPlugins();
-//				for (var p = 0; p < plugins.length; p++) {
-//					var pluginHandler   = plugins[p]['on'+actionEvent];
-//					
-//					//TODO?
-//					//call if plugin is not selectable
-//					//if selectable, call only if plugin is lock selected
-//					
-//					pluginHandler.call(plugins[p],evt,this.part,x, y);
+			//	if(this.view.policy.event === 'ALWAYS'){
+					var projs = this.view.getProjections();
+					for (var pi = 0; pi < projs.length; pi++) {
+						if(projs[pi].isAuthorizedPolicy('event')){
+							var plugins = projs[pi].getPlugins();
+							for (var p = 0; p < plugins.length; p++) {
+								var pluginHandler   = plugins[p]['on'+actionEvent];
+								//if(this.view.policy.event === 'ALWAYS' || (this.view.policy.event === 'ACTIVE' && projs[pi].isActive()) || (this.view.policy.event === 'MAYBE' && this.view.policy.isEventReceiver(projs[pi],plugins[p])))
+								pluginHandler.call(plugins[p],evt,this.part,x, y);
+							}
+						}
+			    		
+					}
 //				}
+//				else if(this.view.policy.event === 'ACTIVE'){
+//					if(this.view.getActiveProjection() === undefined) return;
+//					var projection = this.view.getActiveProjection();
+//					var plugins = projection.getPlugins();
+//					for (var p = 0; p < plugins.length; p++) {
+//						var pluginHandler   = plugins[p]['on'+actionEvent];
+//						pluginHandler.call(plugins[p],evt,this.part,x, y);
+//					}
+//				}
+				
+				
+				
+
+				
+				
 			},
 	});
 })();
@@ -4383,18 +4385,24 @@ function stringInputToObject(color) {
 			this.viewForegrounds = [];
 			this.foregroundEnable = true;
 			
-			/**view projections*/
+			/** view projections */
 			this.projections = [];
 			
-			/**active projection*/
+			/** active projection */
 			this.activeProjection;
 			
 			/** the widget folder guard interval */
 			this.folderGuardInterval = 4;
 			
+			/** view listeners */
 			this.listeners = [];
 			
 			this.dispatcherStrategy = (config.dispatcher !== undefined)? config.dispatcher : 'foreground';
+			
+			/** projection event propagation and visibility policies*/
+			//this.policy = (config.policy !== undefined)?config.policy:{ paint : 'INHERITS' , event : 'ACTIVE' /**ALWAYS, MAYBE, INHERITS*/, isEventReceiver : function(){return false;}};
+			
+			
 			/**
 			 * the widget plug-in is a specific plug-in to handle widget and window meta
 			 * data
@@ -4983,20 +4991,17 @@ function stringInputToObject(color) {
 		
 		/**
 		 * attach projection lock/unlock listener that update projection visibility
-		 * based on active state and paintMode (ACTIVE or ALWAYS)
+		 * based on active state and projection policy
 		 */
 		attachProjectionActiveListener : function(projection){
 			projection.addProjectionListener('lockActive',function(proj){
-				//proj.svgRootElement.setAttribute('opacity',1);
 				proj.svgRootGroup.setAttribute('opacity',1);
 			},'view projection active listener to change projection opacity');
 			projection.addProjectionListener('unlockActive',function(proj){
-				if(proj.paintMode === 'ACTIVE')
-					//proj.svgRootElement.setAttribute('opacity',0);
-					proj.svgRootGroup.setAttribute('opacity',0);
-				if(proj.paintMode === 'ALWAYS')
-					//proj.svgRootElement.setAttribute('opacity',1);
+				if(proj.isAuthorizedPolicy('paint'))
 					proj.svgRootGroup.setAttribute('opacity',1);
+				else
+					proj.svgRootGroup.setAttribute('opacity',0);
 			},'view projection unactive listener to change projection opacity');
 		},
 		
@@ -5363,13 +5368,10 @@ function stringInputToObject(color) {
 })();
 (function(){
 	JenScript.ViewBuilder = function(config){
-		//config = config || {};
+		config = config || {};
 		var v = (config.view)? config.view :  new JenScript.View(config);
-		console.log("view "+v)
 		return {
-			//view : function(){return v;},
 			projection : function(type, config){
-				console.log("create projection ok")
 				var p;
 				
 				if('linear' === type)
@@ -5387,8 +5389,7 @@ function stringInputToObject(color) {
 				
 				//builder interfaces
 				return {
-					//projection : function(){return p;},
-					pie : function(config){console.log("here"+config.radius+ ""+ JenScript.PieBuilder);return new JenScript.PieBuilder(v,p,config);},
+					pie : function(config){return new JenScript.PieBuilder(v,p,config);},
 					donut3d : function(config){return new JenScript.Donut3DBuilder(v,p,config);},
 					donut2d : function(config){return new JenScript.Donut2DBuilder(v,p,config);},
 				}
@@ -5402,7 +5403,8 @@ function stringInputToObject(color) {
 		/**
 		 * Initialize this projection with given parameters config
 		 * @param {Object} config
-		 * @param {String} [config.name] Projection name 
+		 * @param {String} [config.name] Projection name
+		 * @param {String} [config.themeColor] Projection theme color 
 		 */
 		init : function(config){
 			config = config || {};
@@ -5416,10 +5418,45 @@ function stringInputToObject(color) {
 			this.visible = true;
 			
 			/**paint mode is always(paint always) or active(paint only if active)*/
-			this.paintMode = (config.paintMode !== undefined)?config.paintMode : 'ALWAYS';
+			//this.paintMode = (config.paintMode !== undefined)?config.paintMode : 'ALWAYS';
+			
+			this.policy = (config.policy !== undefined)?config.policy : { paint : 'ALWAYS' /** ALWAYS, RUNTIME */ , event :  'ACTIVE' /** ALWAYS, RUNTIME */ }
+			
+			if(this.policy.paint === undefined)
+				this.policy.paint = 'ACTIVE';
+			if(this.policy.event === undefined)
+				this.policy.event = 'ACTIVE';
 			
 			/**active , active put projection at the last level painting z order, and received events. see view setActive projection*/
 			this.active = false;
+		},
+		
+		isPaintPolicy : function(){
+			return true;
+		},
+		
+		isEventPolicy : function(){
+			return true;
+		},
+		
+		isAuthorizedPolicy : function(check){
+			if(check === 'paint'){
+				if((this.policy.paint === 'ACTIVE' && this.active) || this.policy.paint === 'ALWAYS')
+					return true;
+				if((this.policy.paint === 'ACTIVE' && !this.active))
+					return false
+				if(this.policy.paint === 'RUNTIME'){
+					return this.isPaintPolicy();
+				}
+			}else if(check === 'event'){
+				if((this.policy.event === 'ACTIVE' && this.active) || this.policy.event === 'ALWAYS')
+					return true;
+				if((this.policy.event === 'ACTIVE' && !this.active))
+					return false
+				if(this.policy.event === 'RUNTIME'){
+					return this.isEventPolicy();
+				}
+			}
 		},
 		
 		/**
@@ -5561,12 +5598,9 @@ function stringInputToObject(color) {
 				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 			});
 			
-			//TODO : remove this pattern ?
 			plugin.onProjectionRegister();
-			
 			this.getView().contextualizePluginGraphics(plugin);
 			this.fireProjectionEvent('pluginRegister');
-			//console.log("register plugin : "+plugin.name+' OK');
 		},
 		
 		/**
@@ -6411,7 +6445,7 @@ function stringInputToObject(color) {
 			/** zoom level & center position */
 			this.level =(config.level !== undefined)?config.level : 3;
 			this.square =(config.square !== undefined)?config.square : 256;
-			this.centerPosition =(config.centerPosition !== undefined)?config.centerPosition : new JenScript.GeoPosition(48.8380405,-0.5938274);
+			this.centerPosition =(config.centerPosition !== undefined)?config.centerPosition : new JenScript.GeoPosition(20,0);
 			/** dalle projection */
 			this.projection= new JenScript.DalleProjection(this.level,this.square);
 			
@@ -6712,17 +6746,21 @@ function stringInputToObject(color) {
 			}
 		},
 		
+		getProjections : function() {
+			return this.getView().getProjections();
+		},
+		
 		getSouth : function(h){
-			return this.getProjection().getView().south;
+			return this.getView().south;
 		},
 		getWest : function(h){
-			return this.getProjection().getView().west;
+			return this.getView().west;
 		},
 		getNorth : function(h){
-			return this.getProjection().getView().north;
+			return this.getView().north;
 		},
 		getEast : function(h){
-			return this.getProjection().getView().east;
+			return this.getView().east;
 		},
 		
 		
@@ -6731,7 +6769,7 @@ function stringInputToObject(color) {
 		 */
 		getDevice : function(){
 			try{
-				return this.getProjection().getView().getDevice();
+				return this.getView().getDevice();
 			}catch(e){
 				return undefined;
 			}
@@ -6741,7 +6779,7 @@ function stringInputToObject(color) {
 		 * get widget plugin
 		 */
 		getWidgetPlugin: function(){
-			return this.getProjection().getView().getWidgetPlugin();
+			return this.getView().getWidgetPlugin();
 		},
 		
 		/**
@@ -6971,13 +7009,24 @@ function stringInputToObject(color) {
 		},
 		
 		/**
-		 * return true if the given point (x,y) intercepts widgets sensible shapes
+		 * return true if the given point (x,y) intercepts any widgets sensible shapes
+		 * in all registered projection in the shared view.
+		 * @param {Number} x pixel coordinate
+		 * @param {Number} y pixel coordinate
 		 */
 		isWidgetSensible : function(x,y){
-			for (var i = 0; i < this.widgets.length; i++) {
-				var w = this.widgets[i];
-				if(w.isSensible(x,y))
-					return true;
+			
+			var projs = this.getProjection().getView().getProjections();
+			for (var p = 0; p < projs.length; p++) {
+				for (var k = 0; k < projs[p].getPlugins().length; k++) {
+					var ws = projs[p].getPlugins()[k].getWidgets();
+					for (var l = 0; l < ws.length; l++) {
+						if(ws[l].isSensible(x,y)){
+							return true;
+						}
+							
+					}
+				}
 			}
 			return false;
 		},
@@ -6993,6 +7042,10 @@ function stringInputToObject(color) {
             widget.attachLifeCycle();
             widget.onRegister();
             this.widgets[this.widgets.length]=widget;
+	    },
+	    
+	    getWidgets: function() {
+	    	return this.widgets;
 	    }
 	});
 })();
@@ -7492,7 +7545,7 @@ function stringInputToObject(color) {
 		    
 		    this.painted = false;
 		    
-		    
+		    //widget intercept event by another channel from host plugin (ie, widget plugin from view)
 		    //mode defines the painting and event conditions according to projection status and plugin selection status
 		    //for paint : projection parameter : active|passive|always , plugin parameter  selected|unselected|always
 		    //for event parameter : projection parameter : active|passive|always , plugin parameter  selected|unselected|always
@@ -17269,10 +17322,6 @@ function stringInputToObject(color) {
                 var sleep = (sample.sleep !== undefined)?sample.sleep : 5;
                 var fraction = (sample.fraction !== undefined)?sample.fraction : 20;
                 
-                console.log("step "+step);
-                console.log("sleep "+sleep);
-                console.log("fraction "+fraction);
-                
                 var deltaY = this.getProjection().getPixelHeight() / fraction;
                 var deltaX = this.getProjection().getPixelWidth() / fraction;
                 var dx = 0;
@@ -18240,7 +18289,6 @@ function stringInputToObject(color) {
 							
 							if(that.mode.isBx()){
 								deltaSy = 0;
-								console.log("is bx");
 							}
 							else if(that.mode.isBy()){
 								deltaSx = 0;
@@ -18454,7 +18502,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						console.log('sync passive box'+plugin.name);
 	                    plugin.passive();
 	                }
 				}
@@ -18469,7 +18516,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						console.log('sync unpassive box'+plugin.name);
 	                    plugin.unselect();
 	                }
 				}
@@ -18483,7 +18529,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('sync lock box'+plugin.name);
 	                    plugin.unpassive();
 	                }
 				}
@@ -18497,7 +18542,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('sync start box'+plugin.name);
 						var deviceBoxStartSource = source.getBoxStartDevicePoint();
 	                    plugin.processZoomStart(deviceBoxStartSource);
 	                    plugin.repaintPlugin();
@@ -18513,7 +18557,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('sync bound box'+plugin.name);
 	                    var deviceBoxCurrentSource = source.getBoxCurrentDevicePoint();
 	                    plugin.processZoomBound(deviceBoxCurrentSource);
 	                    plugin.repaintPlugin();
@@ -18529,7 +18572,6 @@ function stringInputToObject(color) {
 	            for (var i = 0; i < this.boxesList.length; i++) {
 					var plugin = this.boxesList[i];
 					if (plugin.Id !== source.Id) {
-						//console.log('sync in box'+plugin.name);
 	                    plugin.processZoomIn();
 	                }
 				}

@@ -62,7 +62,7 @@ function createView1Proj1() {
 		maxXDate : endDate,
 		minY : 13,
 		maxY : 16,
-		paintMode : 'ALWAYS'
+		policy : {paint : 'ACTIVE'},
 	});
 	view1.registerProjection(proj1);
 	
@@ -137,7 +137,7 @@ function createView1Proj2() {
 		maxXDate : endDate,
 		minY : 13,
 		maxY : 16,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'},
 	});
 	view1.registerProjection(proj12);
 	

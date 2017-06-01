@@ -30,15 +30,15 @@ var median = {
 	tickMarkerStroke : 2,
 	tickTextColor : '#1abc9c',
 	tickTextFontSize : 10,
-	tickTextOffset : 14
+	tickTextOffset : 6
 };
 var major = {
 	tickMarkerSize : 12,
 	tickMarkerColor : '#2980b9',
 	tickMarkerStroke : 2,
 	tickTextColor : '#2980b9',
-	tickTextFontSize : 12,
-	tickTextOffset : 18
+	tickTextFontSize : 11,
+	tickTextOffset : 6
 };
 
 
@@ -66,12 +66,12 @@ var major2 = {
 
 function createView1Proj1() {
 	proj1 = new JenScript.TimeXProjection({
-		name : "proj1",
+		name : "view 1 proj 1",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ALWAYS'
+		policy : {paint : 'ALWAYS'}
 	});
 	view1.registerProjection(proj1);
 	
@@ -101,11 +101,11 @@ function createView1Proj1() {
 		axis : JenScript.Axis.AxisEast,
 		minor : minor,
 		median:median,
-		major:major
+		major:major,
+		
 	});
 	proj1.registerPlugin(eastMetrics);
 	
-	//LEGEND
 	var mme12Legend = new JenScript.TitleLegendPlugin({
 		layout : 'relative',
 		part   : JenScript.ViewPart.Device,
@@ -231,12 +231,12 @@ function createView1Proj1() {
 
 function createView1Proj2() {
 	proj12 = new JenScript.TimeXProjection({
-		name : "proj12",
+		name : "view 1 proj 2",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'}
 	});
 	view1.registerProjection(proj12);
 	
@@ -270,12 +270,12 @@ function createView1Proj2() {
 
 function createView1Proj3() {
 	proj13 = new JenScript.TimeXProjection({
-		name : "proj13",
+		name : "view 1 proj 3",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'}
 	});
 	view1.registerProjection(proj13);
 	
@@ -315,18 +315,41 @@ function createView2Proj1() {
 	
 	 proj2 = new JenScript.TimeXProjection({
 		cornerRadius : 6,
-		name : "proj2",
+		name : "view 2 proj 1",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : -1.5,
-		maxY : 1.5
+		maxY : 1.5,
+		policy : {paint : 'ALWAYS'}
 	});
 	view2.registerProjection(proj2);
 	
 	var outline2 = new JenScript.DeviceOutlinePlugin({color : '#3498db', strokeOpacity : 0.8, strokeWidth : 1});
 	proj2.registerPlugin(outline2);
 	
-
+	var minor3 = {
+			tickMarkerSize : 2,
+			tickMarkerColor : '#9b59b6',
+			tickMarkerStroke : 0.8
+	};
+	var median3 = {
+		tickMarkerSize : 8,
+		tickMarkerColor : '#3498db',
+		tickMarkerStroke : 2,
+		tickTextColor : '#3498db',
+		tickTextFontSize : 10,
+		tickTextOffset : 14
+	};
+	var major3 = {
+		tickMarkerSize : 12,
+		tickMarkerColor : '#2ecc71',
+		tickMarkerStroke : 2,
+		tickTextColor : '#2ecc71',
+		tickTextFontSize : 12,
+		tickTextOffset : 18
+	};
+	
+	
 	southMetrics2 = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
 		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({}),new JenScript.YearModel({})],
@@ -338,10 +361,9 @@ function createView2Proj1() {
 	
 	eastMetrics2 = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisEast,
-		minor : minor2,
-		median:median2,
-		major:major2,
-		gravity : 'rotate'
+		minor : minor3,
+		median:median3,
+		major:major3,
 		
 	});
 	proj2.registerPlugin(eastMetrics2);
@@ -352,7 +374,7 @@ function createView2Proj1() {
 		moveCountSignal:9,
 		moveCountMin:12,
 		moveCountMax:26,
-		lineColor:JenScript.RosePalette.MANDARIN,
+		lineColor:'white',
 		lineOpacity:1,
 		lineWidth:1,
 		
@@ -400,36 +422,45 @@ function createView2Proj2() {
 	
 	 proj22 = new JenScript.TimeXProjection({
 		cornerRadius : 6,
-		name : "proj1",
+		name : "view2 proj2",
 		minXDate : startDate,
 		maxXDate : endDate,
 		minY : 0,
-		maxY : 100000000
+		maxY : 100000000,
+		policy : {paint : 'ALWAYS'}
 	});
 	view2.registerProjection(proj22);
 	
 	var outline = new JenScript.DeviceOutlinePlugin({color : 'rgba(230, 126, 34,0.6)'});
 	proj22.registerPlugin(outline);
 	
+	var minorv = {
+		tickMarkerColor : 'rgba(26, 188, 156,0.8)',
+	};
+	var medianv = {
+		tickTextColor : 'rgba(230, 126, 34,0.8)',
+	};
+	var majorv = {
+		tickTextColor : 'rgba(26, 188, 156,0.8)',
+	};
+
+	
 	var westMetrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
-		minor:minor,
-		median:median,
-		major:major,
+		minor:minorv,
+		median:medianv,
+		major:majorv,
 		gravity : 'rotate'
 	});
 	proj22.registerPlugin(westMetrics);
 
 
-	stockPluginView2Proj2 = new JenScript.StockPlugin({
-		bearishColor : 'rgba(231, 76, 60,0.8)',
-		bullishColor : 'rgba(52, 152, 219,0.8)',
-	});
+	stockPluginView2Proj2 = new JenScript.StockPlugin();
 	proj22.registerPlugin(stockPluginView2Proj2);
 
 	stockPluginView2Proj2.addLayer(new JenScript.VolumeBarLayer({
-		bearishColor : 'rgba(231, 76, 60,0.8)',
-		bullishColor : 'rgba(52, 152, 219,0.8)',
+		bearishColor : 'rgba(230, 126, 34,0.8)',
+		bullishColor : 'rgba(26, 188, 156,0.8)',
 	}));
 
 	var title = new JenScript.TitleLegendPlugin({
@@ -437,13 +468,13 @@ function createView2Proj2() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Bullish Volume',
 		fontSize : 10,
-		textColor : '#d35400',
+		textColor : 'rgba(26, 188, 156,0.8)',
 		rotate : true,
-		rotateAngle : -90,
+		rotateAngle : 90,
 		xAlign : 'left',
 		yAlign : 'bottom',
 		xMargin : 20,
-		yMargin : 80
+		yMargin : 60
 	});
 	proj22.registerPlugin(title);
 	var title = new JenScript.TitleLegendPlugin({
@@ -451,13 +482,13 @@ function createView2Proj2() {
 		part   : JenScript.ViewPart.Device,
 		text   : 'Bearish Volume',
 		fontSize : 10,
-		textColor : '#3498db',
+		textColor : 'rgba(230, 126, 34,0.8)',
 		rotate : true,
-		rotateAngle : -90,
+		rotateAngle : 90,
 		xAlign : 'left',
 		yAlign : 'bottom',
 		xMargin : 10,
-		yMargin : 80
+		yMargin : 60
 	});
 	proj22.registerPlugin(title);
 }
@@ -489,6 +520,7 @@ function create(container1,container2, width, height) {
 	createView2Proj1();
 	createView2Proj2();
 	createPie();
+	createViewMapLabel();
 	
 	createTranslate();
 	createZoomBox();
@@ -704,7 +736,6 @@ function createTranslate(){
 							icon : 'lnr-camera', 
 							press : function(){
 								var svg = document.getElementById(view1.Id).outerHTML;
-								console.log(svg);
 								var formBlob = new Blob([svg], { type: 'image/svg+xml' });
 								var reader = new FileReader();
 								reader.onload = function(e){
@@ -864,12 +895,12 @@ function createPie(){
 	JenScript.view({
 		view : view2
 	}).projection('linear',{
-		name : "proj1",
+		name : "pie proj",
 		minX : -1000,
 		maxX : 1000,
 		minY : -1000,
 		maxY : 1000,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'}
 	}).pie({
 		radius : 80,
 		startAngleDegree : 45
@@ -932,4 +963,109 @@ function createPie(){
 		textColor :'#9b59b6'
 	}).effect('linear',{offset : 0,incidence : 300}).effect('reflection');
 }
+
+function createViewMapLabel() {
+	
+
+	var proj = new JenScript.MapProjection({
+		name : 'map proj',
+		level : 1,
+		policy : {paint : 'ACTIVE', event : 'ALWAYS'}
+	});
+	view2.registerProjection(proj);
+	
+	var geojsonPlugin = new JenScript.GeoJSONPlugin({});
+	proj.registerPlugin(geojsonPlugin);
+	
+	var transform = new JenScript.AffineTranformPlugin({
+		slaves : [geojsonPlugin]
+	});
+	proj.registerPlugin(transform);
+
+	geojsonPlugin.addGeoListener('register', function(event){
+		var feature = event.feature;
+			feature.fillColor   = '#ecf0f1';
+			feature.fillOpacity = 0.2;
+			feature.strokeColor = '#ecf0f1';
+			feature.strokeWidth = 0;
+		//on register you can prepare your feature rendering property
+	},'map demo');
+
+	
+	var loader = new MapLoader(['countries.geojson'],function(geoJSON){
+		geojsonPlugin.addGeoJSON(geoJSON);
+	});
+
+	var outline = new JenScript.DeviceOutlinePlugin({
+		color : 'pink'
+	});
+	proj.registerPlugin(outline);
+	
+	geojsonPlugin.addGeoListener('press', function(event){
+		//console.log('press '+event.type);
+		//on event you can remote your feature
+//		var remote = event.remote;
+//		remote.fill('purple');
+//		remote.fillOpacity(0.6);
+//		remote.stroke('white');
+		
+	},'map demo');
+	
+	geojsonPlugin.addGeoListener('release', function(event){
+		//console.log('release '+event.feature.Id);
+	},'map demo');
+	
+	geojsonPlugin.addGeoListener('enter', function(event){
+		//console.log('enter '+event.feature.Id);
+		var remote = event.remote;
+		remote.fill('#e74c3c');
+		remote.fillOpacity(0.8);
+		remote.stroke('none');
+	},'map demo');
+	
+	geojsonPlugin.addGeoListener('exit', function(event){
+		//console.log('exit '+event.feature.Id);
+		//label.setText(undefined);
+		//labelPlugin.repaintPlugin();
+		
+//		var feature = event.feature;
+//		feature.fillColor   = JenScript.RosePalette.TURQUOISE;
+//		feature.fillOpacity = 0.3;
+//		feature.strokeColor = JenScript.RosePalette.MANDARIN;
+//		feature.strokeWidth = 0;
+//		geojsonPlugin.repaintPlugin();
+		
+		//or remote
+		var remote = event.remote;
+		remote.fill('#ecf0f1');
+		remote.fillOpacity(0.2);
+		remote.stroke('none');
+	},'map demo');
+
+	geojsonPlugin.addGeoListener('move', function(event){
+		var feature = event.feature;
+		var country = feature.getProperty('sovereignt');
+	},'map demo');
+
+}
+
+var MapLoader = function(assets,callback){
+	
+	 
+	 this.loadMap = function(){
+		var dataWorker = new Worker('/jenscript/charts/samples/map/DataWorker.js');
+		dataWorker.addEventListener("message", function(event) {
+			var geoJSON = JSON.parse(event.data);
+			if(callback !== undefined)
+				callback(geoJSON);
+		}, false);
+		
+		for (var i = 0; i < assets.length; i++) {
+			dataWorker.postMessage(assets[i]);
+		}
+	};
+
+	this.loadMap();
+};
+
 

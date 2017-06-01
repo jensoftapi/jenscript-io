@@ -20,7 +20,7 @@ function createVSymbolBarView(container, width, height) {
 	
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
-		paintMode : 'ACTIVE',
+		policy : {paint : 'ACTIVE'},
 		minX : 0,
 		maxX : 0,
 		minY : -100,

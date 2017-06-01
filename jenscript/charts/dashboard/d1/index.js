@@ -69,7 +69,7 @@ function createView1Proj1() {
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ALWAYS'
+		policy : {paint : 'ALWAYS'}
 	});
 	view1.registerProjection(proj1);
 	
@@ -189,7 +189,7 @@ function createView1Proj2() {
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'}
 	});
 	view1.registerProjection(proj12);
 	
@@ -230,7 +230,7 @@ function createView1Proj3() {
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		paintMode : 'ACTIVE'
+		policy : {paint : 'ACTIVE'}
 	});
 	view1.registerProjection(proj13);
 	
@@ -934,22 +934,14 @@ function createSymbolBarView(container, width, height) {
 	
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
-		paintMode : 'ACTIVE',
+		policy : {paint : 'ACTIVE'},
 		minX : 0,
 		maxX : 0,
 		minY : -5,
 		maxY : 1200
 	});
 	
-//	var proj = new JenScript.LinearProjection({
-//		name : "proj",
-//		paintMode : 'ACTIVE',
-//
-//		minX : -100,
-//		maxX : 1200,
-//		minY : -0,
-//		maxY : 0
-//	});
+
 	
 	view.registerProjection(proj);
 
@@ -957,7 +949,6 @@ function createSymbolBarView(container, width, height) {
 		color : 'pink'
 	});
 
-	//proj.registerPlugin(outline);
 	
 	var metrics = new JenScript.AxisMetricsModeled({
 		axis : JenScript.Axis.AxisWest,
@@ -1170,7 +1161,7 @@ function createSymbolBarView2(container, width, height) {
 	
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
-		paintMode : 'ACTIVE',
+		policy : {paint : 'ACTIVE'},
 
 		minX : -100,
 		maxX : 1200,

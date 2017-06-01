@@ -16,7 +16,7 @@ function createHSymbolBarView(container, width, height) {
 	
 	var proj = new JenScript.LinearProjection({
 		name : "proj",
-		paintMode : 'ACTIVE',
+		policy : {paint : 'ACTIVE'}
 		minX : -800,
 		maxX : 800,
 		minY : 0,
