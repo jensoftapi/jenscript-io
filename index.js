@@ -1,6 +1,6 @@
 
 var view1, view2;
-var proj, proj12, proj13, proj2, proj22, projPie, projMap;
+var proj1, proj12, proj13, proj2, proj22, projPie, projMap, projBar;
 var stockPluginView1Proj1, stockPluginView1Proj2, stockPluginView1Proj3, stockPluginView2Proj1, stockPluginView2Proj2;
 var translateView1Proj1, translateView1Proj2, translateView2Proj3, translateView2Proj1, translateView2Proj2;
 var boxView1Proj1, boxView1Proj2, boxView1Proj3, boxView2Proj1, boxView2Proj2;
@@ -521,6 +521,7 @@ function create(container1,container2, width, height) {
 	createView2Proj2();
 	createPie();
 	createViewMapLabel();
+	createSymbolBarView();
 	
 	createTranslate();
 	createZoomBox();
@@ -787,7 +788,6 @@ function createTranslate(){
 	});
 }
 
-
 function createZoomBox(){
 	
 	boxView1Proj1 = new JenScript.ZoomBoxPlugin({
@@ -843,7 +843,6 @@ function createZoomBox(){
 	
 }
 
-
 function createZoomLens(){
 	lensView1Proj1 = new JenScript.ZoomLensPlugin({name : 'mainLens'});
 	proj1.registerPlugin(lensView1Proj1);
@@ -853,7 +852,6 @@ function createZoomLens(){
 	
 	lensView2Proj1 = new JenScript.ZoomLensPlugin({name : 'tertiaryLens'});
 	proj2.registerPlugin(lensView2Proj1);
-	
 	
 	var lx = new JenScript.LensX({
 		width : 60,
@@ -965,21 +963,46 @@ function createPie(){
 	}).effect('linear',{offset : 0,incidence : 300}).effect('reflection');
 
 	projPie = builder.projection();
+	projPie.addProjectionListener('lockActive', function(){
+		proj22.setVisible(false);
+		proj2.setVisible(false);
+	},'');
+	
+	var outline = new JenScript.DeviceOutlinePlugin({
+		color : 'pink'
+	});
+	projPie.registerPlugin(outline);
+	
+	var title = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Mining production',
+		fontSize : 14,
+		textColor : 'pink',
+		xAlign : 'left',
+		yAlign : 'bottom',
+		xMargin : 5,
+		yMargin : 5
+	});
+	projPie.registerPlugin(title);
 }
 
-
-var geojsonPlugin;
 function createViewMapLabel() {
 	
-
 	projMap = new JenScript.MapProjection({
 		name : 'map proj',
 		level : 1,
-		policy : {paint : 'ACTIVE', event : 'ACTIVE'}
+		policy : {paint : 'ACTIVE', event : 'ACTIVE'},
 	});
 	view2.registerProjection(projMap);
 	
-    geojsonPlugin = new JenScript.GeoJSONPlugin();
+	projMap.addProjectionListener('lockActive', function(){
+		proj2.setVisible(false);
+		proj22.setVisible(false);
+		projBar.setVisible(true);
+	},'');
+	
+	var geojsonPlugin = new JenScript.GeoJSONPlugin();
     projMap.registerPlugin(geojsonPlugin);
 	
 	var transform = new JenScript.AffineTranformPlugin({
@@ -993,9 +1016,20 @@ function createViewMapLabel() {
 			feature.fillOpacity = 0.2;
 			feature.strokeColor = '#ecf0f1';
 			feature.strokeWidth = 0;
-		//on register you can prepare your feature rendering property
-	},'map demo');
-
+			
+			var country = feature.getProperty('sovereignt');
+			if(country === 'Chile' || 
+					country === 'Mexico' || 
+					country === 'Peru' || 
+					country === 'Poland' || 
+					country === 'Canada' || 
+					country === 'Bolivia'){
+				feature.fillOpacity = 0.6;
+				feature.fillColor   = '#ecf0f1';
+			}
+				
+			console.log(country);
+	},'');
 	
 
 	var outline = new JenScript.DeviceOutlinePlugin({
@@ -1004,56 +1038,243 @@ function createViewMapLabel() {
 	projMap.registerPlugin(outline);
 	
 	geojsonPlugin.addGeoListener('press', function(event){
-		//console.log('press '+event.type);
-		//on event you can remote your feature
-//		var remote = event.remote;
-//		remote.fill('purple');
-//		remote.fillOpacity(0.6);
-//		remote.stroke('white');
-		
 	},'map demo');
 	
 	geojsonPlugin.addGeoListener('release', function(event){
 	},'map demo');
 	
 	geojsonPlugin.addGeoListener('enter', function(event){
-		//console.log('enter '+event.feature.Id);
 		var remote = event.remote;
-		remote.fill('#e74c3c');
-		remote.fillOpacity(0.8);
+		remote.fill('#2980b9');
+		remote.fillOpacity(1);
 		remote.stroke('none');
-	},'map demo');
+	},'');
 	
 	geojsonPlugin.addGeoListener('exit', function(event){
-		//console.log('exit '+event.feature.Id);
-		//label.setText(undefined);
-		//labelPlugin.repaintPlugin();
-		
-//		var feature = event.feature;
-//		feature.fillColor   = JenScript.RosePalette.TURQUOISE;
-//		feature.fillOpacity = 0.3;
-//		feature.strokeColor = JenScript.RosePalette.MANDARIN;
-//		feature.strokeWidth = 0;
-//		geojsonPlugin.repaintPlugin();
-		
-		//or remote
 		var remote = event.remote;
-		remote.fill('#ecf0f1');
-		remote.fillOpacity(0.2);
-		remote.stroke('none');
-	},'map demo');
-
-	geojsonPlugin.addGeoListener('move', function(event){
 		var feature = event.feature;
+		remote.fill('#ecf0f1');
 		var country = feature.getProperty('sovereignt');
-	},'map demo');
-	
+		if(country === 'Chile' || 
+				country === 'Mexico' || 
+				country === 'Peru' || 
+				country === 'Poland' || 
+				country === 'Canada' || 
+				country === 'Bolivia'){
+			remote.fillOpacity(0.6);
+			remote.stroke('none');
+		}else{
+			remote.fillOpacity(0.2);
+			remote.stroke('none');
+		}
+	},'');
+
 	var dataWorker = new Worker('/jenscript/charts/samples/map/DataWorker.js');
 	dataWorker.addEventListener("message", function(event) {
 		var geoJSON = JSON.parse(event.data);
 		geojsonPlugin.addGeoJSON(geoJSON);
 	}, false);
-	
 	dataWorker.postMessage({asset : 'countries.geojson'});
+}
 
+function createSymbolBarView() {
+	 projBar = new JenScript.LinearProjection({
+		name : "projBar",
+		policy : { paint : 'ACTIVE'},
+		minX : 0,
+		maxX : 0,
+		minY : 2,
+		maxY : 2000
+	});
+	view2.registerProjection(projBar);
+	
+	projBar.addProjectionListener('lockActive', function(){
+		proj2.setVisible(false);
+		proj22.setVisible(false);
+		projMap.setVisible(true);
+	},'');
+
+	var outline = new JenScript.DeviceOutlinePlugin({
+		color : 'pink'
+	});
+
+	projBar.registerPlugin(outline);
+	
+	var minor = {
+			tickMarkerSize : 2,
+			tickMarkerColor : 'cyan',
+			tickMarkerStroke : 1
+		};
+		var median = {
+			tickMarkerSize : 4,
+			tickMarkerColor : 'cyan',
+			tickMarkerStroke : 1.2,
+			tickTextColor : 'cyan',
+			tickTextFontSize : 10
+		};
+		var major = {
+			tickMarkerSize : 8,
+			tickMarkerColor : '#3498db',
+			tickMarkerStroke : 3,
+			tickTextColor : '#3498db',
+			tickTextFontSize : 12
+		};
+		
+	var metrics = new JenScript.AxisMetricsModeled({
+		axis : JenScript.Axis.AxisWest,
+		minor : minor,
+		median : median,
+		major : major
+	});
+	projBar.registerPlugin(metrics);
+	
+	var gridPlugin = new JenScript.GridModeledPlugin({
+		gridOrientation : 'Horizontal',
+		gridColor : 'white',
+		gridWidth : 0.5,
+		gridOpacity : 0.5
+	});
+	projBar.registerPlugin(gridPlugin);
+	
+	var symbolPlugin = new JenScript.SymbolPlugin({
+		nature : 'Vertical'
+	});
+	projBar.registerPlugin(symbolPlugin);
+	
+	var random = function getRandomArbitrary(min, max) {
+	  return Math.random() * (max - min) + min;
+	}
+	
+	barValue = function (){
+		return random(200,800);
+	}
+	
+	stackValue = function (){
+		return random(20,60);
+	}
+	
+	var count = 1;
+	
+	var createBar = function(val){
+		var symbol = new JenScript.SymbolBarStacked({
+			name : 'Symbol'+count,
+			base : 0,
+			value: val,
+			thickness : 8,
+			direction : 'ascent',
+			morpheStyle : 'Rectangle',
+			themeColor : '#c0392b',
+			opacity : 0.6,
+			barStroke : new JenScript.SymbolBarStroke({strokeColor : 'black', strokeWidth :0.5}),
+			barFill : new JenScript.SymbolBarFill0({}),
+			barEffect  : new JenScript.SymbolBarEffect0({}),
+		});
+		
+		var axisLabel = new JenScript.SymbolAxisLabel({
+			part : 'South', 
+			text : symbol.name,
+			textColor : 'turquoise',
+			textAnchor : 'end',
+			fontSize : 8,
+			paintType : 'None',
+			rotateAngle : -45,
+			ty : 10
+		});
+		symbol.setAxisLabel(axisLabel);
+		count++;
+		
+		var  s1 = new JenScript.SymbolStack({
+			name : 'stack1',
+			opacity : 0.8,
+			themeColor : '#3498db',
+			stackValue : stackValue()
+		});
+		var  s2 = new JenScript.SymbolStack({
+			name : 'stack2',
+			opacity : 0.8,
+			themeColor : '#9b59b6',
+			stackValue : stackValue()
+		});
+		var  s3 = new JenScript.SymbolStack({
+			name : 'stack3',
+			opacity : 0.8,
+			themeColor : '#34495e',
+			stackValue : stackValue()
+		});
+		
+		symbol.addStack(s1);
+		symbol.addStack(s2);
+		symbol.addStack(s3);
+		
+		return symbol;
+	}
+	
+	var barLayer = new JenScript.SymbolBarLayer();
+	symbolPlugin.addLayer(barLayer);
+	
+	barLayer.addSymbol(JenScript.SymbolFiller.createGlue(),false);
+	
+	for (var i = 1; i <= 10; i++) {
+		var bar = createBar(barValue());
+		barLayer.addSymbol(bar,false);
+		
+		if(i < 10)
+		barLayer.addSymbol(JenScript.SymbolFiller.createStrut(8),false); 
+	}
+	barLayer.addSymbol(JenScript.SymbolFiller.createStrut(50),false);
+	
+	symbolPlugin.repaintPlugin();
+	
+	var t1 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 1',
+		fontSize : 14,
+		textColor : 'rgb(91, 151, 168)',
+		xAlign : 'right',
+		yAlign : 'top',
+	});
+	projBar.registerPlugin(t1);
+	
+	var t2 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 2',
+		fontSize : 14,
+		textColor : 'rgb(128, 182, 191)',
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin : 20
+	});
+	projBar.registerPlugin(t2);
+	
+	var t3 = new JenScript.TitleLegendPlugin({
+		layout : 'relative',
+		part   : JenScript.ViewPart.Device,
+		text   : 'Label 3',
+		fontSize : 14,
+		textColor : 'rgb(22, 125, 218)',
+		xAlign : 'right',
+		yAlign : 'top',
+		yMargin : 36
+	});
+	projBar.registerPlugin(t3);
+	
+	var tx1 = new JenScript.TranslatePlugin({
+		mode : 'ty',
+		slaves :[{plugin : symbolPlugin, direction: 'y'},
+		         {plugin : gridPlugin, direction: 'y'},
+		         {plugin : metrics, direction: 'y'}]
+	});
+	projBar.registerPlugin(tx1);
+	tx1.registerWidget(new JenScript.TranslateCompassWidget({
+		ringFillColor : 'pink'
+	}));
+	tx1.select();
+	
+	var zoomwheel = new JenScript.ZoomWheelPlugin({
+		mode : 'wheelY'
+	});
+	projBar.registerPlugin(zoomwheel);
+	 
 }
