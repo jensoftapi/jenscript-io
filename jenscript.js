@@ -38343,6 +38343,11 @@ function stringInputToObject(color) {
 					this.fireGeoJSONEvent('register',{ type : 'register', target : undefined, feature : feature, remote : undefined});
 				}
 			}
+			else if(geojson.isFeature){
+				var feature = new JenScript.MapFeature(data);
+				this.features[this.features.length] =  feature;
+				this.fireGeoJSONEvent('register',{ type : 'register', target : undefined, feature : feature, remote : undefined});
+			}
 			this.repaintPlugin();
 		},
 		

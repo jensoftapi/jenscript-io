@@ -1,5 +1,11 @@
+	var asset;
+	
+	var geoJsonPlugin;
+
 this.onmessage = function(event) {
-	var asset = event.data;
+	 asset = event.data.asset;
+	
+	// geoJsonPlugin = event.data.plugin;
 	var oReq = new XMLHttpRequest();
 	//oReq.overrideMimeType('text/plain');
 	oReq.addEventListener("progress", updateProgress, false);
@@ -18,7 +24,16 @@ function updateProgress (oEvent) {
 
 function transferComplete(evt) {
  	var data = evt.target.responseText;
+ 	
+ 	//solve shape here
+ 	//var geoJSON = JSON.parse(data);
+ 	//console.log(geoJSON);
+	//plugin.addGeoJSON(geoJSON);
+// 	for (var i = 0; i < geoJSON.features.length; i++) {
+// 		postMessage(geoJSON.features[i]);
+//	} 
  	postMessage(data);
+ 	
 }
 
 function transferFailed(evt) {

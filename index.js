@@ -1,6 +1,6 @@
 
 var view1, view2;
-var proj, proj12, proj13, proj2, proj22;
+var proj, proj12, proj13, proj2, proj22, projPie, projMap;
 var stockPluginView1Proj1, stockPluginView1Proj2, stockPluginView1Proj3, stockPluginView2Proj1, stockPluginView2Proj2;
 var translateView1Proj1, translateView1Proj2, translateView2Proj3, translateView2Proj1, translateView2Proj2;
 var boxView1Proj1, boxView1Proj2, boxView1Proj3, boxView2Proj1, boxView2Proj2;
@@ -301,11 +301,11 @@ function createView1Proj3() {
 	proj13.registerPlugin(stockPluginView1Proj3);
 	
 	stockPluginView1Proj3.addLayer(new JenScript.StockBollingerLayer({
-		bandColor:'rgba(192, 57, 43,0.4)',
-		bandOpacity: 0.4,
-		lineColor:'rgba(192, 57, 43,1)',
-		lineOpacity:0.6,
-		lineWidth : 0.5
+		bandColor:'#8e44ad',
+		bandOpacity: 0.2,
+		lineColor:'#2ecc71',
+		lineOpacity: 1,
+		lineWidth : 0.6
 	}));
 	
 }
@@ -388,9 +388,9 @@ function createView2Proj1() {
 		text   : 'MACD (12-26-9)',
 		fontSize : 10,
 		textColor : '#e74c3c',
-		xAlign : 'center',
+		xAlign : 'left',
 		yAlign : 'top',
-		yMargin: 5
+		yMargin: 60
 	});
 	proj2.registerPlugin(legend1);
 	
@@ -474,7 +474,7 @@ function createView2Proj2() {
 		xAlign : 'left',
 		yAlign : 'bottom',
 		xMargin : 20,
-		yMargin : 60
+		yMargin : 64
 	});
 	proj22.registerPlugin(title);
 	var title = new JenScript.TitleLegendPlugin({
@@ -664,6 +664,7 @@ function createTranslate(){
 								}else if(proj13.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj1)
 								}
+								
 							},
 							tooltip : new JenScript.Tooltip({
 									text : "Switch projections layers",
@@ -765,7 +766,7 @@ function createTranslate(){
 		          {plugin : eastMetrics2, direction :'y'}]
 	});
 	translateView2Proj1.registerWidget(new JenScript.TranslateCompassWidget({
-		ringFillColor : JenScript.RosePalette.AEGEANBLUE,
+		ringFillColor : '#2ecc71',
 		ringFillOpacity : 0.7,
 		xIndex :100,
 		mode : {paint : {proj : 'always', plugin : 'selected'},event: {proj : 'always', plugin : 'always'}}
@@ -892,17 +893,17 @@ function createZoomLens(){
 }
 
 function createPie(){
-	JenScript.view({
+	var builder = JenScript.view({
 		view : view2
 	}).projection('linear',{
 		name : "pie proj",
-		minX : -1000,
-		maxX : 1000,
-		minY : -1000,
-		maxY : 1000,
+		minX : -1,
+		maxX : 1,
+		minY : -1,
+		maxY : 1,
 		policy : {paint : 'ACTIVE'}
 	}).pie({
-		radius : 80,
+		radius : 60,
 		startAngleDegree : 45
 	}).slice({
 		name : "s1",
@@ -962,25 +963,29 @@ function createPie(){
 		outlineWidth : 2,
 		textColor :'#9b59b6'
 	}).effect('linear',{offset : 0,incidence : 300}).effect('reflection');
+
+	projPie = builder.projection();
 }
 
+
+var geojsonPlugin;
 function createViewMapLabel() {
 	
 
-	var proj = new JenScript.MapProjection({
+	projMap = new JenScript.MapProjection({
 		name : 'map proj',
 		level : 1,
-		policy : {paint : 'ACTIVE', event : 'ALWAYS'}
+		policy : {paint : 'ACTIVE', event : 'ACTIVE'}
 	});
-	view2.registerProjection(proj);
+	view2.registerProjection(projMap);
 	
-	var geojsonPlugin = new JenScript.GeoJSONPlugin({});
-	proj.registerPlugin(geojsonPlugin);
+    geojsonPlugin = new JenScript.GeoJSONPlugin();
+    projMap.registerPlugin(geojsonPlugin);
 	
 	var transform = new JenScript.AffineTranformPlugin({
 		slaves : [geojsonPlugin]
 	});
-	proj.registerPlugin(transform);
+	projMap.registerPlugin(transform);
 
 	geojsonPlugin.addGeoListener('register', function(event){
 		var feature = event.feature;
@@ -992,14 +997,11 @@ function createViewMapLabel() {
 	},'map demo');
 
 	
-	var loader = new MapLoader(['countries.geojson'],function(geoJSON){
-		geojsonPlugin.addGeoJSON(geoJSON);
-	});
 
 	var outline = new JenScript.DeviceOutlinePlugin({
 		color : 'pink'
 	});
-	proj.registerPlugin(outline);
+	projMap.registerPlugin(outline);
 	
 	geojsonPlugin.addGeoListener('press', function(event){
 		//console.log('press '+event.type);
@@ -1012,7 +1014,6 @@ function createViewMapLabel() {
 	},'map demo');
 	
 	geojsonPlugin.addGeoListener('release', function(event){
-		//console.log('release '+event.feature.Id);
 	},'map demo');
 	
 	geojsonPlugin.addGeoListener('enter', function(event){
@@ -1046,26 +1047,13 @@ function createViewMapLabel() {
 		var feature = event.feature;
 		var country = feature.getProperty('sovereignt');
 	},'map demo');
+	
+	var dataWorker = new Worker('/jenscript/charts/samples/map/DataWorker.js');
+	dataWorker.addEventListener("message", function(event) {
+		var geoJSON = JSON.parse(event.data);
+		geojsonPlugin.addGeoJSON(geoJSON);
+	}, false);
+	
+	dataWorker.postMessage({asset : 'countries.geojson'});
 
 }
-
-var MapLoader = function(assets,callback){
-	
-	 
-	 this.loadMap = function(){
-		var dataWorker = new Worker('/jenscript/charts/samples/map/DataWorker.js');
-		dataWorker.addEventListener("message", function(event) {
-			var geoJSON = JSON.parse(event.data);
-			if(callback !== undefined)
-				callback(geoJSON);
-		}, false);
-		
-		for (var i = 0; i < assets.length; i++) {
-			dataWorker.postMessage(assets[i]);
-		}
-	};
-
-	this.loadMap();
-};
-
-
