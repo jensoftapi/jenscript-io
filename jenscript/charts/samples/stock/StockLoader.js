@@ -38,11 +38,17 @@ var StockLoader = function(proj,args,callback,config){
 			onComplete : function() {
 				proj.unregisterPlugin(this);
 			},
-			outlineColor : outlineColor,
-			//backgroundColor : 'white',
-			backgroundOpacity : backgroundOpacity,
-			foregroundOpacity : foregroundOpacity,
-			foregroundColor : foregroundColor
+//			outlineColor : outlineColor,
+//			//backgroundColor : 'white',
+//			backgroundOpacity : backgroundOpacity,
+//			foregroundOpacity : foregroundOpacity,
+//			foregroundColor : foregroundColor,
+			outlineColor : '#16a085',
+			backgroundColor : 'black',
+			backgroundOpacity : 0,
+			foregroundColor : '#2980b9',
+			foregroundOpacity : 0.6,
+			textColor : '#2ecc71'
 		});
 		monitorPlugin.addMonitor(m);
 		
