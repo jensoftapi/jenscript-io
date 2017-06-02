@@ -73,7 +73,7 @@ function createView1Proj1() {
 		maxXDate : endDate,
 		minY : 12.5,
 		maxY : 18.8,
-		policy : {paint : 'ACTIVE'}
+		policy : {paint : 'ALWAYS'}
 	});
 	view1.registerProjection(projCandle);
 	
@@ -181,8 +181,8 @@ function createView1Proj1() {
 	
 	stockPluginView1Proj1.addLayer(candles);
 	
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:12,curveColor:'#e67e22',curveOpacity : 0.7}));
-	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({moveCount:26,curveColor:'#1abc9c',curveOpacity : 0.7}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({name : 'layer mme 12',moveCount:12,curveColor:'#e67e22',curveOpacity : 0.7}));
+	stockPluginView1Proj1.addLayer(new JenScript.StockExponentialMovingAverageLayer({name : 'layer mme 26',moveCount:26,curveColor:'#1abc9c',curveOpacity : 0.7}));
 	
 	var tooltip = new JenScript.Tooltip({
 		text : "",
@@ -308,9 +308,9 @@ function createView1Proj3() {
 	proj13.registerPlugin(stockPluginView1Proj3);
 	
 	stockPluginView1Proj3.addLayer(new JenScript.StockBollingerLayer({
-		bandColor:'#8e44ad',
-		bandOpacity: 0.2,
-		lineColor:'#2ecc71',
+		bandColor:'#ecf0f1',
+		bandOpacity: 0.12,
+		lineColor:'#ecf0f1',
 		lineOpacity: 1,
 		lineWidth : 0.6
 	}));
@@ -674,7 +674,7 @@ function createTranslate(){
 								}else if(proj12.Id === view1.getActiveProjection().Id){
 									view1.setActiveProjection(proj13)
 								}else if(proj13.Id === view1.getActiveProjection().Id){
-									view1.setActiveProjection(proj1)
+									view1.setActiveProjection(projCandle)
 								}
 								
 							},
@@ -803,8 +803,13 @@ function createZoomBox(){
 	
 	boxView1Proj1 = new JenScript.ZoomBoxPlugin({
 		name : 'candleBox',
+		zoomBoxDrawColor : '#ecf0f1' ,
+		zoomBoxFillColor : '#34495e',
+		zoomBoxStroke : 1,
+	    zoomBoxFillOpacity :  0.3,
+	    zoomBoxStrokeOpacity : 1,
 		slaves : [stockPluginView1Proj1]
-		});
+	});
 	boxView1Proj1.registerWidget(new JenScript.ZoomBoxWidget({
 		width : 60,
 		height :  16,
@@ -824,12 +829,22 @@ function createZoomBox(){
 	
 	boxView1Proj2 = new JenScript.ZoomBoxPlugin({
 		name : 'ohlcBox',
+		zoomBoxDrawColor : '#ecf0f1' ,
+		zoomBoxFillColor : '#34495e',
+		zoomBoxStroke : 1,
+	    zoomBoxFillOpacity :  0.3,
+	    zoomBoxStrokeOpacity : 1,
 		slaves : [stockPluginView1Proj2]
 	});
 	proj12.registerPlugin(boxView1Proj2);
 	
 	boxView1Proj3 = new JenScript.ZoomBoxPlugin({
 		name : 'bollingerBox',
+		zoomBoxDrawColor : '#ecf0f1' ,
+		zoomBoxFillColor : '#34495e',
+		zoomBoxStroke : 1,
+	    zoomBoxFillOpacity :  0.3,
+	    zoomBoxStrokeOpacity : 1,
 		slaves : [stockPluginView1Proj2]
 	});
 	proj13.registerPlugin(boxView1Proj3);
@@ -837,6 +852,11 @@ function createZoomBox(){
     boxView2Proj1 = new JenScript.ZoomBoxPlugin({
 		mode : 'x',
 		name : 'macdBox',
+		zoomBoxDrawColor : '#ecf0f1' ,
+		zoomBoxFillColor : '#34495e',
+		zoomBoxStroke : 1,
+	    zoomBoxFillOpacity :  0.3,
+	    zoomBoxStrokeOpacity : 1,
 		slaves : [stockPluginView2Proj1]
 	});
 	proj2.registerPlugin(boxView2Proj1);
@@ -844,6 +864,11 @@ function createZoomBox(){
 	boxView2Proj2 = new JenScript.ZoomBoxPlugin({
 			mode : 'x',
 			name : 'volumeBox',
+			zoomBoxDrawColor : '#ecf0f1' ,
+			zoomBoxFillColor : '#34495e',
+			zoomBoxStroke : 1,
+		    zoomBoxFillOpacity :  0.3,
+		    zoomBoxStrokeOpacity : 1,
 			slaves : [stockPluginView2Proj2]
 	});
 	proj22.registerPlugin(boxView2Proj2);
