@@ -931,7 +931,7 @@ function createZoomLens(){
 	lensView1Proj1.registerWidget(ly);
 	
 	var synchronizer = new JenScript.ZoomLensSynchronizer({
-		lenses : [ lensView1Proj1,lensView1Proj2,lensView1Proj3, lensView2Proj1 ]
+		lenses : [ lensView1Proj1,lensView1Proj2,lensView1Proj3, lensView2Proj1,lensView2Proj2 ]
 	});
 }
 
