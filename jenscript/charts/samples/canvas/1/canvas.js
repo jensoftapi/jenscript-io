@@ -173,14 +173,5 @@ function create(container, width, height) {
 		stockPlugin.setStocks(stocks);
 	});
 	
-	//var canvas = new JenScript.BasicCanvasPlugin();
-	//proj1.registerPlugin(canvas);
-	
-//	var loader = new StockLoader(projCandle,[2014,2015,2016],function(year,stocks){
-//		//console.log("add year : "+year+" for total stocks "+stocks.length);
-//		stockPluginView1Proj1.setStocks(stocks);
-//	},{foregroundColor : 'rgba(153, 255, 51,0.5)', outlineColor : 'rgb(255, 255, 0)'});
-
-	
 }
 

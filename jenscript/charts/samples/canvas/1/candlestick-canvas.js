@@ -169,13 +169,6 @@
 				canvas.setAttribute("y",this.getHost().getNorth());
 				canvas.setAttribute("style","pointer-events: none;"+"width : "+w+"px;"+"height : "+h+"px;"); //else event are dropped?
 				
-//				canvas.width = w*2;
-//				canvas.height = h*2;
-//				canvas.style.width = w + 'px';
-//				canvas.style.height = h + 'px';
-				
-				console.log("canvas width "+canvas.width);
-				
 				fo.appendChild(canvas);
 				
 				var ctx = canvas.getContext("2d");
@@ -192,17 +185,12 @@
 					ctx.stroke();
 					
 					ctx.fillStyle = (geom.getStock().isBearish())? this.plugin.getBearishColor():this.plugin.getBullishColor();
-					//console.log(ctx.fillStyle);
 					if (geom.getStock().isBearish()) {
-						//console.log("bearish")
 						ctx.fillRect(geom.deviceFixingStart, geom.deviceOpen.y,geom.deviceFixingDuration, Math.abs(geom.deviceOpen.y - geom.deviceClose.y));
 					} else {
-						console.log("bullish")
 						ctx.fillRect(geom.deviceFixingStart, geom.deviceClose.y,geom.deviceFixingDuration, Math.abs(geom.deviceOpen.y - geom.deviceClose.y));
 					}
 				}
-				
-				
 				
 			}
 		},
