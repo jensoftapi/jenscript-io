@@ -147,7 +147,6 @@
 				g2d.insertSVG(canvasRoot);
 				
 				var ratio   = window.devicePixelRatio || 1;
-				console.log("ratio "+ratio)
 				
 				var fo = new JenScript.SVGElement()
 							.name('foreignObject')
