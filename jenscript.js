@@ -31157,7 +31157,7 @@ function stringInputToObject(color) {
 	     */
 		addStockListener  : function(actionEvent,listener,name){
 			if(name === undefined)
-				throw new Error('Symbol listener, listener name should be supplied.');
+				throw new Error('Stock listener, listener name should be supplied.');
 			var l = {action:actionEvent , onEvent : listener, name:name};
 			this.stockListeners[this.stockListeners.length] = l;
 		},
@@ -34212,7 +34212,6 @@ function stringInputToObject(color) {
 	JenScript.Model.inheritPrototype(JenScript.GaugeMetricsPath,JenScript.GeneralMetricsPath);
 	JenScript.Model.addMethods(JenScript.GaugeMetricsPath,{
 		_init : function(config){
-			console.log('create gauge metrics path');
 			config = config || {};
 			config.nature = 'Device';
 			/** current value */
@@ -34344,7 +34343,6 @@ function stringInputToObject(color) {
 		 * @param g2d
 		 */
 		draw : function(g2d) {
-			console.log('gauge metrics path draw');
 			this.graphicsContext = g2d;
 			this.getMetrics();
 
