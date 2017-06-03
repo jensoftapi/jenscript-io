@@ -35,25 +35,29 @@ function transferCanceled(evt) {
 }
 
 function loadStock(dataLine) {
-	var arrayStock = dataLine.split(',');
-	var dt = arrayStock[0].replace(/"/g,'');
-	var dtArray = dt.split('/');
-	var close = arrayStock[1].replace(/"/g,'');
-	var volume = arrayStock[2].replace(/"/g,'');
-	var open = arrayStock[3].replace(/"/g,'');
-	var high = arrayStock[4].replace(/"/g,'');
-	var low = arrayStock[5].replace(/"/g,'');
-	var fixingDurationMillis = 24 * 60 * 60 * 1000;
-	
-	//"date","close","volume","open","high","low"
-	var stock = {fixing : new Date(dtArray[0],dtArray[1]-1,dtArray[2]),
-				close : parseFloat(close),
-				volume: parseFloat(volume),
-				open  : parseFloat(open),
-				high  : parseFloat(high),
-				low   : parseFloat(low),
-				fixingDurationMillis : fixingDurationMillis
-	};
-	return stock;
+	try {
+		var arrayStock = dataLine.split(',');
+		var dt = arrayStock[0].replace(/"/g, '');
+		var dtArray = dt.split('/');
+		var close = arrayStock[1].replace(/"/g, '');
+		var volume = arrayStock[2].replace(/"/g, '');
+		var open = arrayStock[3].replace(/"/g, '');
+		var high = arrayStock[4].replace(/"/g, '');
+		var low = arrayStock[5].replace(/"/g, '');
+		var fixingDurationMillis = 24 * 60 * 60 * 1000;
+		//"date","close","volume","open","high","low"
+		var stock = {
+			fixing : new Date(dtArray[0], dtArray[1] - 1, dtArray[2]),
+			close : parseFloat(close),
+			volume : parseFloat(volume),
+			open : parseFloat(open),
+			high : parseFloat(high),
+			low : parseFloat(low),
+			fixingDurationMillis : fixingDurationMillis
+		};
+		return stock;
+	} catch (e) {
+		console.log("dataline "+dataLine);
+	}
 }
 

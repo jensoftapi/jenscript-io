@@ -23,11 +23,11 @@ var lensView2Proj2;
 
 var minor = {
 		tickMarkerSize : 2,
-		tickMarkerColor : '#9b59b6',
+		tickMarkerColor : 'cyan',
 		tickMarkerStroke : 0.8
 };
 var median = {
-	tickMarkerSize : 8,
+	tickMarkerSize : 6,
 	tickMarkerColor : '#1abc9c',
 	tickMarkerStroke : 2,
 	tickTextColor : '#1abc9c',
@@ -35,7 +35,7 @@ var median = {
 	tickTextOffset : 6
 };
 var major = {
-	tickMarkerSize : 12,
+	tickMarkerSize : 8,
 	tickMarkerColor : '#e67e22',
 	tickMarkerStroke : 2,
 	tickTextColor : 'cyan',
@@ -893,7 +893,10 @@ function createZoomLens(){
 	lensView2Proj1 = new JenScript.ZoomLensPlugin({name : 'v2-macd-lens'});
 	proj2.registerPlugin(lensView2Proj1);
 
-	lensView2Proj2 = new JenScript.ZoomLensPlugin({name : 'v2-volume-lens'});
+	lensView2Proj2 = new JenScript.ZoomLensPlugin({
+			name : 'v2-volume-lens',
+			lensType : 'LensX'
+	});
 	proj22.registerPlugin(lensView2Proj2);
 	
 	
