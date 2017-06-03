@@ -1,11 +1,5 @@
-// JenScript -  JavaScript HTML5/SVG Library
-// version : 1.3.1
-// Author : Sebastien Janaud 
-// Web Site : http://jenscript.io
-// Twitter  : http://twitter.com/JenSoftAPI
-// Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-06-03
-// All Rights reserved
+// JenScript - 1.3.1 2017-06-03
+// http://jenscript.io - Copyright 2017 Sébastien Janaud. All Rights reserved
 
 (function(){
 	
@@ -265,7 +259,7 @@
 			var shader2 = {percents:['0%','50%','100%'],colors:['black','gray','black']};
 			var gradient2= new JenScript.SVGLinearGradient().Id('ciseroGd2').from(start4.x,start4.y).to(end4.x,end4.y).shade(shader2.percents,shader2.colors);
 			g2d.definesSVG(gradient2.toSVG());
-			g2d.insertSVG(path.stroke(JenScript.RosePalette.MELON).attr('fill-rule','nonzero').fillURL('ciseroGd2').toSVG());
+			g2d.insertSVG(path.stroke('#2980b9').attr('fill-rule','nonzero').fillURL('ciseroGd2').toSVG());
 		}
 	});
 })();
@@ -1103,7 +1097,7 @@
 			this.solveIntersectionPoints();
 
 			var line3 = new JenScript.SVGPath().moveTo(this.x1,this.y1).lineTo(this.x0,this.y0);
-			g2d.insertSVG(line3.stroke(JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30).toHexString()).fillNone().toSVG());
+			g2d.insertSVG(line3.stroke('#2980b9').fillNone().toSVG());
 			
 			g2d.insertSVG(this.arc0.stroke('black').fillNone().toSVG());
 			g2d.insertSVG(this.arc1.stroke('darkgray').fillNone().toSVG());
@@ -1120,11 +1114,11 @@
 			var i1 = new JenScript.SVGCircle().center(this.intersectionPointStart.getX(), this.intersectionPointStart.getY()).radius(4);
 			var i2 = new JenScript.SVGCircle().center(this.intersectionPointEnd.getX(), this.intersectionPointEnd.getY()).radius(4);
 			
-			var color = (this.direction == 'Clockwise')? 'cyan' : 'orange';
+			var color = (this.direction == 'Clockwise')? '#1abc9c' : '#e74c3c';
 			this.drawPath(g2d, p, color);
 			
-			g2d.insertSVG(i1.fill(JenScript.RosePalette.LIME).toSVG());
-			g2d.insertSVG(i2.fill(JenScript.RosePalette.LIME).toSVG());
+			g2d.insertSVG(i1.fill('#f1c40f').toSVG());
+			g2d.insertSVG(i2.fill('#f1c40f').toSVG());
 			
 		},
 
@@ -1582,7 +1576,7 @@
 			this.solveIntersectionPoints();
 
 			var line3 = new JenScript.SVGPath().moveTo(this.x1,this.y1).lineTo(this.x0,this.y0);
-			g2d.insertSVG(line3.stroke(JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30).toHexString()).fillNone().toSVG());
+			g2d.insertSVG(line3.stroke('#2980b9').toHexString().fillNone().toSVG());
 			
 			g2d.insertSVG(this.arc0.stroke('black').fillNone().toSVG());
 			g2d.insertSVG(this.arc1.stroke('darkgray').fillNone().toSVG());
@@ -1599,11 +1593,11 @@
 			var i1 = new JenScript.SVGCircle().center(this.intersectionPointStart.getX(), this.intersectionPointStart.getY()).radius(4);
 			var i2 = new JenScript.SVGCircle().center(this.intersectionPointEnd.getX(), this.intersectionPointEnd.getY()).radius(4);
 			
-			var color = (this.direction == 'Clockwise')? 'cyan' : 'orange';
+			var color = (this.direction == 'Clockwise')? '#1abc9c' : '#e74c3c';
 			this.drawPath(g2d, p, color);
 			
-			g2d.insertSVG(i1.fill(JenScript.RosePalette.LIME).toSVG());
-			g2d.insertSVG(i2.fill(JenScript.RosePalette.LIME).toSVG());
+			g2d.insertSVG(i1.fill('#f1c40f').toSVG());
+			g2d.insertSVG(i2.fill('#f1c40f').toSVG());
 			
 			//this debug block
 			//super.debug(g2d, gauge);
@@ -1753,7 +1747,7 @@
 			this.solveIntersectionPoints();
 
 			var line3 = new JenScript.SVGPath().moveTo(this.x1,this.y1).lineTo(this.x0,this.y0);
-			g2d.insertSVG(line3.stroke(JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30).toHexString()).fillNone().toSVG());
+			g2d.insertSVG(line3.stroke('#2980b9').fillNone().toSVG());
 			
 			g2d.insertSVG(this.arc0.stroke('black').fillNone().toSVG());
 			g2d.insertSVG(this.arc1.stroke('darkgray').fillNone().toSVG());
@@ -1770,11 +1764,11 @@
 			var i1 = new JenScript.SVGCircle().center(this.intersectionPointStart.getX(), this.intersectionPointStart.getY()).radius(4);
 			var i2 = new JenScript.SVGCircle().center(this.intersectionPointEnd.getX(), this.intersectionPointEnd.getY()).radius(4);
 			
-			var color = (this.direction == 'Clockwise')? 'cyan' : 'orange';
+			var color = (this.direction == 'Clockwise')? '#1abc9c' : '#e74c3c';
 			this.drawPath(g2d, p, color);
 			
-			g2d.insertSVG(i1.fill(JenScript.RosePalette.LIME).toSVG());
-			g2d.insertSVG(i2.fill(JenScript.RosePalette.LIME).toSVG());
+			g2d.insertSVG(i1.fill('#f1c40f').toSVG());
+			g2d.insertSVG(i2.fill('#f1c40f').toSVG());
 			
 			//this quad debug
 //			g2d.setColor(NanoChromatique.GREEN);
@@ -1787,11 +1781,6 @@
 	});
 })();
 (function(){
-
-	
-	
-	
-	
 	
 	/**
 	 * Object JenScript.GaugeNeedlePainter()
@@ -1853,16 +1842,16 @@
 			var needleValue = gaugeMetricsPath.getNeedleValueAnchorBinder().bindAnchor(gaugeMetricsPath.getBody().getGauge());
 			var needleLine = new JenScript.SVGPath().moveTo(needleBase.x,needleBase.y).lineTo(needleValue.x,needleValue.y);
 			var s1 = needleLine.strokeWidth(4).strokeLineCap('round').opacity(0.6).stroke('black').toSVG();
-			var s2 = needleLine.strokeWidth(10).strokeLineCap('round').opacity(0.4).stroke(JenScript.RosePalette.AEGEANBLUE).toSVG();
+			var s2 = needleLine.strokeWidth(10).strokeLineCap('round').opacity(0.4).stroke('#2980b9').toSVG();
 			g2d.insertSVG(s2);
 			g2d.insertSVG(s1);
 			var centerRadius =14;
-			var shader = {percents:['0%','100%'],colors:[JenScript.RosePalette.AEGEANBLUE,'black']};
+			var shader = {percents:['0%','100%'],colors:['#2980b9','black']};
 			var gradientId = "gradient"+JenScript.sequenceId++;
 			var gradient= new JenScript.SVGRadialGradient().Id(gradientId).center(needleBase.getX(),needleBase.getY()).focus(needleBase.getX(),needleBase.getY()).radius(centerRadius).shade(shader.percents,shader.colors).toSVG();
 			g2d.definesSVG(gradient);
 			var center = new JenScript.SVGCircle().center(needleBase.getX(),needleBase.getY()).radius(centerRadius);
-			g2d.insertSVG(center.fillURL(gradientId).fillOpacity(0.6).strokeOpacity(0.5).strokeWidth(2).stroke(JenScript.RosePalette.AEGEANBLUE).toSVG());
+			g2d.insertSVG(center.fillURL(gradientId).fillOpacity(0.6).strokeOpacity(0.5).strokeWidth(2).stroke('#2980b9').toSVG());
 		}
 	});
 	

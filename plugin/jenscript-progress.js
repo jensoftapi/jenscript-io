@@ -1,11 +1,5 @@
-// JenScript -  JavaScript HTML5/SVG Library
-// version : 1.3.1
-// Author : Sebastien Janaud 
-// Web Site : http://jenscript.io
-// Twitter  : http://twitter.com/JenSoftAPI
-// Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-06-03
-// All Rights reserved
+// JenScript - 1.3.1 2017-06-03
+// http://jenscript.io - Copyright 2017 Sébastien Janaud. All Rights reserved
 
 (function(){
 	JenScript.ProgressPlugin = function(config) {
@@ -113,14 +107,13 @@
 			this.name=(config.name !== undefined)?config.name : 'unamed monitor';
 			this.outlineStrokeWidth=config.outlineStrokeWidth;
 			
-			//this.backgroundColor=(config.backgroundColor !== undefined)?config.backgroundColor : JenScript.RosePalette.COALBLACK;
-			this.backgroundColor=(config.backgroundColor !== undefined)?config.backgroundColor : JenScript.RosePalette.COALBLACK;
+			this.backgroundColor=(config.backgroundColor !== undefined)?config.backgroundColor : 'black';
 			this.backgroundOpacity=(config.backgroundOpacity !== undefined)?config.backgroundOpacity : 1;
 			
-			this.foregroundColor=(config.foregroundColor !== undefined)?config.foregroundColor : JenScript.RosePalette.CALYPSOBLUE;
+			this.foregroundColor=(config.foregroundColor !== undefined)?config.foregroundColor : '#2980b9';
 			this.foregroundOpacity=(config.foregroundOpacity !== undefined)?config.foregroundOpacity : 1;
 			
-			this.textColor =(config.textColor !== undefined)?config.textColor : JenScript.RosePalette.COALBLACK;
+			this.textColor =(config.textColor !== undefined)?config.textColor : 'black';
 			this.fontSize = (config.fontSize !== undefined)?config.fontSize : 10 ;
 			
 			this.total=config.total;

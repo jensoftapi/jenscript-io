@@ -1,11 +1,5 @@
-// JenScript -  JavaScript HTML5/SVG Library
-// version : 1.3.1
-// Author : Sebastien Janaud 
-// Web Site : http://jenscript.io
-// Twitter  : http://twitter.com/JenSoftAPI
-// Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-06-03
-// All Rights reserved
+// JenScript - 1.3.1 2017-06-03
+// http://jenscript.io - Copyright 2017 Sébastien Janaud. All Rights reserved
 
 (function(){
 	//http://en.wikipedia.org/wiki/GeoJSON
@@ -218,8 +212,7 @@
 			var w = this.getProjection().getView().getDevice().getWidth();
 			var h = this.getProjection().getView().getDevice().getHeight();
 			var rect = new JenScript.SVGRect().origin(0,0).size(w,h);
-			//JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,50)
-			g2d.insertSVG(rect.strokeNone().fill(JenScript.Color.brighten(JenScript.RosePalette.CALYPSOBLUE,30)).toSVG());
+			g2d.insertSVG(rect.strokeNone().fill('#3498db').toSVG());
 		}
 			
 	});

@@ -1,11 +1,5 @@
-// JenScript -  JavaScript HTML5/SVG Library
-// version : 1.3.1
-// Author : Sebastien Janaud 
-// Web Site : http://jenscript.io
-// Twitter  : http://twitter.com/JenSoftAPI
-// Copyright (C) 2008 - 2017 JenScript, product by JenSoftAPI company, France.
-// build: 2017-06-03
-// All Rights reserved
+// JenScript - 1.3.1 2017-06-03
+// http://jenscript.io - Copyright 2017 Sébastien Janaud. All Rights reserved
 
 (function(){
 	
@@ -127,7 +121,7 @@
 			this.center = (config.center !== undefined)?config.center : new JenScript.Point2D(0,0);
 			this.radius = (config.radius !== undefined)?config.radius : 50;
 			
-			this.fillColor = (config.fillColor !== undefined)?config.fillColor : JenScript.RosePalette.INDIGO;
+			this.fillColor = (config.fillColor !== undefined)?config.fillColor : 'black';
 			this.fillOpacity = (config.fillOpacity !== undefined)?config.fillOpacity : 1;
 			this.strokeColor = config.strokeColor;
 			this.strokeWidth = (config.strokeWidth !== undefined)?config.strokeWidth : 1;
