@@ -52,7 +52,25 @@ function createTimingMetrics(container, width, height) {
 
 	var southMetrics = new JenScript.AxisMetricsTiming({
 		axis : JenScript.Axis.AxisSouth,
-		models : [new JenScript.HourModel({}),new JenScript.DayModel({}),new JenScript.MonthModel({}),new JenScript.YearModel({})],
+		models : [new JenScript.Minute1Model({}),
+		          new JenScript.Minute10Model({}),
+		          new JenScript.HourModel(
+		        		  			{
+		        	  					format : function(date){
+											if(date.getHours() === 8)
+												return date.getHours()+'H';
+											if(date.getHours() === 12)
+												return date.getHours()+'H';
+											if(date.getHours() === 18)
+												return date.getHours()+'H';
+											return date.getHours();
+			
+		        	  					}
+		        		  			}),
+		          //new JenScript.HourModel({}),
+		          new JenScript.DayModel({}),
+		          new JenScript.MonthModel({}),
+		          new JenScript.YearModel({})],
 		minor : minor,
 		median : median,
 		major :major
