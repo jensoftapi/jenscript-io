@@ -45,7 +45,7 @@ var DataLoader = function(proj,bundle,callback){
 	};
 
 	var load = function(){
-		var dataWorker = new Worker('../DataWorker.js');
+		var dataWorker = new Worker('/jenscript/charts/samples/realtime/DataWorker.js');
 		dataWorker.addEventListener("message", function(event) {
 			if (event.data === 'start') {
 				dataPaths = [];
